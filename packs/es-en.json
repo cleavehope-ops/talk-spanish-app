@@ -1,0 +1,461 @@
+{
+ "id": "es-en",
+ "speak": "es",
+ "learn": "en",
+ "name": "English",
+ "voice": [
+  "en-US",
+  "en-GB",
+  "en"
+ ],
+ "note": "Lecciones hechas a mano: el compañero habla en inglés y la ayuda está en español. La guía de pronunciación es aproximada.",
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Conocer a alguien",
+   "stop": "El parque",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Hi! How are you?",
+      "m": "¡Hola! ¿Cómo estás?",
+      "s": "jái! jáu ar iú?"
+     },
+     "replies": [
+      {
+       "t": "Good, thanks. And you?",
+       "m": "Bien, gracias. ¿Y tú?",
+       "s": "gud, zenks. end iú?",
+       "accept": [
+        "good thanks and you",
+        "fine thanks and you",
+        "good and you",
+        "i'm good thanks",
+        "i'm fine thanks",
+        "very well thanks",
+        "good thanks",
+        "i'm good *"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "So-so.",
+       "m": "Más o menos.",
+       "s": "sóu sóu",
+       "accept": [
+        "so so",
+        "not bad",
+        "okay",
+        "i'm okay"
+       ],
+       "next": "t2b"
+      },
+      {
+       "t": "Not very well.",
+       "m": "No muy bien.",
+       "s": "nat véri uél",
+       "accept": [
+        "not very well",
+        "not so good",
+        "not good",
+        "bad",
+        "not great"
+       ],
+       "next": "t2b"
+      }
+     ],
+     "hint": "Prueba: “Good, thanks” = Bien, gracias."
+    },
+    "t2": {
+     "they": {
+      "t": "Great. My name is Anna. What's your name?",
+      "m": "Muy bien. Me llamo Anna. ¿Cómo te llamas?",
+      "s": "gréit. mai néim is ána. uats iór néim?"
+     },
+     "replies": [
+      {
+       "t": "My name is (your name).",
+       "m": "Me llamo (tu nombre).",
+       "s": "mai néim is …",
+       "accept": [
+        "my name is *",
+        "i'm *",
+        "i am *",
+        "call me *"
+       ],
+       "next": "t3"
+      }
+     ],
+     "hint": "Di “My name is” y luego tu nombre."
+    },
+    "t2b": {
+     "they": {
+      "t": "Oh, I'm sorry. My name is Anna. What's your name?",
+      "m": "Ay, lo siento. Me llamo Anna. ¿Cómo te llamas?",
+      "s": "óu, áim sári. mai néim is ána. uats iór néim?"
+     },
+     "replies": [
+      {
+       "t": "My name is (your name).",
+       "m": "Me llamo (tu nombre).",
+       "s": "mai néim is …",
+       "accept": [
+        "my name is *",
+        "i'm *",
+        "i am *",
+        "call me *"
+       ],
+       "next": "t3"
+      }
+     ],
+     "hint": "Di “My name is” y luego tu nombre."
+    },
+    "t3": {
+     "they": {
+      "t": "Nice to meet you. Where are you from?",
+      "m": "Mucho gusto. ¿De dónde eres?",
+      "s": "náis tu mít iú. uér ar iú fram?"
+     },
+     "replies": [
+      {
+       "t": "Nice to meet you. I'm from (your city).",
+       "m": "Mucho gusto. Soy de (tu ciudad).",
+       "s": "náis tu mít iú. áim fram …",
+       "accept": [
+        "nice to meet you i'm from *",
+        "i'm from *",
+        "i am from *",
+        "nice to meet you i am from *",
+        "i come from *"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Nice to meet you too. I'm from Mexico.",
+       "m": "Igualmente. Soy de México.",
+       "s": "náis tu mít iú tu. áim fram méksicou",
+       "accept": [
+        "nice to meet you too i'm from mexico",
+        "i'm from mexico",
+        "i am from mexico"
+       ],
+       "next": "t4"
+      }
+     ],
+     "hint": "Di “I'm from” y el lugar de donde eres."
+    },
+    "t4": {
+     "they": {
+      "t": "Cool! Well, see you later.",
+      "m": "¡Qué bien! Bueno, nos vemos luego.",
+      "s": "kul! uél, sí iú léiter"
+     },
+     "replies": [
+      {
+       "t": "See you later!",
+       "m": "¡Hasta luego!",
+       "s": "sí iú léiter!",
+       "accept": [
+        "see you later",
+        "see you",
+        "bye",
+        "goodbye",
+        "bye bye",
+        "see you soon",
+        "thanks bye"
+       ],
+       "next": "end"
+      }
+     ],
+     "hint": "Di “See you later” = Hasta luego."
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Pedir en una cafetería",
+   "stop": "La cafetería",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Good morning! What can I get you?",
+      "m": "¡Buenos días! ¿Qué le sirvo?",
+      "s": "gud mórning! uat ken ai guet iú?"
+     },
+     "replies": [
+      {
+       "t": "A coffee, please.",
+       "m": "Un café, por favor.",
+       "s": "a cófi, plis",
+       "accept": [
+        "a coffee please",
+        "coffee please",
+        "a coffee",
+        "i'd like a coffee",
+        "can i have a coffee",
+        "can i get a coffee"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "An orange juice, please.",
+       "m": "Un jugo de naranja, por favor.",
+       "s": "an óranch yus, plis",
+       "accept": [
+        "an orange juice please",
+        "orange juice please",
+        "an orange juice",
+        "orange juice"
+       ],
+       "next": "t3"
+      }
+     ],
+     "hint": "Di lo que quieres + “please” = por favor."
+    },
+    "t2": {
+     "they": {
+      "t": "With milk or without milk?",
+      "m": "¿Con leche o sin leche?",
+      "s": "uiz milk or uizáut milk?"
+     },
+     "replies": [
+      {
+       "t": "With milk, please.",
+       "m": "Con leche, por favor.",
+       "s": "uiz milk, plis",
+       "accept": [
+        "with milk please",
+        "with milk"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "No milk, thanks.",
+       "m": "Sin leche, gracias.",
+       "s": "nóu milk, zenks",
+       "accept": [
+        "no milk thanks",
+        "no milk",
+        "without milk",
+        "black please",
+        "black"
+       ],
+       "next": "t3"
+      }
+     ],
+     "hint": "“With” = con. “Without” o “no” = sin."
+    },
+    "t3": {
+     "they": {
+      "t": "Sure. Anything else?",
+      "m": "Claro. ¿Algo más?",
+      "s": "shur. énizing els?"
+     },
+     "replies": [
+      {
+       "t": "No, thanks. How much is it?",
+       "m": "No, gracias. ¿Cuánto es?",
+       "s": "nóu, zenks. jáu mach is it?",
+       "accept": [
+        "no thanks how much is it",
+        "how much is it",
+        "how much",
+        "no thanks",
+        "that's all thanks",
+        "that's it"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Yes, a muffin, please.",
+       "m": "Sí, un muffin, por favor.",
+       "s": "iés, a máfin, plis",
+       "accept": [
+        "yes a muffin please",
+        "a muffin please",
+        "a muffin"
+       ],
+       "next": "t4"
+      }
+     ],
+     "hint": "“How much is it?” = ¿Cuánto es?"
+    },
+    "t4": {
+     "they": {
+      "t": "That's four dollars, please.",
+      "m": "Son cuatro dólares, por favor.",
+      "s": "dats for dálars, plis"
+     },
+     "replies": [
+      {
+       "t": "Here you go. Thank you!",
+       "m": "Aquí tiene. ¡Gracias!",
+       "s": "jír iú góu. zenk iú!",
+       "accept": [
+        "here you go thank you",
+        "here you go",
+        "here you are",
+        "thank you",
+        "thanks",
+        "thank you very much"
+       ],
+       "next": "end"
+      }
+     ],
+     "hint": "“Here you go” = Aquí tiene."
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Pedir indicaciones",
+   "stop": "La calle",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Hi, can I help you?",
+      "m": "Hola, ¿le puedo ayudar?",
+      "s": "jái, ken ai jelp iú?"
+     },
+     "replies": [
+      {
+       "t": "Yes, please. Where is the bathroom?",
+       "m": "Sí, por favor. ¿Dónde está el baño?",
+       "s": "iés, plis. uér is de bázrum?",
+       "accept": [
+        "yes please where is the bathroom",
+        "where is the bathroom",
+        "where's the bathroom",
+        "where is the restroom",
+        "the bathroom"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "Yes. Where is the bus station?",
+       "m": "Sí. ¿Dónde está la estación de autobuses?",
+       "s": "iés. uér is de bas stéishon?",
+       "accept": [
+        "yes where is the bus station",
+        "where is the bus station",
+        "where's the bus station",
+        "the bus station"
+       ],
+       "next": "t2b"
+      }
+     ],
+     "hint": "“Where is…?” = ¿Dónde está…?"
+    },
+    "t2a": {
+     "they": {
+      "t": "It's at the back, on the right.",
+      "m": "Está al fondo, a la derecha.",
+      "s": "its at de bak, on de ráit"
+     },
+     "replies": [
+      {
+       "t": "Thank you very much.",
+       "m": "Muchas gracias.",
+       "s": "zenk iú véri mach",
+       "accept": [
+        "thank you very much",
+        "thank you",
+        "thanks",
+        "thanks a lot"
+       ],
+       "next": "t4"
+      }
+     ],
+     "hint": "Di “Thank you very much” = Muchas gracias."
+    },
+    "t2b": {
+     "they": {
+      "t": "Go straight for two blocks, then turn left.",
+      "m": "Siga derecho dos cuadras y luego doble a la izquierda.",
+      "s": "góu stréit for tu bloks, den tern left"
+     },
+     "replies": [
+      {
+       "t": "Is it far?",
+       "m": "¿Está lejos?",
+       "s": "is it far?",
+       "accept": [
+        "is it far",
+        "is that far",
+        "far"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Can you repeat that, please?",
+       "m": "¿Puede repetir, por favor?",
+       "s": "ken iú ripít dat, plis?",
+       "accept": [
+        "can you repeat that please",
+        "can you repeat that",
+        "repeat please",
+        "say that again please",
+        "one more time please"
+       ],
+       "next": "t2b"
+      }
+     ],
+     "hint": "“Is it far?” = ¿Está lejos?"
+    },
+    "t3": {
+     "they": {
+      "t": "No, it's close. It's a five-minute walk.",
+      "m": "No, está cerca. Son cinco minutos a pie.",
+      "s": "nóu, its clóus. its a fáiv mínit uók"
+     },
+     "replies": [
+      {
+       "t": "Perfect. Thank you very much.",
+       "m": "Perfecto. Muchas gracias.",
+       "s": "pérfect. zenk iú véri mach",
+       "accept": [
+        "perfect thank you very much",
+        "perfect thanks",
+        "thank you very much",
+        "thank you",
+        "thanks"
+       ],
+       "next": "t4"
+      }
+     ],
+     "hint": "Di “Thank you very much” = Muchas gracias."
+    },
+    "t4": {
+     "they": {
+      "t": "You're welcome. Have a nice day!",
+      "m": "De nada. ¡Que le vaya bien!",
+      "s": "iór uélcam. jav a náis déi!"
+     },
+     "replies": [
+      {
+       "t": "You too. Goodbye!",
+       "m": "Igualmente. ¡Adiós!",
+       "s": "iú tu. gud bái!",
+       "accept": [
+        "you too goodbye",
+        "you too",
+        "goodbye",
+        "bye",
+        "thanks you too",
+        "thank you bye"
+       ],
+       "next": "end"
+      }
+     ],
+     "hint": "“You too” = Igualmente."
+    }
+   }
+  }
+ ]
+}

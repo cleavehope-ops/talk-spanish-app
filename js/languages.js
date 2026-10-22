@@ -25,5 +25,5 @@ const NATIVE = {en:'English',es:'Español',fr:'Français',ht:'Kreyòl ayisyen',p
  sr:'Српски',sk:'Slovenčina',so:'Soomaali',sw:'Kiswahili',sv:'Svenska',ta:'தமிழ்',th:'ไทย',tr:'Türkçe',uk:'Українська',ur:'اردو',vi:'Tiếng Việt',
  yo:'Yorùbá',zu:'isiZulu',am:'አማርኛ',pa:'ਪੰਜਾਬੀ',ne:'नेपाली',af:'Afrikaans',is:'Íslenska',lt:'Lietuvių',lv:'Latviešu',et:'Eesti',sl:'Slovenščina',
  sq:'Shqip',hy:'Հայերեն',ka:'ქართული',km:'ខ្មែរ',lo:'ລາວ',my:'မြန်မာ',ha:'Hausa',ig:'Igbo'};
-const FLAG = {es:'🇪🇸',fr:'🇫🇷',ht:'🇭🇹',pt:'🇧🇷',it:'🇮🇹',de:'🇩🇪',zh:'🇨🇳',ja:'🇯🇵'};
+const FLAG = {en:'🇺🇸',es:'🇪🇸',fr:'🇫🇷',ht:'🇭🇹',pt:'🇧🇷',it:'🇮🇹',de:'🇩🇪',zh:'🇨🇳',ja:'🇯🇵'};
 const nativeName = c => NATIVE[c] || langName(c);

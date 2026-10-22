@@ -55,6 +55,13 @@
    "learn": "ja",
    "label": "English → Japanese",
    "file": "packs/en-ja.json"
+  },
+  {
+   "id": "es-en",
+   "speak": "es",
+   "learn": "en",
+   "label": "Español → Inglés",
+   "file": "packs/es-en.json"
   }
  ],
  "languages": {

@@ -1,4 +1,4 @@
-# Talk Trip – learn a language by talking
+# Talvoya – learn a language by talking
 
 A free, simple web app for practicing everyday conversation. Works in the phone browser, no sign-up, no keys.
 

@@ -20,7 +20,7 @@ function avatarSVG(b, size=64){
    <circle cx="22" cy="36" r="2.5" fill="#ff8a8a" opacity=".5"/><circle cx="42" cy="36" r="2.5" fill="#ff8a8a" opacity=".5"/>
    <path d="M26 38c3 4 9 4 12 0" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
 }
-const buddyTag = b => `<span class="buddy-tag"><b>${esc(b.name)}</b> · practice buddy</span>`;
+const buddyTag = b => `<span class="buddy-tag"><b>${esc(b.name)}</b> · ${tx('practice buddy')}</span>`;
 // Simple cartoon scene pictures
 const PICS = {
   meet:`<svg viewBox="0 0 160 90" class="pic"><rect width="160" height="90" fill="#F6D6C2"/><circle cx="135" cy="18" r="11" fill="#E0A526"/><rect y="62" width="160" height="28" fill="#E8B49A"/><rect x="28" y="40" width="6" height="26" fill="#8b5a2b"/><circle cx="31" cy="36" r="16" fill="#7A3A24"/><rect x="70" y="58" width="44" height="5" rx="2" fill="#c47a3c"/><rect x="74" y="63" width="4" height="9" fill="#8b5a2b"/><rect x="106" y="63" width="4" height="9" fill="#8b5a2b"/></svg>`,

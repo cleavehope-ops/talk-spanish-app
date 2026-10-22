@@ -22,9 +22,10 @@ const Speech = {
       const r = new R(); r.lang = this.locs(lang)[0]; r.interimResults=false; r.maxAlternatives=5;
       let done=false;
       r.onresult = e => { done=true; res(Array.from(e.results[0]).map(a=>a.transcript)); };
-      r.onerror = e => { if(!done){done=true; rej(new Error(e.error||'error'));} };
+      r.onerror = e => { if(!done){done=true; const err=new Error(typeof micErrorText==='function'?micErrorText(e):(e.error||'error')); err.code=e.error; rej(err);} };
       r.onend = () => { if(!done){done=true; res([]);} };
-      r.start();
+      setTimeout(()=>{ if(!done){ done=true; try{ r.abort(); }catch(e){} res([]); } }, 12000); // iPhone sometimes never ends
+      try{ r.start(); }catch(e){ done=true; rej(new Error(typeof micErrorText==='function'?micErrorText(e):'error')); }
     });
   },
   ding(){ // subtle "correct" chime via WebAudio, no files
