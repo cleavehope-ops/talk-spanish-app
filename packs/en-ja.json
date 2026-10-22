@@ -8,7 +8,7 @@
   "ja"
  ],
  "compact": true,
- "soundsLike": "romaji",
+ "soundsLike": "easy English spelling",
  "scenes": [
   {
    "id": "meet",
@@ -19,56 +19,54 @@
    "turns": {
     "t1": {
      "they": {
-      "t": "こんにちは！元気？",
-      "m": "Hi! How are you?",
-      "s": "Konnichiwa! Genki?"
+      "t": "こんにちは！お元気ですか？",
+      "m": "Hello! How are you?",
+      "s": "kohn-nee-chee-wah! oh-GEN-kee dess-kah?"
      },
      "replies": [
       {
-       "t": "うん、元気だよ。ありがとう。そっちは？",
-       "m": "Yeah, I'm good, thanks. And you?",
-       "s": "Un, genki da yo. Arigatō. Sotchi wa?",
+       "t": "はい、元気です。ありがとうございます。",
+       "m": "Yes, I'm fine. Thank you.",
+       "s": "high, GEN-kee dess. ah-ree-GAH-toh go-zigh-mahss",
        "accept": [
-        "うん元気だよありがとうそっちは",
-        "元気だよそっちは",
-        "元気ですあなたは",
+        "はい元気ですありがとうございます",
+        "はい元気です",
         "元気です",
-        "元気だよ",
         "元気",
-        "げんき",
-        "un genki da yo arigato sotchi wa",
-        "genki da yo",
+        "げんきです",
+        "hai genki desu arigato gozaimasu",
+        "hai genki desu",
         "genki desu",
         "genki"
        ],
        "next": "t2"
       },
       {
-       "t": "まあまあかな。",
-       "m": "So-so, I guess.",
-       "s": "Māmā kana.",
+       "t": "まあまあです。",
+       "m": "So-so.",
+       "s": "MAH-mah dess",
        "accept": [
-        "まあまあかな",
+        "まあまあです",
         "まあまあ",
-        "maamaa kana",
-        "mama kana",
+        "maamaa desu",
+        "mama desu",
         "maamaa"
        ],
-       "next": "t2"
+       "next": "t2b"
       },
       {
-       "t": "あんまり元気じゃない。",
-       "m": "Not so good.",
-       "s": "Anmari genki ja nai.",
+       "t": "あまり元気じゃないです。",
+       "m": "I'm not so well.",
+       "s": "ah-MAH-ree GEN-kee jah nigh dess",
        "accept": [
-        "あんまり元気じゃない",
+        "あまり元気じゃないです",
         "あまり元気じゃない",
+        "元気じゃないです",
         "元気じゃない",
-        "よくない",
-        "anmari genki ja nai",
-        "amari genki ja nai",
-        "genki ja nai",
-        "yokunai"
+        "よくないです",
+        "amari genki ja nai desu",
+        "genki ja nai desu",
+        "genki ja nai"
        ],
        "next": "t2b"
       }
@@ -76,25 +74,27 @@
     },
     "t2": {
      "they": {
-      "t": "よかった。私はアンナ。名前は何ていうの？",
-      "m": "Good. I'm Anna. What's your name?",
-      "s": "Yokatta. Watashi wa Anna. Namae wa nan te iu no?"
+      "t": "よかったです。私はアンナです。お名前は？",
+      "m": "Good to hear. I'm Anna. What's your name?",
+      "s": "yoh-KAHT-tah dess. wah-tah-shee wah AHN-nah dess. oh-NAH-meh wah?"
      },
      "replies": [
       {
        "t": "私は(your name)です。",
        "m": "I'm (your name).",
-       "s": "Watashi wa … desu.",
+       "s": "wah-tah-shee wah … dess",
        "accept": [
         "私は*です",
         "*です",
+        "* desu",
         "私の名前は*です",
         "*といいます",
+        "*と申します",
         "僕は*です",
         "watashi wa * desu",
-        "* desu",
-        "boku wa * desu",
-        "* to iimasu"
+        "watashi no namae wa * desu",
+        "* to iimasu",
+        "boku wa * desu"
        ],
        "next": "t3"
       }
@@ -102,25 +102,27 @@
     },
     "t2b": {
      "they": {
-      "t": "そっか、大丈夫？私はアンナ。名前は何ていうの？",
-      "m": "Oh, are you okay? I'm Anna. What's your name?",
-      "s": "Sokka, daijōbu? Watashi wa Anna. Namae wa nan te iu no?"
+      "t": "そうですか。大丈夫ですか？私はアンナです。お名前は？",
+      "m": "I see. Are you okay? I'm Anna. What's your name?",
+      "s": "SOH dess-kah. dye-JOH-boo dess-kah? wah-tah-shee wah AHN-nah dess. oh-NAH-meh wah?"
      },
      "replies": [
       {
        "t": "私は(your name)です。",
        "m": "I'm (your name).",
-       "s": "Watashi wa … desu.",
+       "s": "wah-tah-shee wah … dess",
        "accept": [
         "私は*です",
         "*です",
+        "* desu",
         "私の名前は*です",
         "*といいます",
+        "*と申します",
         "僕は*です",
         "watashi wa * desu",
-        "* desu",
-        "boku wa * desu",
-        "* to iimasu"
+        "watashi no namae wa * desu",
+        "* to iimasu",
+        "boku wa * desu"
        ],
        "next": "t3"
       }
@@ -128,38 +130,34 @@
     },
     "t3": {
      "they": {
-      "t": "よろしくね。出身はどこ？",
+      "t": "よろしくお願いします。ご出身はどちらですか？",
       "m": "Nice to meet you. Where are you from?",
-      "s": "Yoroshiku ne. Shusshin wa doko?"
+      "s": "yoh-ROH-shee-koo oh-neh-guy shee-mahss. go-SHOOSS-sheen wah doh-CHEE-rah dess-kah?"
      },
      "replies": [
       {
-       "t": "よろしく。(your city)出身だよ。",
+       "t": "よろしくお願いします。(your city)出身です。",
        "m": "Nice to meet you. I'm from (your city).",
-       "s": "Yoroshiku. … shusshin da yo.",
+       "s": "yoh-ROH-shee-koo oh-neh-guy shee-mahss. … SHOOSS-sheen dess",
        "accept": [
-        "*出身だよ",
         "*出身です",
         "*から来ました",
         "*出身",
-        "* shusshin da yo",
         "* shusshin desu",
-        "* kara kimashita",
-        "* shusshin"
+        "* kara kimashita"
        ],
        "next": "t4"
       },
       {
-       "t": "アメリカから来たよ。",
+       "t": "アメリカから来ました。",
        "m": "I came from America.",
-       "s": "Amerika kara kita yo.",
+       "s": "ah-MEH-ree-kah kah-rah kee-MAHSH-tah",
        "accept": [
-        "アメリカから来たよ",
         "アメリカから来ました",
         "アメリカ出身です",
         "アメリカ人です",
-        "amerika kara kita yo",
         "amerika kara kimashita",
+        "amerika shusshin desu",
         "amerikajin desu"
        ],
        "next": "t4"
@@ -168,26 +166,28 @@
     },
     "t4": {
      "they": {
-      "t": "いいね！じゃあ、またあとでね。",
+      "t": "いいですね！では、また後で。",
       "m": "Nice! Well, see you later.",
-      "s": "Ii ne! Jā, mata ato de ne."
+      "s": "EE dess-neh! deh-wah, MAH-tah AH-toh-deh"
      },
      "replies": [
       {
-       "t": "またね！",
-       "m": "See you!",
-       "s": "Mata ne!",
+       "t": "はい、また後で！",
+       "m": "Yes, see you later!",
+       "s": "high, MAH-tah AH-toh-deh!",
        "accept": [
-        "またね",
-        "じゃあね",
+        "はいまた後で",
+        "また後で",
         "またあとで",
-        "バイバイ",
-        "ありがとう",
-        "mata ne",
-        "jaa ne",
-        "ja ne",
+        "はいまたあとで",
+        "ではまた",
+        "またね",
+        "さようなら",
+        "hai mata ato de",
         "mata ato de",
-        "baibai"
+        "dewa mata",
+        "mata ne",
+        "sayonara"
        ],
        "next": "end"
       }
@@ -206,13 +206,13 @@
      "they": {
       "t": "いらっしゃいませ！ご注文はお決まりですか？",
       "m": "Welcome! Are you ready to order?",
-      "s": "Irasshaimase! Go-chūmon wa okimari desu ka?"
+      "s": "ee-RAHSH-shy-mah-seh! go-CHOO-mohn wah oh-kee-MAH-ree dess-kah?"
      },
      "replies": [
       {
        "t": "コーヒーをお願いします。",
        "m": "A coffee, please.",
-       "s": "Kōhī o onegai shimasu.",
+       "s": "KOH-hee oh oh-neh-guy shee-mahss",
        "accept": [
         "コーヒーをお願いします",
         "コーヒーお願いします",
@@ -229,7 +229,7 @@
       {
        "t": "オレンジジュースをお願いします。",
        "m": "An orange juice, please.",
-       "s": "Orenji jūsu o onegai shimasu.",
+       "s": "oh-REN-jee JOO-soo oh oh-neh-guy shee-mahss",
        "accept": [
         "オレンジジュースをお願いします",
         "オレンジジュースください",
@@ -246,13 +246,13 @@
      "they": {
       "t": "ミルクはお入れしますか？",
       "m": "Shall I add milk?",
-      "s": "Miruku wa o-ire shimasu ka?"
+      "s": "MEE-roo-koo wah oh-EE-reh shee-mahss-kah?"
      },
      "replies": [
       {
        "t": "はい、お願いします。",
        "m": "Yes, please.",
-       "s": "Hai, onegai shimasu.",
+       "s": "high, oh-neh-guy shee-mahss",
        "accept": [
         "はいお願いします",
         "はい",
@@ -267,7 +267,7 @@
       {
        "t": "いいえ、大丈夫です。",
        "m": "No, I'm fine.",
-       "s": "Iie, daijōbu desu.",
+       "s": "EE-eh, dye-JOH-boo dess",
        "accept": [
         "いいえ大丈夫です",
         "大丈夫です",
@@ -287,13 +287,13 @@
      "they": {
       "t": "かしこまりました。ご一緒に何かいかがですか？",
       "m": "Certainly. Would you like anything with that?",
-      "s": "Kashikomarimashita. Go-issho ni nanika ikaga desu ka?"
+      "s": "kah-shee-koh-mah-ree-MAHSH-tah. go-ISS-shoh nee NAH-nee-kah ee-KAH-gah dess-kah?"
      },
      "replies": [
       {
        "t": "いいえ、以上です。いくらですか？",
        "m": "No, that's all. How much is it?",
-       "s": "Iie, ijō desu. Ikura desu ka?",
+       "s": "EE-eh, EE-joh dess. ee-KOO-rah dess-kah?",
        "accept": [
         "いいえ以上ですいくらですか",
         "以上ですいくらですか",
@@ -310,7 +310,7 @@
       {
        "t": "はい、クロワッサンもお願いします。",
        "m": "Yes, a croissant too, please.",
-       "s": "Hai, kurowassan mo onegai shimasu.",
+       "s": "high, koo-roh-WAHSS-sahn moh oh-neh-guy shee-mahss",
        "accept": [
         "はいクロワッサンもお願いします",
         "クロワッサンもお願いします",
@@ -327,13 +327,13 @@
      "they": {
       "t": "四百円です。",
       "m": "That's four hundred yen.",
-      "s": "Yonhyaku-en desu."
+      "s": "yohn-HYAH-koo en dess"
      },
      "replies": [
       {
        "t": "これでお願いします。",
        "m": "Here you go (paying with this).",
-       "s": "Kore de onegai shimasu.",
+       "s": "koh-REH deh oh-neh-guy shee-mahss",
        "accept": [
         "これでお願いします",
         "お願いします",
@@ -362,13 +362,13 @@
      "they": {
       "t": "どうかしましたか？",
       "m": "Is everything okay? (Can I help?)",
-      "s": "Dō ka shimashita ka?"
+      "s": "DOH kah shee-MAHSH-tah kah?"
      },
      "replies": [
       {
        "t": "はい、すみません。トイレはどこですか？",
        "m": "Yes, excuse me. Where is the restroom?",
-       "s": "Hai, sumimasen. Toire wa doko desu ka?",
+       "s": "high, soo-mee-MAH-sen. TOY-reh wah DOH-koh dess-kah?",
        "accept": [
         "はいすみませんトイレはどこですか",
         "すみませんトイレはどこですか",
@@ -384,7 +384,7 @@
       {
        "t": "はい。バスターミナルはどこですか？",
        "m": "Yes. Where is the bus terminal?",
-       "s": "Hai. Basu tāminaru wa doko desu ka?",
+       "s": "high. BAH-soo TAH-mee-nah-roo wah DOH-koh dess-kah?",
        "accept": [
         "はいバスターミナルはどこですか",
         "バスターミナルはどこですか",
@@ -402,13 +402,13 @@
      "they": {
       "t": "奥の右側にありますよ。",
       "m": "It's at the back, on the right.",
-      "s": "Oku no migi-gawa ni arimasu yo."
+      "s": "OH-koo noh mee-gee-GAH-wah nee ah-ree-MAHSS yoh"
      },
      "replies": [
       {
        "t": "ありがとうございます。",
        "m": "Thank you very much.",
-       "s": "Arigatō gozaimasu.",
+       "s": "ah-ree-GAH-toh go-zigh-mahss",
        "accept": [
         "ありがとうございます",
         "ありがとう",
@@ -425,13 +425,13 @@
      "they": {
       "t": "この道をまっすぐ行って、二つ目の角を左に曲がってください。",
       "m": "Go straight down this street and turn left at the second corner.",
-      "s": "Kono michi o massugu itte, futatsu-me no kado o hidari ni magatte kudasai."
+      "s": "koh-noh MEE-chee oh mahss-SOO-goo EET-teh, foo-TAHTS-meh noh KAH-doh oh hee-DAH-ree nee mah-GAHT-teh koo-DAH-sigh"
      },
      "replies": [
       {
        "t": "遠いですか？",
        "m": "Is it far?",
-       "s": "Tōi desu ka?",
+       "s": "TOH-ee dess-kah?",
        "accept": [
         "遠いですか",
         "遠い",
@@ -444,7 +444,7 @@
       {
        "t": "もう一度言ってもらえますか？",
        "m": "Could you say that again?",
-       "s": "Mō ichido itte moraemasu ka?",
+       "s": "MOH ee-CHEE-doh EET-teh moh-rah-eh-MAHSS-kah?",
        "accept": [
         "もう一度言ってもらえますか",
         "もう一度お願いします",
@@ -462,13 +462,13 @@
      "they": {
       "t": "いいえ、近いですよ。歩いて五分です。",
       "m": "No, it's close. It's five minutes on foot.",
-      "s": "Iie, chikai desu yo. Aruite go-fun desu."
+      "s": "EE-eh, chee-KYE dess yoh. ah-ROO-ee-teh GOH-foon dess"
      },
      "replies": [
       {
        "t": "よかった。ありがとうございます。",
        "m": "Great. Thank you very much.",
-       "s": "Yokatta. Arigatō gozaimasu.",
+       "s": "yoh-KAHT-tah. ah-ree-GAH-toh go-zigh-mahss",
        "accept": [
         "よかったありがとうございます",
         "ありがとうございます",
@@ -485,13 +485,13 @@
      "they": {
       "t": "いいえ、どういたしまして。気をつけて！",
       "m": "You're welcome. Take care!",
-      "s": "Iie, dō itashimashite. Ki o tsukete!"
+      "s": "EE-eh, DOH ee-tah-shee-MAHSH-teh. kee oh TSKEH-teh!"
      },
      "replies": [
       {
        "t": "ありがとうございます。さようなら！",
        "m": "Thank you. Goodbye!",
-       "s": "Arigatō gozaimasu. Sayōnara!",
+       "s": "ah-ree-GAH-toh go-zigh-mahss. SAH-yoh-nah-rah!",
        "accept": [
         "ありがとうございますさようなら",
         "さようなら",

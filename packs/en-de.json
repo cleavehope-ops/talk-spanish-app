@@ -45,7 +45,7 @@
         "geht so",
         "so lala"
        ],
-       "next": "t2"
+       "next": "t2b"
       },
       {
        "t": "Nicht so gut.",
@@ -416,7 +416,7 @@
       {
        "t": "Danke, gleichfalls. Tschüss!",
        "m": "Thanks, you too. Bye!",
-       "s": "DAHN-keh, GLIKE-fahls. CHUESS!",
+       "s": "DAHN-keh, GLIKE-fahls. CHOOSS!",
        "accept": [
         "danke gleichfalls tschuss",
         "gleichfalls",

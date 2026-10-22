@@ -8,7 +8,7 @@
   "zh"
  ],
  "compact": true,
- "soundsLike": "pinyin",
+ "soundsLike": "easy English spelling · pinyin",
  "scenes": [
   {
    "id": "meet",
@@ -19,15 +19,15 @@
    "turns": {
     "t1": {
      "they": {
-      "t": "你好！最近怎么样？",
-      "m": "Hi! How have you been?",
-      "s": "Nǐ hǎo! Zuìjìn zěnmeyàng?"
+      "t": "你好！今天怎么样？",
+      "m": "Hi! How are you today?",
+      "s": "nee how! jin-tyen dzun-muh-YAHNG?  ·  Nǐ hǎo! Jīntiān zěnmeyàng?"
      },
      "replies": [
       {
        "t": "挺好的，谢谢。你呢？",
        "m": "Pretty good, thanks. And you?",
-       "s": "Tǐng hǎo de, xièxie. Nǐ ne?",
+       "s": "ting HOW duh, shyeh-shyeh. nee nuh?  ·  Tǐng hǎo de, xièxie. Nǐ ne?",
        "accept": [
         "挺好的谢谢你呢",
         "很好谢谢你呢",
@@ -38,14 +38,16 @@
         "ting hao de xiexie ni ne",
         "hen hao xiexie ni ne",
         "wo hen hao ni ne",
-        "hen hao"
+        "hen hao",
+        "ting hao de xiexie",
+        "ting hao de"
        ],
        "next": "t2"
       },
       {
        "t": "还行吧。",
        "m": "It's okay, I guess.",
-       "s": "Hái xíng ba.",
+       "s": "hi SHING bah  ·  Hái xíng ba.",
        "accept": [
         "还行吧",
         "还行",
@@ -55,12 +57,12 @@
         "hai xing",
         "mamahuhu"
        ],
-       "next": "t2"
+       "next": "t2b"
       },
       {
        "t": "不太好。",
        "m": "Not so good.",
-       "s": "Bú tài hǎo.",
+       "s": "boo tie HOW  ·  Bú tài hǎo.",
        "accept": [
         "不太好",
         "不好",
@@ -76,13 +78,13 @@
      "they": {
       "t": "那就好。我叫安娜。你叫什么名字？",
       "m": "That's good. My name is Anna. What's your name?",
-      "s": "Nà jiù hǎo. Wǒ jiào Ānnà. Nǐ jiào shénme míngzi?"
+      "s": "nah jyo HOW. woh jyow AHN-nah. nee jyow shun-muh MING-dzuh?  ·  Nà jiù hǎo. Wǒ jiào Ānnà. Nǐ jiào shénme míngzi?"
      },
      "replies": [
       {
        "t": "我叫(your name)。",
        "m": "My name is (your name).",
-       "s": "Wǒ jiào …",
+       "s": "woh jyow …  ·  Wǒ jiào …",
        "accept": [
         "我叫*",
         "我的名字是*",
@@ -99,13 +101,13 @@
      "they": {
       "t": "哎呀，怎么了？我叫安娜。你叫什么名字？",
       "m": "Oh no, what's wrong? My name is Anna. What's your name?",
-      "s": "Āiyā, zěnme le? Wǒ jiào Ānnà. Nǐ jiào shénme míngzi?"
+      "s": "eye-YAH, dzun-muh luh? woh jyow AHN-nah. nee jyow shun-muh MING-dzuh?  ·  Āiyā, zěnme le? Wǒ jiào Ānnà. Nǐ jiào shénme míngzi?"
      },
      "replies": [
       {
        "t": "我叫(your name)。",
        "m": "My name is (your name).",
-       "s": "Wǒ jiào …",
+       "s": "woh jyow …  ·  Wǒ jiào …",
        "accept": [
         "我叫*",
         "我的名字是*",
@@ -122,13 +124,13 @@
      "they": {
       "t": "很高兴认识你。你是哪里人？",
       "m": "Nice to meet you. Where are you from?",
-      "s": "Hěn gāoxìng rènshi nǐ. Nǐ shì nǎlǐ rén?"
+      "s": "hun gow-SHING run-shr nee. nee shr NAH-lee run?  ·  Hěn gāoxìng rènshi nǐ. Nǐ shì nǎlǐ rén?"
      },
      "replies": [
       {
        "t": "我来自(your city)。",
        "m": "I come from (your city).",
-       "s": "Wǒ láizì …",
+       "s": "woh lie-DZUH …  ·  Wǒ láizì …",
        "accept": [
         "我来自*",
         "我是*人",
@@ -142,7 +144,7 @@
       {
        "t": "我是美国人。",
        "m": "I'm American.",
-       "s": "Wǒ shì Měiguó rén.",
+       "s": "woh shr MAY-gwoh run  ·  Wǒ shì Měiguó rén.",
        "accept": [
         "我是美国人",
         "美国人",
@@ -159,13 +161,13 @@
      "they": {
       "t": "太好了！那我们回头见。",
       "m": "Great! Well, see you later.",
-      "s": "Tài hǎo le! Nà wǒmen huítóu jiàn."
+      "s": "tie HOW luh! nah woh-mun hway-toh JYEN  ·  Tài hǎo le! Nà wǒmen huítóu jiàn."
      },
      "replies": [
       {
        "t": "回头见！",
        "m": "See you later!",
-       "s": "Huítóu jiàn!",
+       "s": "hway-toh JYEN!  ·  Huítóu jiàn!",
        "accept": [
         "回头见",
         "再见",
@@ -194,13 +196,13 @@
      "they": {
       "t": "你好！请问喝点什么？",
       "m": "Hello! What would you like to drink?",
-      "s": "Nǐ hǎo! Qǐngwèn hē diǎn shénme?"
+      "s": "nee how! ching-wun huh dyen shun-muh?  ·  Nǐ hǎo! Qǐngwèn hē diǎn shénme?"
      },
      "replies": [
       {
        "t": "一杯咖啡，谢谢。",
        "m": "A cup of coffee, thanks.",
-       "s": "Yì bēi kāfēi, xièxie.",
+       "s": "ee bay kah-FAY, shyeh-shyeh  ·  Yì bēi kāfēi, xièxie.",
        "accept": [
         "一杯咖啡谢谢",
         "一杯咖啡",
@@ -216,7 +218,7 @@
       {
        "t": "一杯橙汁，谢谢。",
        "m": "A glass of orange juice, thanks.",
-       "s": "Yì bēi chéngzhī, xièxie.",
+       "s": "ee bay chung-JR, shyeh-shyeh  ·  Yì bēi chéngzhī, xièxie.",
        "accept": [
         "一杯橙汁谢谢",
         "一杯橙汁",
@@ -234,13 +236,13 @@
      "they": {
       "t": "要加牛奶吗？",
       "m": "Would you like milk in it?",
-      "s": "Yào jiā niúnǎi ma?"
+      "s": "yow jyah nyo-NIGH mah?  ·  Yào jiā niúnǎi ma?"
      },
      "replies": [
       {
        "t": "要，谢谢。",
        "m": "Yes, please.",
-       "s": "Yào, xièxie.",
+       "s": "YOW, shyeh-shyeh  ·  Yào, xièxie.",
        "accept": [
         "要谢谢",
         "要",
@@ -255,7 +257,7 @@
       {
        "t": "不要，谢谢。",
        "m": "No, thanks.",
-       "s": "Bú yào, xièxie.",
+       "s": "boo YOW, shyeh-shyeh  ·  Bú yào, xièxie.",
        "accept": [
         "不要谢谢",
         "不要",
@@ -274,13 +276,13 @@
      "they": {
       "t": "好的。还要别的吗？",
       "m": "Okay. Anything else?",
-      "s": "Hǎo de. Hái yào bié de ma?"
+      "s": "how duh. hi yow byeh-duh mah?  ·  Hǎo de. Hái yào bié de ma?"
      },
      "replies": [
       {
        "t": "不用了，谢谢。多少钱？",
        "m": "No, thanks. How much is it?",
-       "s": "Bú yòng le, xièxie. Duōshao qián?",
+       "s": "boo yong luh, shyeh-shyeh. dwoh-shaow CHYEN?  ·  Bú yòng le, xièxie. Duōshao qián?",
        "accept": [
         "不用了谢谢多少钱",
         "多少钱",
@@ -296,7 +298,7 @@
       {
        "t": "要，再来一块蛋糕。",
        "m": "Yes, a piece of cake too.",
-       "s": "Yào, zài lái yí kuài dàngāo.",
+       "s": "YOW, dzye lie ee kwhy dahn-GOW  ·  Yào, zài lái yí kuài dàngāo.",
        "accept": [
         "要再来一块蛋糕",
         "再来一块蛋糕",
@@ -314,13 +316,13 @@
      "they": {
       "t": "一共三十块。",
       "m": "That's thirty yuan in total.",
-      "s": "Yígòng sānshí kuài."
+      "s": "ee-gong sahn-shr KWHY  ·  Yígòng sānshí kuài."
      },
      "replies": [
       {
        "t": "给你。谢谢！",
        "m": "Here you go. Thank you!",
-       "s": "Gěi nǐ. Xièxie!",
+       "s": "gay nee. shyeh-shyeh!  ·  Gěi nǐ. Xièxie!",
        "accept": [
         "给你谢谢",
         "给你",
@@ -347,13 +349,13 @@
      "they": {
       "t": "你好，需要帮忙吗？",
       "m": "Hi, do you need help?",
-      "s": "Nǐ hǎo, xūyào bāngmáng ma?"
+      "s": "nee how, shoo-yow bahng-MAHNG mah?  ·  Nǐ hǎo, xūyào bāngmáng ma?"
      },
      "replies": [
       {
        "t": "是的，谢谢。洗手间在哪儿？",
        "m": "Yes, thanks. Where is the restroom?",
-       "s": "Shì de, xièxie. Xǐshǒujiān zài nǎr?",
+       "s": "shr duh, shyeh-shyeh. shee-show-JYEN dzye NAR?  ·  Shì de, xièxie. Xǐshǒujiān zài nǎr?",
        "accept": [
         "是的谢谢洗手间在哪儿",
         "洗手间在哪儿",
@@ -370,7 +372,7 @@
       {
        "t": "是的。汽车站在哪儿？",
        "m": "Yes. Where is the bus station?",
-       "s": "Shì de. Qìchēzhàn zài nǎr?",
+       "s": "shr duh. chee-chuh-JAHN dzye NAR?  ·  Shì de. Qìchēzhàn zài nǎr?",
        "accept": [
         "是的汽车站在哪儿",
         "汽车站在哪儿",
@@ -388,13 +390,13 @@
      "they": {
       "t": "在里面，右手边。",
       "m": "It's inside, on the right-hand side.",
-      "s": "Zài lǐmiàn, yòushǒu biān."
+      "s": "dzye lee-myen, yo-show BYEN  ·  Zài lǐmiàn, yòushǒu biān."
      },
      "replies": [
       {
        "t": "非常感谢。",
        "m": "Thank you very much.",
-       "s": "Fēicháng gǎnxiè.",
+       "s": "fay-chahng gahn-SHYEH  ·  Fēicháng gǎnxiè.",
        "accept": [
         "非常感谢",
         "谢谢",
@@ -412,13 +414,13 @@
      "they": {
       "t": "一直往前走两个路口，然后左转。",
       "m": "Go straight for two blocks, then turn left.",
-      "s": "Yìzhí wǎng qián zǒu liǎng ge lùkǒu, ránhòu zuǒ zhuǎn."
+      "s": "ee-jr wahng CHYEN dzoh lyahng guh loo-koh, rahn-hoh dzwoh JWAHN  ·  Yìzhí wǎng qián zǒu liǎng ge lùkǒu, ránhòu zuǒ zhuǎn."
      },
      "replies": [
       {
        "t": "远吗？",
        "m": "Is it far?",
-       "s": "Yuǎn ma?",
+       "s": "ywen mah?  ·  Yuǎn ma?",
        "accept": [
         "远吗",
         "远不远",
@@ -431,7 +433,7 @@
       {
        "t": "能再说一遍吗？",
        "m": "Can you say that again?",
-       "s": "Néng zài shuō yí biàn ma?",
+       "s": "nung dzye shwoh ee BYEN mah?  ·  Néng zài shuō yí biàn ma?",
        "accept": [
         "能再说一遍吗",
         "再说一遍",
@@ -449,13 +451,13 @@
      "they": {
       "t": "不远，很近。走路五分钟。",
       "m": "Not far, it's very close. Five minutes on foot.",
-      "s": "Bù yuǎn, hěn jìn. Zǒulù wǔ fēnzhōng."
+      "s": "boo YWEN, hun JIN. dzoh-loo woo fun-JONG  ·  Bù yuǎn, hěn jìn. Zǒulù wǔ fēnzhōng."
      },
      "replies": [
       {
        "t": "太好了，非常感谢。",
        "m": "Great, thank you very much.",
-       "s": "Tài hǎo le, fēicháng gǎnxiè.",
+       "s": "tie HOW luh, fay-chahng gahn-SHYEH  ·  Tài hǎo le, fēicháng gǎnxiè.",
        "accept": [
         "太好了非常感谢",
         "太好了谢谢",
@@ -473,13 +475,13 @@
      "they": {
       "t": "不客气。祝你今天愉快！",
       "m": "You're welcome. Have a nice day!",
-      "s": "Bú kèqi. Zhù nǐ jīntiān yúkuài!"
+      "s": "boo kuh-chee. joo nee jin-tyen yoo-KWHY!  ·  Bú kèqi. Zhù nǐ jīntiān yúkuài!"
      },
      "replies": [
       {
        "t": "你也是。再见！",
        "m": "You too. Goodbye!",
-       "s": "Nǐ yě shì. Zàijiàn!",
+       "s": "nee yeh SHR. dzye-JYEN!  ·  Nǐ yě shì. Zàijiàn!",
        "accept": [
         "你也是再见",
         "你也是",

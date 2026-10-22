@@ -9,6 +9,7 @@
   "fr"
  ],
  "voiceNote": "Most devices have no Haitian Creole voice, so a French voice reads the lines. Speaking answers may not work; tap an answer instead.",
+ "note": "Native-speaker check pending.",
  "scenes": [
   {
    "id": "meet",
@@ -46,7 +47,7 @@
         "konsa konsa",
         "pa two mal"
        ],
-       "next": "t2"
+       "next": "t2b"
       },
       {
        "t": "Mwen pa twò byen.",
@@ -237,10 +238,12 @@
      },
      "replies": [
       {
-       "t": "Non, mèsi. Konbyen li ye?",
+       "t": "Non, mèsi. Konbyen li koute?",
        "m": "No, thanks. How much is it?",
-       "s": "nohn, meh-SEE. kohm-bee-EN lee YEH?",
+       "s": "nohn, meh-SEE. kohm-bee-EN lee koo-TAY?",
        "accept": [
+        "non mesi konbyen li koute",
+        "konbyen li koute",
         "non mesi konbyen li ye",
         "konbyen li ye",
         "konbyen",

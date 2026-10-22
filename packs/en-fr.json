@@ -8,6 +8,7 @@
   "fr-CA",
   "fr"
  ],
+ "note": "Women write “Enchantée” instead of “Enchanté”. It sounds the same.",
  "scenes": [
   {
    "id": "meet",
@@ -34,7 +35,10 @@
         "tres bien merci",
         "ca va bien merci",
         "bien merci",
-        "ca va bien"
+        "ca va bien",
+        "tres bien",
+        "tres bien merci",
+        "tres bien merci et toi"
        ],
        "next": "t2"
       },
@@ -46,7 +50,7 @@
         "comme ci comme ca",
         "bof"
        ],
-       "next": "t2"
+       "next": "t2b"
       },
       {
        "t": "Pas très bien.",
@@ -352,9 +356,9 @@
     },
     "t2b": {
      "they": {
-      "t": "Allez tout droit pendant deux rues, puis tournez à gauche.",
-      "m": "Go straight for two blocks, then turn left.",
-      "s": "ah-LAY too DRWAH pahn-DAHN duh REW, pwee toor-NAY ah GOHSH"
+      "t": "Continuez tout droit, puis prenez la deuxième rue à gauche.",
+      "m": "Go straight, then take the second street on the left.",
+      "s": "kohn-tee-NEW-ay too DRWAH, pwee pruh-NAY lah duh-zee-EM REW ah GOHSH"
      },
      "replies": [
       {

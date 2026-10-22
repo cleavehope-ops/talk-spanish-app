@@ -47,12 +47,12 @@
         "mais ou menos",
         "mais o menos"
        ],
-       "next": "t2"
+       "next": "t2b"
       },
       {
        "t": "Não muito bem.",
        "m": "Not very well.",
-       "s": "nown MOON-too BAYN",
+       "s": "nown MWEEN-too BAYN",
        "accept": [
         "nao muito bem",
         "nao estou bem",
@@ -89,7 +89,7 @@
      "they": {
       "t": "Ah, sinto muito. Eu me chamo Ana. Como você se chama?",
       "m": "Oh, I'm sorry. My name is Ana. What's your name?",
-      "s": "ah, SEEN-too MOON-too. EH-oo mee SHAH-moo AH-nah. KOH-moo voh-SAY see SHAH-mah?"
+      "s": "ah, SEEN-too MWEEN-too. EH-oo mee SHAH-moo AH-nah. KOH-moo voh-SAY see SHAH-mah?"
      },
      "replies": [
       {
@@ -350,7 +350,7 @@
       {
        "t": "Muito obrigado.",
        "m": "Thank you very much.",
-       "s": "MOON-too oh-bree-GAH-doo",
+       "s": "MWEEN-too oh-bree-GAH-doo",
        "accept": [
         "muito obrigado",
         "muito obrigada",
@@ -404,7 +404,7 @@
       {
        "t": "Perfeito. Muito obrigado.",
        "m": "Perfect. Thank you very much.",
-       "s": "pehr-FAY-too. MOON-too oh-bree-GAH-doo",
+       "s": "pehr-FAY-too. MWEEN-too oh-bree-GAH-doo",
        "accept": [
         "perfeito muito obrigado",
         "perfeito muito obrigada",

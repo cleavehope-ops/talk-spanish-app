@@ -20,7 +20,7 @@ function simCompact(said, pattern){
   if (pattern.includes('*')) {
     const parts = pattern.split('*').map(x=>norm(x).replace(/\s/g,'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
     const m = s.match(new RegExp('^(?:.{0,2})' + parts.join('(.+)') + '$'));
-    if (m) return 0.99 - 0.01*Math.max(0, s.length - m[0].length); // exact answers beat wildcard ones
+    if (m && m.slice(1).join('').length <= 10 && !m.slice(1).some(g=>/(て|で)す|ます|ません|ない|わから|知ら|wakara|shira|masen/.test(g))) return 0.99 - 0.01*Math.max(0, s.length - m[0].length); // name/city: 1-10 letters // exact answers beat wildcard ones
     const lit = parts.join('').replace(/\\/g,''); return lit && s.includes(lit) ? 0.6 : 0.2;
   }
   const p = norm(pattern).replace(/\s/g,''); if (!p) return 0;

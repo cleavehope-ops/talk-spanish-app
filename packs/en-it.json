@@ -44,7 +44,7 @@
         "cosi cosi",
         "insomma"
        ],
-       "next": "t2"
+       "next": "t2b"
       },
       {
        "t": "Non molto bene.",
@@ -358,9 +358,9 @@
     },
     "t2b": {
      "they": {
-      "t": "Vada dritto per due isolati e poi giri a sinistra.",
-      "m": "Go straight for two blocks and then turn left.",
-      "s": "VAH-dah DREET-toh pehr DOO-eh ee-zoh-LAH-tee eh POY JEE-ree ah see-NEES-trah"
+      "t": "Vada dritto e alla seconda traversa giri a sinistra.",
+      "m": "Go straight and turn left at the second street.",
+      "s": "VAH-dah DREET-toh eh AHL-lah seh-KOHN-dah trah-VEHR-sah JEE-ree ah see-NEES-trah"
      },
      "replies": [
       {
