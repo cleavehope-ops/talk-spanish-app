@@ -39,7 +39,7 @@ const Translate = {
     const pair=from+'>'+to; let c=null;
     if (!this.chromeBad[pair]) { c = await Promise.race([this.viaChrome(text, from, to), new Promise(r=>setTimeout(()=>r(null),4000))]); if (!c) this.chromeBad[pair]=true; }
     if (c) return {text:c, via:'chrome'};
-    if (!(opts.scope==='packs' ? this.allowPackOnline() : this.allowOnline())) throw new Error('offline-off');
+    if (opts.scope!=='write' && !(opts.scope==='packs' ? this.allowPackOnline() : this.allowOnline())) throw new Error('offline-off');
     return {text: await this.viaMyMemory(text, from, to), via:'mymemory'};
   }
 };

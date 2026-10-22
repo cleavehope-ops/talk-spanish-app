@@ -164,6 +164,11 @@ function home(){
   app.innerHTML = `<div class="greet ${first&&Prefs.get().anim?'wave':''}"><div><small>Learning</small><div class="hello">${FLAG[PACK.learn]||''} ${esc(nativeName(PACK.learn))}</div></div><button class="chip" onclick="location.hash='setup'">Change</button></div>
    <section class="focus"><div class="muted">Today</div><div class="ftitle">Say 1 phrase out loud</div><div class="muted">Takes about 30 seconds.</div>
      <button class="say1" id="say1">${I('mic')} Start</button></section>
+   <section class="card wbox"><b>${I('chat')} Write a message</b><p class="muted small">Type a message, pick the language, then copy it to send to anyone.</p><p class="fine">${I('info')} If your phone can't translate it, the text you type here is sent to a free online translator (MyMemory). Don't type private info.</p>
+     <div class="wlangs"><label>From<select id="wFrom">${wOpts(wPair().from)}</select></label><button class="chip" id="wSwap" aria-label="Swap languages">⇄</button><label>To<select id="wTo">${wOpts(wPair().to)}</select></label></div>
+     <textarea id="wIn" rows="3" maxlength="500" placeholder="Type your message…"></textarea>
+     <button class="big" id="wGo">${I('globe')} Translate</button>
+     <div id="wOut" hidden><div class="wres" id="wTxt"></div><div class="wbtns"><button class="chip" id="wCopy">Copy translation</button><button class="chip" id="wCopyMine">Copy my words</button><button class="chip" id="wPlay">${I('play')} Listen</button></div><div class="muted small" id="wMsg"></div></div></section>
    <div class="stats"><div class="stat"><span class="flame ${st.count?'lit':''}">${I('flame')}</span><b>${st.count}</b><small>day streak</small></div>
      <div class="stat"><span class="flame">${I('trophy')}</span><b>${pr.done}/${pr.total}</b><small>chats done</small></div>
      <div class="stat" onclick="location.hash='practice'"><span class="flame">${I('cards')}</span><b>${due}</b><small>to review</small></div></div>
@@ -173,6 +178,27 @@ function home(){
    <p class="fine">${I('mask')} Characters are practice buddies, not real people.</p>`;
   app.querySelectorAll('.stop[data-id]').forEach(b=>b.onclick=()=>location.hash='scene/'+b.dataset.id);
   $('#say1').onclick=()=>location.hash='quick';
+  bindWrite();
+}
+async function copyText(t){ try{ await navigator.clipboard.writeText(t); return true; }catch(e){ const a=document.createElement('textarea'); a.value=t; a.setAttribute('readonly',''); a.style.position='fixed'; a.style.opacity='0'; document.body.appendChild(a); a.select(); let ok=false; try{ ok=document.execCommand('copy'); }catch(_){} a.remove(); return ok; } }
+const wPair=()=>store.get('wpair',{from:settings().speak||'en',to:PACK.learn});
+const wOpts=sel=>Object.keys(LANGS).sort((x,y)=>langName(x).localeCompare(langName(y))).map(c=>`<option value="${c}" ${c===sel?'selected':''}>${esc(langName(c))}</option>`).join('');
+let last='';
+function bindWrite(){
+  const setP=()=>store.set('wpair',{from:$('#wFrom').value,to:$('#wTo').value});
+  $('#wFrom').onchange=setP; $('#wTo').onchange=setP;
+  $('#wSwap').onclick=()=>{ const f=$('#wFrom').value; $('#wFrom').value=$('#wTo').value; $('#wTo').value=f; setP(); const t=$('#wTxt').textContent; if(last && t){ $('#wIn').value=last; } $('#wOut').hidden=true; last=''; };
+  const inp=$('#wIn'); if(!inp) return; inp.value=sessionStorage.getItem('tt_wdraft')||'';
+  inp.oninput=()=>sessionStorage.setItem('tt_wdraft',inp.value);
+  last='';
+  const msg=t=>{ $('#wMsg').textContent=t; };
+  $('#wGo').onclick=async()=>{ const t=inp.value.trim(); if(!t){ inp.focus(); return; }
+    $('#wOut').hidden=false; $('#wTxt').textContent='Translating…'; msg('');
+    try{ const r=await Translate.run(t, wPair().from, wPair().to, {scope:'write'}); last=r.text; $('#wTxt').textContent=last; msg('Auto-translated: may have small mistakes.'); }
+    catch(e){ last=''; $('#wTxt').textContent=t; msg(trMsg(e)+' You can still copy your own words.'); } };
+  $('#wCopy').onclick=async()=>{ if(!last){ msg('Tap Translate first.'); return; } msg(await copyText(last)?'Copied! Paste it in any app.':'Copy didn\'t work. Press and hold the text to copy it.'); };
+  $('#wCopyMine').onclick=async()=>{ const t=inp.value.trim(); if(!t) return; msg(await copyText(t)?'Copied your words.':'Copy didn\'t work. Press and hold the text to copy it.'); };
+  $('#wPlay').onclick=()=>{ if(last) Speech.say(last, wPair().to); };
 }
 function me(){
   const standalone = (window.navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
