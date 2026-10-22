@@ -1,0 +1,454 @@
+{
+ "id": "en-es",
+ "speak": "en",
+ "learn": "es",
+ "voice": [
+  "es-MX",
+  "es-US",
+  "es-419",
+  "es-ES",
+  "es"
+ ],
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "¡Hola! ¿Cómo estás?",
+      "m": "Hi! How are you?",
+      "s": "OH-lah! KOH-moh ehs-TAHS?"
+     },
+     "replies": [
+      {
+       "t": "Bien, gracias. ¿Y tú?",
+       "m": "Good, thanks. And you?",
+       "s": "bee-EN, GRAH-see-ahs. ee TOO?",
+       "accept": [
+        "bien gracias y tu",
+        "bien y tu",
+        "muy bien gracias y tu",
+        "bien gracias",
+        "estoy bien *",
+        "estoy bien",
+        "muy bien *"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Más o menos.",
+       "m": "So-so.",
+       "s": "MAHS oh MEH-nohs",
+       "accept": [
+        "mas o menos",
+        "asi asi"
+       ],
+       "next": "t2b"
+      },
+      {
+       "t": "No muy bien.",
+       "m": "Not very well.",
+       "s": "noh mooy bee-EN",
+       "accept": [
+        "no muy bien",
+        "mal",
+        "muy mal",
+        "estoy mal",
+        "no tan bien"
+       ],
+       "next": "t2b"
+      }
+     ],
+     "hint": "Try: “Bien, gracias” (bee-EN, GRAH-see-ahs) = Good, thanks."
+    },
+    "t2": {
+     "they": {
+      "t": "Muy bien. Me llamo Ana. ¿Cómo te llamas?",
+      "m": "Very good. My name is Ana. What's your name?",
+      "s": "mooy bee-EN. meh YAH-moh AH-nah. KOH-moh teh YAH-mahs?"
+     },
+     "replies": [
+      {
+       "t": "Me llamo (your name).",
+       "m": "My name is (your name).",
+       "s": "meh YAH-moh …",
+       "accept": [
+        "me llamo *",
+        "mi nombre es *",
+        "yo me llamo *",
+        "soy *",
+        "yo soy *"
+       ],
+       "next": "t3"
+      }
+     ],
+     "hint": "Say “Me llamo” (meh YAH-moh) and then your name."
+    },
+    "t2b": {
+     "they": {
+      "t": "Ay, lo siento. Me llamo Ana. ¿Cómo te llamas?",
+      "m": "Oh, I'm sorry. My name is Ana. What's your name?",
+      "s": "eye, loh see-EN-toh. meh YAH-moh AH-nah. KOH-moh teh YAH-mahs?"
+     },
+     "replies": [
+      {
+       "t": "Me llamo (your name).",
+       "m": "My name is (your name).",
+       "s": "meh YAH-moh …",
+       "accept": [
+        "me llamo *",
+        "mi nombre es *",
+        "yo me llamo *",
+        "soy *",
+        "yo soy *"
+       ],
+       "next": "t3"
+      }
+     ],
+     "hint": "Say “Me llamo” (meh YAH-moh) and then your name."
+    },
+    "t3": {
+     "they": {
+      "t": "Mucho gusto. ¿De dónde eres?",
+      "m": "Nice to meet you. Where are you from?",
+      "s": "MOO-choh GOOS-toh. deh DOHN-deh EH-rehs?"
+     },
+     "replies": [
+      {
+       "t": "Mucho gusto. Soy de (your city).",
+       "m": "Nice to meet you. I'm from (your city).",
+       "s": "MOO-choh GOOS-toh. soy deh …",
+       "accept": [
+        "mucho gusto soy de *",
+        "soy de *",
+        "yo soy de *",
+        "igualmente soy de *",
+        "mucho gusto yo soy de *"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Igualmente. Soy de Estados Unidos.",
+       "m": "Likewise. I'm from the United States.",
+       "s": "ee-gwahl-MEN-teh. soy deh ehs-TAH-dohs oo-NEE-dohs",
+       "accept": [
+        "igualmente soy de estados unidos",
+        "soy de estados unidos"
+       ],
+       "next": "t4"
+      }
+     ],
+     "hint": "Say “Soy de” (soy deh) and the place you're from."
+    },
+    "t4": {
+     "they": {
+      "t": "¡Qué bien! Bueno, nos vemos luego.",
+      "m": "How nice! Well, see you later.",
+      "s": "keh bee-EN! BWEH-noh, nohs VEH-mohs LWEH-goh"
+     },
+     "replies": [
+      {
+       "t": "¡Hasta luego!",
+       "m": "See you later!",
+       "s": "AHS-tah LWEH-goh",
+       "accept": [
+        "hasta luego",
+        "adios",
+        "nos vemos",
+        "chao",
+        "chau",
+        "gracias",
+        "hasta manana",
+        "adios gracias"
+       ],
+       "next": "end"
+      }
+     ],
+     "hint": "Say “Hasta luego” (AHS-tah LWEH-goh) = See you later."
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "¡Buenos días! ¿Qué le puedo servir?",
+      "m": "Good morning! What can I get you?",
+      "s": "BWEH-nohs DEE-ahs! keh leh PWEH-doh sehr-VEER?"
+     },
+     "replies": [
+      {
+       "t": "Un café, por favor.",
+       "m": "A coffee, please.",
+       "s": "oon kah-FEH, pohr fah-VOHR",
+       "accept": [
+        "un cafe por favor",
+        "un cafe",
+        "quiero un cafe",
+        "me da un cafe por favor",
+        "quisiera un cafe"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Un jugo de naranja, por favor.",
+       "m": "An orange juice, please.",
+       "s": "oon HOO-goh deh nah-RAHN-hah, pohr fah-VOHR",
+       "accept": [
+        "un jugo de naranja por favor",
+        "un jugo de naranja",
+        "jugo de naranja"
+       ],
+       "next": "t3"
+      }
+     ],
+     "hint": "Say what you want + “por favor” (pohr fah-VOHR) = please."
+    },
+    "t2": {
+     "they": {
+      "t": "¿Con leche o sin leche?",
+      "m": "With milk or without milk?",
+      "s": "kohn LEH-cheh oh seen LEH-cheh?"
+     },
+     "replies": [
+      {
+       "t": "Con leche, por favor.",
+       "m": "With milk, please.",
+       "s": "kohn LEH-cheh, pohr fah-VOHR",
+       "accept": [
+        "con leche",
+        "con leche por favor"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Sin leche, gracias.",
+       "m": "Without milk, thanks.",
+       "s": "seen LEH-cheh, GRAH-see-ahs",
+       "accept": [
+        "sin leche",
+        "sin leche gracias",
+        "negro",
+        "solo"
+       ],
+       "next": "t3"
+      }
+     ],
+     "hint": "“Con” (kohn) = with. “Sin” (seen) = without."
+    },
+    "t3": {
+     "they": {
+      "t": "Muy bien. ¿Algo más?",
+      "m": "Very good. Anything else?",
+      "s": "mooy bee-EN. AHL-goh MAHS?"
+     },
+     "replies": [
+      {
+       "t": "No, gracias. ¿Cuánto es?",
+       "m": "No, thanks. How much is it?",
+       "s": "noh, GRAH-see-ahs. KWAHN-toh ehs?",
+       "accept": [
+        "no gracias cuanto es",
+        "cuanto es",
+        "no gracias",
+        "cuanto cuesta",
+        "nada mas gracias",
+        "nada mas",
+        "no"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Sí, un pan dulce, por favor.",
+       "m": "Yes, a sweet bread, please.",
+       "s": "see, oon pahn DOOL-seh, pohr fah-VOHR",
+       "accept": [
+        "si un pan dulce por favor",
+        "un pan dulce",
+        "pan dulce por favor"
+       ],
+       "next": "t4"
+      }
+     ],
+     "hint": "“¿Cuánto es?” (KWAHN-toh ehs) = How much is it?"
+    },
+    "t4": {
+     "they": {
+      "t": "Son cuatro dólares, por favor.",
+      "m": "That's four dollars, please.",
+      "s": "sohn KWAH-troh DOH-lah-rehs, pohr fah-VOHR"
+     },
+     "replies": [
+      {
+       "t": "Aquí tiene. ¡Gracias!",
+       "m": "Here you go. Thank you!",
+       "s": "ah-KEE tee-EH-neh. GRAH-see-ahs!",
+       "accept": [
+        "aqui tiene gracias",
+        "aqui tiene",
+        "gracias",
+        "muchas gracias"
+       ],
+       "next": "end"
+      }
+     ],
+     "hint": "“Aquí tiene” (ah-KEE tee-EH-neh) = Here you go."
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Hola, ¿le puedo ayudar?",
+      "m": "Hello, can I help you?",
+      "s": "OH-lah, leh PWEH-doh ah-yoo-DAHR?"
+     },
+     "replies": [
+      {
+       "t": "Sí, por favor. ¿Dónde está el baño?",
+       "m": "Yes, please. Where is the bathroom?",
+       "s": "see, pohr fah-VOHR. DOHN-deh ehs-TAH ehl BAH-nyoh?",
+       "accept": [
+        "si por favor donde esta el bano",
+        "donde esta el bano",
+        "el bano"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "Sí. ¿Dónde está la estación de autobuses?",
+       "m": "Yes. Where is the bus station?",
+       "s": "see. DOHN-deh ehs-TAH lah ehs-tah-see-OHN deh ow-toh-BOO-sehs?",
+       "accept": [
+        "si donde esta la estacion de autobuses",
+        "donde esta la estacion de autobuses",
+        "la estacion de autobuses",
+        "donde esta la estacion"
+       ],
+       "next": "t2b"
+      }
+     ],
+     "hint": "“¿Dónde está…?” (DOHN-deh ehs-TAH) = Where is…?"
+    },
+    "t2a": {
+     "they": {
+      "t": "Está al fondo, a la derecha.",
+      "m": "It's at the back, on the right.",
+      "s": "ehs-TAH ahl FOHN-doh, ah lah deh-REH-chah"
+     },
+     "replies": [
+      {
+       "t": "Muchas gracias.",
+       "m": "Thank you very much.",
+       "s": "MOO-chahs GRAH-see-ahs",
+       "accept": [
+        "muchas gracias",
+        "gracias",
+        "mil gracias"
+       ],
+       "next": "t4"
+      }
+     ],
+     "hint": "Say “Muchas gracias” (MOO-chahs GRAH-see-ahs)."
+    },
+    "t2b": {
+     "they": {
+      "t": "Siga derecho dos cuadras y luego doble a la izquierda.",
+      "m": "Go straight two blocks and then turn left.",
+      "s": "SEE-gah deh-REH-choh dohs KWAH-drahs ee LWEH-goh DOH-bleh ah lah ees-kee-EHR-dah"
+     },
+     "replies": [
+      {
+       "t": "¿Está lejos?",
+       "m": "Is it far?",
+       "s": "ehs-TAH LEH-hohs?",
+       "accept": [
+        "esta lejos",
+        "es lejos",
+        "lejos"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "¿Puede repetir, por favor?",
+       "m": "Can you repeat that, please?",
+       "s": "PWEH-deh reh-peh-TEER, pohr fah-VOHR?",
+       "accept": [
+        "puede repetir por favor",
+        "puede repetir",
+        "repita por favor",
+        "otra vez por favor"
+       ],
+       "next": "t2b"
+      }
+     ],
+     "hint": "“¿Está lejos?” (ehs-TAH LEH-hohs) = Is it far?"
+    },
+    "t3": {
+     "they": {
+      "t": "No, está cerca. Son cinco minutos a pie.",
+      "m": "No, it's close. It's five minutes on foot.",
+      "s": "noh, ehs-TAH SEHR-kah. sohn SEEN-koh mee-NOO-tohs ah PYEH"
+     },
+     "replies": [
+      {
+       "t": "Perfecto. Muchas gracias.",
+       "m": "Perfect. Thank you very much.",
+       "s": "pehr-FEK-toh. MOO-chahs GRAH-see-ahs",
+       "accept": [
+        "perfecto muchas gracias",
+        "muchas gracias",
+        "gracias",
+        "perfecto gracias"
+       ],
+       "next": "t4"
+      }
+     ],
+     "hint": "Say “Muchas gracias” (MOO-chahs GRAH-see-ahs)."
+    },
+    "t4": {
+     "they": {
+      "t": "De nada. ¡Que le vaya bien!",
+      "m": "You're welcome. Have a good day!",
+      "s": "deh NAH-dah. keh leh VAH-yah bee-EN!"
+     },
+     "replies": [
+      {
+       "t": "Igualmente. ¡Adiós!",
+       "m": "You too. Goodbye!",
+       "s": "ee-gwahl-MEN-teh. ah-dee-OHS!",
+       "accept": [
+        "igualmente adios",
+        "igualmente",
+        "adios",
+        "gracias adios",
+        "chao",
+        "chau",
+        "gracias",
+        "gracias igualmente",
+        "gracias adios"
+       ],
+       "next": "end"
+      }
+     ],
+     "hint": "“Igualmente” (ee-gwahl-MEN-teh) = You too."
+    }
+   }
+  }
+ ]
+}
