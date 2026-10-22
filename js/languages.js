@@ -18,3 +18,12 @@ const LANGS = {
 // Scripts written without spaces: answers are compared letter by letter.
 const COMPACT_LANGS = new Set(['zh','ja','th','km','lo','my']);
 const langName = c => (LANGS[c]||[c])[0];
+// Language names in their own writing, for the picker.
+const NATIVE = {en:'English',es:'Español',fr:'Français',ht:'Kreyòl ayisyen',pt:'Português (Brasil)',it:'Italiano',de:'Deutsch',zh:'中文 (普通话)',ja:'日本語',
+ ar:'العربية',bn:'বাংলা',bg:'Български',ca:'Català',hr:'Hrvatski',cs:'Čeština',da:'Dansk',nl:'Nederlands',el:'Ελληνικά',tl:'Filipino',fi:'Suomi',he:'עברית',
+ hi:'हिन्दी',hu:'Magyar',id:'Bahasa Indonesia',ga:'Gaeilge',ko:'한국어',ms:'Bahasa Melayu',no:'Norsk',fa:'فارسی',pl:'Polski',ro:'Română',ru:'Русский',
+ sr:'Српски',sk:'Slovenčina',so:'Soomaali',sw:'Kiswahili',sv:'Svenska',ta:'தமிழ்',th:'ไทย',tr:'Türkçe',uk:'Українська',ur:'اردو',vi:'Tiếng Việt',
+ yo:'Yorùbá',zu:'isiZulu',am:'አማርኛ',pa:'ਪੰਜਾਬੀ',ne:'नेपाली',af:'Afrikaans',is:'Íslenska',lt:'Lietuvių',lv:'Latviešu',et:'Eesti',sl:'Slovenščina',
+ sq:'Shqip',hy:'Հայերեն',ka:'ქართული',km:'ខ្មែរ',lo:'ລາວ',my:'မြန်မာ',ha:'Hausa',ig:'Igbo'};
+const FLAG = {es:'🇪🇸',fr:'🇫🇷',ht:'🇭🇹',pt:'🇧🇷',it:'🇮🇹',de:'🇩🇪',zh:'🇨🇳',ja:'🇯🇵'};
+const nativeName = c => NATIVE[c] || langName(c);

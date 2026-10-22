@@ -1,3 +1,4 @@
+if (location.protocol==='http:' && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) location.replace('https:'+location.href.slice(5)); // HTTPS only
 const $ = s => document.querySelector(s);
 const app = $('#app');
 const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -90,8 +91,8 @@ async function buildAutoPack(code){
   const src = j => typeof j==='string' ? j : j.en;
   const texts = [...new Set(jobs.map(j=>typeof j==='string'?j:j.en))], out = {};
   let done = 0; const prog = () => { const el=document.getElementById('autoprog'); if (el) el.textContent = `Translating the scenes… ${done}/${texts.length}`; };
-  app.innerHTML = `<h2>🌍 Getting ${esc(langName(code))} ready</h2><div class="card" id="autoprog">Translating the scenes…</div><p class="muted">This happens once, then it's saved on this device.</p>`;
-  let i = 0; const worker = async () => { while (i < texts.length) { const t = texts[i++]; out[t] = (await Translate.run(t, 'en', code)).text; done++; prog(); } };
+  app.innerHTML = `<h2>${I('globe')} Getting ${esc(langName(code))} ready</h2><div class="card" id="autoprog">Translating the scenes…</div><p class="muted">This happens once, then it's saved on this device.</p>`;
+  let i = 0; const worker = async () => { while (i < texts.length) { const t = texts[i++]; out[t] = (await Translate.run(t, 'en', code, {scope:'packs'})).text; done++; prog(); } };
   await Promise.all([worker(), worker(), worker()]);
   const pack = { id:'auto-en-'+code, speak:'en', learn:code, name:langName(code), auto:true, voice:(LANGS[code]||[0,[code]])[1], compact:COMPACT_LANGS.has(code), scenes:[] };
   for (const sc of base.scenes){ const T={};
@@ -101,10 +102,11 @@ async function buildAutoPack(code){
     pack.scenes.push({id:sc.id, title:sc.title, stop:sc.stop, icon:sc.icon, start:sc.start, turns:T}); }
   store.set('autopack_'+code, pack); return pack;
 }
-function route(){ const h=location.hash.slice(1)||'home'; const [v,a]=h.split('/');
-  ({home, scene:()=>scene(a), practice, chat, setup}[v]||home)(); window.scrollTo(0,0); }
+function route(){ document.querySelectorAll('.confetti').forEach(c=>c.remove()); document.body.classList.remove('chatmode'); const v0=(location.hash.slice(1)||'home').split('/')[0]; document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active', b.dataset.go===v0 || (b.dataset.go==='chat'&&v0==='join')||(b.dataset.go==='me'&&(v0==='privacy'||v0==='setup'||v0==='terms')))); const h=location.hash.slice(1)||'home'; const [v,a]=h.split('/');
+  ({home, scene:()=>scene(a), practice, chat:()=> a==='new'?chat({}) : a?roomView(a):chat(), join:()=>chat({code:a, invite:h.split('/')[2], key:h.split('/')[3]}), setup, quick, privacy, terms:()=>terms(a), me}[v]||home)(); window.scrollTo(0,0); }
 window.addEventListener('hashchange', route);
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>location.hash=b.dataset.go);
+$('#homeBtn').innerHTML=I('map'); $('#setupBtn').innerHTML=I('globe'); document.querySelectorAll('nav i[data-i]').forEach(x=>x.outerHTML=I(x.dataset.i));
 $('#homeBtn').onclick=()=>location.hash='home'; $('#setupBtn').onclick=()=>location.hash='setup';
 
 function setup(){
@@ -112,22 +114,26 @@ function setup(){
   const hand = new Set(INDEX.packs.map(p=>p.learn)), files = new Set(Object.values(up).map(p=>p.learn));
   const all = Object.keys(LANGS).filter(k=>k!=='en').concat([...files].filter(k=>!LANGS[k]));
   const nm = k => up['en-'+k]?.name || langName(k);
-  const group = (label, list) => list.length ? `<optgroup label="${label}">${list.map(k=>`<option value="${k}" ${k===s.learn?'selected':''}>${esc(nm(k))}</option>`).join('')}</optgroup>` : '';
-  const handL = all.filter(k=>hand.has(k)), fileL = all.filter(k=>!hand.has(k)&&files.has(k)), autoL = all.filter(k=>!hand.has(k)&&!files.has(k)).sort((a,b)=>nm(a).localeCompare(nm(b)));
-  app.innerHTML = `<h2>Welcome! 👋</h2><div class="card"><p><b>I speak</b></p><select id="sp"><option value="en">English</option>${[...new Set(Object.values(up).map(p=>p.speak))].filter(k=>k!=='en').map(k=>`<option value="${k}" ${k===s.speak?'selected':''}>${esc(langName(k))}</option>`).join('')}</select>
-   <p><b>I want to learn</b></p><select id="le">${group('⭐ Hand-made lessons',handL)}${group('📄 Added from a file',fileL)}${group('🌍 Any language (auto-translated)',autoL)}</select>
+  const label = k => (up['en-'+k] && up['en-'+k].name) || (NATIVE[k] ? (NATIVE[k]===langName(k) ? NATIVE[k] : `${NATIVE[k]} (${langName(k)})`) : langName(k));
+  const group = (lbl, list) => list.length ? `<optgroup label="${lbl}">${list.map(k=>`<option value="${k}" ${k===s.learn?'selected':''}>${esc(label(k))}</option>`).join('')}</optgroup>` : '';
+  const handL = all.filter(k=>hand.has(k)), fileL = all.filter(k=>!hand.has(k)&&files.has(k)), autoL = all.filter(k=>!hand.has(k)&&!files.has(k)).sort((a,b)=>langName(a).localeCompare(langName(b)));
+  app.innerHTML = `<h2>Pick a language</h2><p class="muted">I speak <select id="sp"><option value="en">English</option>${[...new Set(Object.values(up).map(p=>p.speak))].filter(k=>k!=='en').map(k=>`<option value="${k}" ${k===s.speak?'selected':''}>${esc(nativeName(k))}</option>`).join('')}</select> and I want to learn:</p>
+   <div class="tiles">${handL.concat(fileL).map(k=>`<button class="tile ${k===s.learn?'on':''}" data-k="${k}"><span class="flag">${FLAG[k]||I('globe')}</span><b>${esc(nativeName(k))}</b><small>${esc(langName(k))}${files.has(k)&&!hand.has(k)?' · from file':''}</small></button>`).join('')}</div>
+   <div class="card"><b>${I('globe')} Any language</b><p class="muted">Pick from the full list. Languages without hand-made lessons are auto-translated.</p>
+   <select id="le">${group('Hand-made lessons',handL)}${group('Added from a file',fileL)}${group('Any language (auto-translated)',autoL)}</select>
    <p class="muted" id="kind"></p></div>
-   <button class="big" id="go">Start my trip ▶</button><p class="muted" id="msg"></p>
-   <div class="card"><b>📄 Add a language file</b><p class="muted">Got a lesson file (.json) for a new language? Add it here. It stays on this device.</p>
+   <button class="big" id="go">Start my trip ${I('arrow')}</button><p class="muted" id="msg"></p>
+   <div class="card"><b>${I('file')} Add a language file</b><p class="muted">Got a lesson file (.json) for a new language? Add it here. It stays on this device.</p>
    <input type="file" id="packfile" accept=".json,application/json"></div>`;
+  app.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{ $('#le').value=t.dataset.k; app.querySelectorAll('.tile').forEach(x=>x.classList.toggle('on',x===t)); showKind(); });
   const showKind = () => { const k = packKind($('#sp').value, $('#le').value);
-    $('#kind').textContent = k==='hand' ? '⭐ Hand-made and checked lessons.' : k==='file' ? '📄 Lessons from a file you added.' : k==='auto' ? '🌍 Auto-translated: may have small mistakes. Needs internet the first time.' : 'Coming soon.'; };
-  $('#le').onchange = showKind; $('#sp').onchange = showKind; showKind();
+    $('#kind').textContent = k==='hand' ? 'Hand-made, checked lessons.' : k==='file' ? 'Lessons from a file you added.' : k==='auto' ? 'Auto-translated, so it may have small mistakes. Needs internet the first time.' : 'Coming soon.'; };
+  $('#le').onchange = ()=>{ app.querySelectorAll('.tile').forEach(x=>x.classList.toggle('on',x.dataset.k===$('#le').value)); showKind(); }; $('#sp').onchange = showKind; showKind();
   $('#go').onclick = async ()=>{ const sp=$('#sp').value, le=$('#le').value;
     if (!packKind(sp,le)) { $('#msg').textContent='That pair is coming soon.'; return; }
     store.set('settings',{speak:sp,learn:le});
     try { await loadPack(); location.hash='home'; route(); }
-    catch(e){ console.warn('pack load failed', e); store.set('settings', s); setup(); $('#msg').textContent='Translation is busy right now. Please try again later.'; }
+    catch(e){ console.warn('pack load failed', e); store.set('settings', s); setup(); $('#msg').textContent = e.message==='offline-off' ? 'This language needs the online translator once. Turn on "Build lessons online" in Privacy to build it.' : 'Translation is busy right now. Please try again later.'; }
   };
   $('#packfile').onchange = async e => { const f=e.target.files[0]; if(!f) return;
     try { const p = JSON.parse(await f.text()); const err = checkPack(p); if (err) throw new Error(err);
@@ -145,50 +151,89 @@ function checkPack(p){
   return null;
 }
 
-const banner = () => (PACK.auto ? '<div class="fb try">🌍 Auto-translated: may have small mistakes.</div>' : '') + (PACK.voiceNote ? `<p class="muted">🔊 ${esc(PACK.voiceNote)}</p>` : '') + (PACK.note ? `<p class="muted">💡 ${esc(PACK.note)}</p>` : '');
+const banner = () => (PACK.auto ? `<div class="note">${I('info')} Auto-translated: may have small mistakes.</div>` : '') + (PACK.voiceNote ? `<p class="muted">${esc(PACK.voiceNote)}</p>` : '') + (PACK.note ? `<p class="muted">${esc(PACK.note)}</p>` : '');
+function allProgress(){ // finished chats across every language you've tried
+  let done=0; for (let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if (k.startsWith('tt_done_')) try{ done+=Object.keys(JSON.parse(localStorage.getItem(k))).length; }catch(e){} }
+  const langs = new Set(INDEX.packs.map(p=>p.learn)); langs.add(PACK.learn); return {done, total: langs.size*3}; }
+function prefsRow(){ const p=Prefs.get(); return `<div class="prefs"><label><input type="checkbox" id="pSound" ${p.sound?'checked':''}> Sounds</label><label><input type="checkbox" id="pAnim" ${p.anim?'checked':''}> Animations</label></div>`; }
+function bindPrefs(){ const s=$('#pSound'), a=$('#pAnim'); if(s) s.onchange=()=>Prefs.set('sound',s.checked); if(a) a.onchange=()=>{ Prefs.set('anim',a.checked); document.body.classList.toggle('noanim',!a.checked); }; }
 function home(){
-  const done = store.get('done_'+LK(), {}), due=dueCards().length;
-  app.innerHTML = `<h2>Your trip map</h2><p class="muted">Tap a stop to have a short talk in ${esc(PACK.name)}.</p>${banner()}
-   <div class="map">${PACK.scenes.map(sc=>`<button class="stop" data-id="${sc.id}"><span class="ic">${sc.icon}</span><span><b>${esc(sc.stop)}</b><small>${esc(sc.title)}</small></span><span class="done">${done[sc.id]?'⭐':''}</span></button>`).join('')}
-   <button class="stop" onclick="location.hash='chat'"><span class="ic">💬</span><span><b>Chat with a friend</b><small>Type or talk, it translates</small></span></button></div>
-   <button class="big ${due?'':'alt'}" onclick="location.hash='practice'">🃏 Practice phrases (${due} ready)</button>`;
+  const done = store.get('done_'+LK(), {}), due=dueCards().length, pr=allProgress(), st=Streak.view();
+  const first = !sessionStorage.getItem('tt_welcomed'); sessionStorage.setItem('tt_welcomed','1');
+  const next = PACK.scenes.find(sc=>!done[sc.id]) || PACK.scenes[0];
+  app.innerHTML = `<div class="greet ${first&&Prefs.get().anim?'wave':''}"><div><small>Learning</small><div class="hello">${FLAG[PACK.learn]||''} ${esc(nativeName(PACK.learn))}</div></div><button class="chip" onclick="location.hash='setup'">Change</button></div>
+   <section class="focus"><div class="muted">Today</div><div class="ftitle">Say 1 phrase out loud</div><div class="muted">Takes about 30 seconds.</div>
+     <button class="say1" id="say1">${I('mic')} Start</button></section>
+   <div class="stats"><div class="stat"><span class="flame ${st.count?'lit':''}">${I('flame')}</span><b>${st.count}</b><small>day streak</small></div>
+     <div class="stat"><span class="flame">${I('trophy')}</span><b>${pr.done}/${pr.total}</b><small>chats done</small></div>
+     <div class="stat" onclick="location.hash='practice'"><span class="flame">${I('cards')}</span><b>${due}</b><small>to review</small></div></div>
+   ${banner()}
+   <h2 class="sec">Your trip</h2>
+   <div class="list">${PACK.scenes.map((sc,i)=>{ const b=buddyFor(sc,PACK); return `<button class="stop lrow ${done[sc.id]?'won':''}" data-id="${sc.id}"><span class="pav">${avatarSVG(b,40)}</span><span class="lt"><b>${i+1}. ${esc(sc.stop)}</b><small>${esc(sc.title)}</small></span><span class="badge">${done[sc.id]?I('star','fill'):I('play')}</span></button>`; }).join('')}</div>
+   <p class="fine">${I('mask')} Characters are practice buddies, not real people.</p>`;
   app.querySelectorAll('.stop[data-id]').forEach(b=>b.onclick=()=>location.hash='scene/'+b.dataset.id);
+  $('#say1').onclick=()=>location.hash='quick';
+}
+function me(){
+  const standalone = (window.navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
+  app.innerHTML = `<h2>Me</h2>
+   <div class="list"><button class="lrow" onclick="location.hash='setup'">${I('globe')}<span class="lt"><b>Languages</b><small>${esc(nativeName(PACK.learn))}</small></span>${I('arrow')}</button>
+   <button class="lrow" onclick="location.hash='privacy'">${I('shield')}<span class="lt"><b>Privacy</b><small>Encrypted chats, nicknames only</small></span>${I('arrow')}</button>
+   <button class="lrow" onclick="location.hash='terms'">${I('file')}<span class="lt"><b>Terms, Disclaimer and Privacy Notice</b><small>Free, as is, ages 13+, no personal info</small></span>${I('arrow')}</button></div>
+   <h2 class="sec">Settings</h2><div class="card">${prefsRow()}</div>
+   ${!standalone?`<details class="card"><summary>${I('phone')} Add to Home Screen</summary><p class="small">iPhone: tap Share ${I('share')}, then “Add to Home Screen”.<br>Android: tap <b>⋮</b>, then “Add to Home screen”.</p></details>`:''}
+   <details class="card"><summary>${I('mask')} About the characters</summary><p class="small">Anna and the other buddies are cartoon practice characters, not real people. Mistakes are fine. To talk with real people, use the Chat tab.</p></details>`;
+  bindPrefs();
+}
+// One-tap: say a single phrase
+function quick(){
+  const pool=[]; PACK.scenes.forEach(sc=>Object.values(sc.turns).forEach(tu=>tu.replies.forEach(r=>{ if(!r.t.includes('(')) pool.push(r); })));
+  const due=dueCards().map(([,k])=>k).filter(k=>!k.t.includes('(')); const r = due.length ? {t:due[0].t,m:due[0].m,s:due[0].s} : pool[Math.floor(Math.random()*pool.length)];
+  app.innerHTML=`<h2>Say 1 phrase</h2><div class="card"><div class="muted">Say this out loud:</div><div class="es">${esc(r.t)}</div><div class="en">${esc(r.m)}</div>${r.s?`<div class="say">${esc(r.s)}</div>`:''}
+    <div class="row"><button id="qplay">${I('volume')} Hear it</button><button class="alt" id="qslow">${I('slow')} Slow</button></div></div><div id="fb"></div>
+    ${Speech.canListen()?`<button class="mic" id="qmic">${I('mic')} Tap and say it</button>`:''}<button class="big alt" id="qdone" style="margin-top:10px">${I('check')} I said it</button>
+    <button class="big alt" style="margin-top:10px" onclick="location.hash='home'">${I('back')} Back to the trip</button>`;
+  const L=PACK.learn; $('#qplay').onclick=()=>Speech.say(r.t,L); $('#qslow').onclick=()=>Speech.say(r.t,L,true); setTimeout(()=>Speech.say(r.t,L),300);
+  const win=()=>{ Streak.mark(); cheer(); $('#fb').innerHTML=`<div class="fb good">${I('check')} Great job! That counts for today.</div><button class="big ok" id="qmore">One more ${I('arrow')}</button>`; $('#qmore').onclick=quick; };
+  $('#qdone').onclick=win;
+  const mic=$('#qmic'); if(mic) mic.onclick=async()=>{ try{ const a=await Speech.listen(L); if(a.some(x=>sim(x,r.t)>=0.72)) win(); else $('#fb').innerHTML=`<div class="fb try">Almost! ${a[0]?`I heard “${esc(a[0])}”.`:''} Listen and try again.</div>`; }catch(e){ $('#fb').innerHTML='<div class="fb try">The mic didn\'t work. Say it out loud and tap “I said it!”.</div>'; } };
 }
 
 function scene(id){
   const sc = PACK.scenes.find(s=>s.id===id); if(!sc) return home();
   seedCards(sc);
-  let tid = sc.start;
+  let tid = sc.start; const B = buddyFor(sc, PACK);
   const show = () => {
-    if (tid==='end'){ const d=store.get('done_'+LK(),{}); d[sc.id]=1; store.set('done_'+LK(),d); Speech.ding();
-      app.innerHTML=`<h2>${sc.icon} Great talk! ⭐</h2><div class="card">You finished <b>${esc(sc.title)}</b>. The phrases are now in your practice cards.</div>
-       <div class="row"><button onclick="location.hash='practice'">🃏 Practice</button><button class="alt" onclick="location.hash='home'">🗺️ Trip map</button></div>`; return; }
+    if (tid==='end'){ const d=store.get('done_'+LK(),{}); d[sc.id]=1; store.set('done_'+LK(),d); cheer();
+      app.innerHTML=`<h2>Great talk!</h2><div class="card celebrate">${avatarSVG(B,72)}<div>You finished <b>${esc(sc.title)}</b> with ${esc(B.name)} (practice buddy). You earned a star. The phrases are now in your practice cards.</div></div>
+       <div class="row"><button onclick="location.hash='practice'">${I('cards')} Practice</button><button class="alt" onclick="location.hash='home'">${I('map')} Trip map</button></div>`; return; }
     const tu = sc.turns[tid];
     const L=PACK.learn, r0=tu.replies[0], hint = tu.hint || `Try: “${r0.t}”${r0.s?` (${r0.s})`:''} = ${r0.m}`;
-    app.innerHTML = `<h2>${sc.icon} ${esc(sc.title)}</h2>${PACK.auto?'<div class="muted">🌍 Auto-translated: may have small mistakes.</div>':''}
-     <div class="card"><div class="muted">They say:</div><div class="es">${esc(tu.they.t)}</div><div class="en">${esc(tu.they.m)}</div>${tu.they.s?`<div class="say">🔊 ${esc(tu.they.s)}</div>`:''}
-      <div class="row"><button id="play">🔊 Play</button><button class="alt" id="slow">🐢 Slow</button></div></div>
+    app.innerHTML = `<h2>${esc(sc.title)}</h2>${PACK.auto?`<div class="note">${I('info')} Auto-translated: may have small mistakes.</div>`:''}
+     ${tid===sc.start?`<div class="intro">${I('mask')} <span><b>Practice chat:</b> ${esc(B.intro)} ${esc(B.name)}, ${esc(B.role)}. Not a real person, so relax and have fun!</span></div>`:''}
+     <div class="card"><div class="speaker">${avatarSVG(B,52)}<div>${buddyTag(B)}<div class="muted">says:</div></div></div><div class="es">${esc(tu.they.t)}</div><div class="en">${esc(tu.they.m)}</div>${tu.they.s?`<div class="say">${esc(tu.they.s)}</div>`:''}
+      <div class="row"><button id="play">${I('volume')} Play</button><button class="alt" id="slow">${I('slow')} Slow</button></div></div>
      <div id="fb"></div>
-     ${Speech.canListen()?`<button class="mic" id="mic">🎤 Tap and answer out loud</button><p class="muted" style="text-align:center">or tap an answer:</p>`:`<p class="muted">Tap an answer (and say it out loud too!):</p>`}
+     ${Speech.canListen()?`<button class="mic" id="mic">${I('mic')} Answer out loud</button><p class="muted" style="text-align:center">or tap an answer:</p>`:`<p class="muted">Tap an answer (and say it out loud too!):</p>`}
      <div id="replies">${tu.replies.map((r,i)=>`<button class="reply" data-i="${i}"><b>${esc(r.t)}</b><span class="en">${esc(r.m)}</span>${r.s?`<br><span class="say">${esc(r.s)}</span>`:''}</button>`).join('')}</div>`;
     $('#play').onclick=()=>Speech.say(tu.they.t,L); $('#slow').onclick=()=>Speech.say(tu.they.t,L,true);
     setTimeout(()=>Speech.say(tu.they.t,L),300);
     const answer = (alts, tapped) => {
       const m = tapped ? {score:1, reply:tapped, said:tapped.t} : bestMatch(alts, tu.replies);
       const fb=$('#fb');
-      if (m.score >= 0.72){ Speech.ding();
+      if (m.score >= 0.72){ cheer(); Streak.mark();
         const shown = (!tapped && m.reply.t.includes('(')) ? m.said : m.reply.t;
-        fb.innerHTML=`<div class="fb good">✅ Nice, I understood you! <br><b>${esc(shown)}</b> ${shown===m.reply.t?`<span class="en">— ${esc(m.reply.m)}</span>`:""}</div><button class="big ok" id="next">Next ▶</button>`;
+        fb.innerHTML=`<div class="fb good pop">${I('check')} ${['Yes, that\'s it!','Nice, I understood you!','Great!','Well said!'][Math.floor(Math.random()*4)]} <br><b>${esc(shown)}</b> ${shown===m.reply.t?`<span class="en">— ${esc(m.reply.m)}</span>`:""}</div><button class="big ok" id="next">Next ${I('arrow')}</button>`;
         if (tapped && !m.reply.t.includes('(')) Speech.say(m.reply.t,L);
         $('#next').onclick=()=>{ tid=m.reply.next; show(); };
       } else {
-        fb.innerHTML=`<div class="fb try">🙂 Almost! ${alts[0]?`I heard “${esc(alts[0])}”.`:'I didn\'t catch that.'}<br>💡 ${esc(hint)}</div>`;
+        fb.innerHTML=`<div class="fb try">Almost! ${alts[0]?`I heard “${esc(alts[0])}”.`:'I didn\'t catch that.'}<br><b>Hint:</b> ${esc(hint)}</div>`;
       }
     };
     app.querySelectorAll('.reply').forEach(b=>b.onclick=()=>answer([], tu.replies[b.dataset.i]));
-    const mic=$('#mic'); if(mic) mic.onclick=async()=>{ mic.classList.add('on'); mic.textContent='🎤 Listening…';
+    const mic=$('#mic'); if(mic) mic.onclick=async()=>{ mic.classList.add('on'); mic.innerHTML=I('mic')+' Listening…';
       try{ const alts=await Speech.listen(L); answer(alts); }catch(e){ $('#fb').innerHTML=`<div class="fb try">The mic didn't work (${esc(e.message)}). You can tap an answer instead.</div>`; }
-      mic.classList.remove('on'); mic.textContent='🎤 Tap and answer out loud'; };
+      mic.classList.remove('on'); mic.innerHTML=I('mic')+' Answer out loud'; };
     window.__answer = answer; // test hook
   };
   show();
@@ -196,52 +241,299 @@ function scene(id){
 
 function practice(){
   const due = dueCards(), total=Object.keys(cards()).length;
-  if (!due.length){ app.innerHTML=`<h2>🃏 Practice</h2><div class="card">${total?`All done for now! 🎉 ${total} phrases saved. Come back later.`:'No phrases yet. Do a stop on the trip map first.'}</div><button class="big" onclick="location.hash='home'">🗺️ Trip map</button>`; return; }
+  if (!due.length){ app.innerHTML=`<h2>Practice</h2><div class="card">${total?`All done for now. ${total} phrases saved. Come back later.`:'No phrases yet. Do a stop on the trip map first.'}</div><button class="big" onclick="location.hash='home'">${I('map')} Trip map</button>`; return; }
   const [id,k]=due[0];
-  app.innerHTML = `<h2>🃏 Practice <span class="muted">(${due.length} ready)</span></h2>
-   <div class="card"><div class="muted">How do you say:</div><div class="es" style="color:#1b2533">${esc(k.m)} <button class="ghost" id="hearQ" aria-label="Hear">🔊</button></div>
-   <div id="ans" hidden><hr><div class="es">${esc(k.t)} <button class="ghost" id="hearA" aria-label="Hear">🔊</button></div>${k.s?`<div class="say">🔊 ${esc(k.s)}</div>`:''}</div></div>
+  app.innerHTML = `<h2>Practice <span class="muted">(${due.length} ready)</span></h2>
+   <div class="card"><div class="muted">How do you say:</div><div class="es" style="color:#1b2533">${esc(k.m)} <button class="ghost" id="hearQ" aria-label="Hear">${I('volume')}</button></div>
+   <div id="ans" hidden><hr><div class="es">${esc(k.t)} <button class="ghost" id="hearA" aria-label="Hear">${I('volume')}</button></div>${k.s?`<div class="say">${esc(k.s)}</div>`:''}</div></div>
    <div id="pfb"></div>
-   ${Speech.canListen()?`<button class="mic" id="pmic">🎤 Say it in ${esc(PACK.name)}</button>`:''}
-   <div class="row"><button class="alt" id="show">👀 Show answer</button></div>
-   <div class="row" id="gr" hidden><button class="alt" id="again">🔁 Again</button><button class="ok" id="got">✅ Got it</button></div>
+   ${Speech.canListen()?`<button class="mic" id="pmic">${I('mic')} Say it in ${esc(PACK.name)}</button>`:''}
+   <div class="row"><button class="alt" id="show">${I('eye')} Show answer</button></div>
+   <div class="row" id="gr" hidden><button class="alt" id="again">${I('retry')} Again</button><button class="ok" id="got">${I('check')} Got it</button></div>
    <p class="muted">From: ${esc(k.src||'')} · level ${k.box+1}/6</p>`;
   const reveal=()=>{ $('#ans').hidden=false; $('#gr').hidden=false; $('#show').parentNode.hidden=true; Speech.say(k.t,PACK.learn); };
   $('#show').onclick=reveal; $('#hearQ').onclick=()=>Speech.say(k.m,'en'); $('#hearA').onclick=()=>Speech.say(k.t,PACK.learn);
   $('#again').onclick=()=>{ grade(id,false); practice(); };
-  $('#got').onclick=()=>{ Speech.ding(); grade(id,true); practice(); };
-  const pm=$('#pmic'); if(pm) pm.onclick=async()=>{ try{ const a=await Speech.listen(PACK.learn); const ok=a.some(x=>sim(x,k.t)>=0.72);
-     $('#pfb').innerHTML=`<div class="fb ${ok?'good':'try'}">${ok?'✅ Sounds right!':'🙂 Close, listen and try again.'} ${a[0]?`(I heard “${esc(a[0])}”)`:''}</div>`; if(ok) Speech.ding(); reveal(); }catch(e){ reveal(); } };
+  $('#got').onclick=()=>{ cheer(); Streak.mark(); grade(id,true); practice(); };
+  const pm=$('#pmic'); const check=async()=>{ try{ const a=await Speech.listen(PACK.learn); const r=Pron.score(a, k.t); const ok=r.pass || a.some(x=>sim(x,k.t)>=0.72);
+     $('#pfb').innerHTML=`<div class="fb ${ok?'good':'try'}">${ok?'Sounds right!':'Close. Listen and try again.'}</div>${Pron.html(r)}${ok?'':`<button class="alt" id="pRetry">${I('retry')} Try again</button>`}`;
+     const rt=$('#pRetry'); if(rt) rt.onclick=check; if(ok) Speech.ding(); reveal(); }catch(e){ reveal(); } }; if(pm) pm.onclick=check;
 }
 
-// ---------- translate chat (local two-pane demo) ----------
-function chat(){
-  const st=store.get('chat',{a:'en',b:'es'}); const L=Object.fromEntries(Object.entries(LANGS).map(([k,v])=>[k,v[0]]));
-  const opts=sel=>Object.keys(L).sort((a,b)=>L[a].localeCompare(L[b])).map(k=>`<option value="${k}" ${k===sel?'selected':''}>${L[k]}</option>`).join('');
-  const pane=(who,name)=>`<div class="pane" id="p${who}"><h3>${name} <select data-who="${who}">${opts(st[who])}</select></h3>
-    <div class="msgs"></div><div class="compose"><input placeholder="Type a message…" enterkeyhint="send">${Speech.canListen()?'<button class="alt mic-btn" aria-label="Talk">🎤</button>':''}<button class="send">Send</button></div></div>`;
-  app.innerHTML = `<h2>💬 Chat with a friend</h2><p class="muted">Each person reads in their own language. Demo: both people on this screen.</p><p class="muted">🔒 Privacy: if your browser can't translate by itself, messages are sent to the free MyMemory service to be translated. Don't type private info.</p>${pane('a','Me')}${pane('b','Friend')}`;
-  const T = new LocalTransport('demo');
-  app.querySelectorAll('select').forEach(s=>s.onchange=()=>{ st[s.dataset.who]=s.value; store.set('chat',st); });
-  const render = async (msg, who) => {
-    const my = st[who], box=$('#p'+who+' .msgs'), b=document.createElement('div');
-    b.className='bubble'+(msg.from===who?' me':''); box.appendChild(b);
-    const draw=(tr,lang,err)=>{ b.innerHTML = `<div class="tr">${esc(tr)}</div>${tr!==msg.text?`<div class="orig">${L[msg.lang]}: ${esc(msg.text)}</div>`:''}${err?`<div class="orig">⚠️ ${esc(err)}</div>`:''}
-      <div class="acts"><button class="alt hear">🔊 Hear</button>${msg.lang!==my||tr!==msg.text?'<button class="alt save">⭐ Save phrase</button>':''}</div>`;
-      b.querySelector('.hear').onclick=()=>Speech.say(tr,lang);
-      const sv=b.querySelector('.save'); if(sv) sv.onclick=()=>{ const T=PACK.learn, es = msg.lang===T?msg.text:(lang===T?tr:null), en = msg.lang==='en'?msg.text:(lang==='en'?tr:null);
-        toast(addCard(es||msg.text, en||tr, '', 'Chat')?'Saved to practice ⭐':'Already saved'); };
-      box.scrollTop=box.scrollHeight; };
-    if (msg.from===who || msg.lang===my) return draw(msg.text, msg.lang);
-    b.innerHTML='<div class="muted">Translating…</div>';
-    try{ const r = await Translate.run(msg.text, msg.lang, my); msg[my]=r.text; draw(r.text, my); }
-    catch(e){ draw(msg.text, msg.lang, 'Translation is busy right now. Please try again later.'); }
-  };
-  T.onMessage(m=>{ render(m,'a'); render(m,'b'); });
-  ['a','b'].forEach(who=>{ const p=$('#p'+who), inp=p.querySelector('input');
-    const send=()=>{ const t=inp.value.trim(); if(!t) return; inp.value=''; T.send({from:who, lang:st[who], text:t}); };
-    p.querySelector('.send').onclick=send; inp.onkeydown=e=>{ if(e.key==='Enter') send(); };
-    const mb=p.querySelector('.mic-btn'); if(mb) mb.onclick=async()=>{ try{ const a=await Speech.listen(st[who]); if(a[0]) inp.value=a[0]; }catch(e){ toast('Mic not available, please type.'); } };
-  });
+// ---------- talk to a real person: private rooms (WhatsApp-style, with translation) ----------
+const MSG_DAYS = 7;
+const myRooms = () => store.get('myrooms', {});            // code -> {ids:[memberId...], active:memberId}
+const blocked = () => store.get('blocked', {});            // memberId -> true (hidden on this device)
+const safetyNote = `<div class="safety">${I('shield')}<span><b>Stay safe:</b> Don't share your address, school or phone number. Use a nickname, not your real name. <a href="#privacy">Privacy</a></span></div>`;
+const allLangOpts = sel => Object.keys(LANGS).sort((a,b)=>nativeName(a).localeCompare(nativeName(b))).map(k=>`<option value="${k}" ${k===sel?'selected':''}>${esc(nativeName(k))}</option>`).join('');
+function onlineToggle(){ return `<label class="toggle"><input type="checkbox" id="mmOn" ${Translate.allowOnline()?'checked':''}> Use the free online backup translator (MyMemory) for chat messages</label>
+  <p class="muted small">Off by default. When off, chat messages are only translated by your browser's own translator on this device, and may stay untranslated. When on, a message your browser can't translate is sent as plain text to MyMemory.</p>`; }
+function packToggle(){ return `<label class="toggle"><input type="checkbox" id="mmPk" ${Translate.allowPackOnline()?'checked':''}> Build lessons online (sends only the app's English lesson lines)</label>`; }
+// The status line in every chat must tell the truth about where translation happens.
+const trLine = () => `<span id="mmNote" ${Translate.allowOnline()?'hidden':''}>Translator: on this phone only.</span><span id="mmOnl" ${Translate.allowOnline()?'':'hidden'}>Translator: online backup (MyMemory) is on, so messages your phone can't translate are sent to it.</span>`;
+function bindOnline(){ const t=$('#mmOn'); if(t) t.onchange=()=>{ Translate.setOnline(t.checked); const n=$('#mmNote'); if(n) n.hidden=t.checked; const o=$('#mmOnl'); if(o) o.hidden=!t.checked; }; const p=$('#mmPk'); if(p) p.onchange=()=>Translate.setPackOnline(p.checked); }
+const tm = t => new Date(t).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+const dayLabel = t => { const d=new Date(t), n=new Date(); const k=x=>x.toDateString(); if (k(d)===k(n)) return 'Today'; n.setDate(n.getDate()-1); if (k(d)===k(n)) return 'Yesterday'; return d.toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'}); };
+const listTime = t => { const l=dayLabel(t); return l==='Today' ? tm(t) : l; };
+const AV_COLORS = ['#9C4A2F','#7A3A24','#B5841A','#5E2A1A','#A0522D','#8C5A3C'];
+const avColor = s => AV_COLORS[([...String(s)].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,0)>>>0) % AV_COLORS.length];
+const initials = s => String(s).replace(/[^\p{L}\p{N} ]/gu,'').trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase() || '?';
+const roomTitle = (room, me) => room.name || (room.members.length===2 ? room.members.find(m=>m.id!==me.id).nick : 'Chat '+room.code);
+// Age check: one tap, only "yes" or "no" is stored. No birthday, email, phone or real name, ever.
+const ageOk = () => store.get('age13', null);
+function ageGate(next){
+  if (ageOk()==='yes') return false;
+  document.body.classList.remove('chatmode');
+  if (ageOk()==='no') { app.innerHTML = `<h2>Chat with real people</h2><div class="card"><b>Chat is for ages 13 and up</b><p>You can still use everything else: the trip map, practice buddies and phrase cards.</p><button class="big" onclick="location.hash='home'">${I('map')} Go practice</button></div>`; return true; }
+  app.innerHTML = `<h2>Chat with real people</h2><div class="card age"><b>Are you 13 or older?</b><p class="muted small">We only save your answer (yes or no) on this phone. We never ask for your birthday, name, email or phone number.</p>
+    <div class="row"><button class="big" id="ageYes">Yes, I'm 13 or older</button><button class="big alt" id="ageNo">No</button></div></div>`;
+  $('#ageYes').onclick=()=>{ store.set('age13','yes'); next(); }; $('#ageNo').onclick=()=>{ store.set('age13','no'); ageGate(next); };
+  return true;
+}
+// Safety & Rules: everyone taps "I agree" once before their first chat.
+function rulesGate(next){
+  if (store.get('rules_ok', null)==='yes') return false;
+  document.body.classList.remove('chatmode');
+  app.innerHTML = `<h2>Chat safety and rules</h2><div class="card rules"><b>Before you chat, please agree to these rules</b><ul>
+    <li><b>Be kind.</b> No bullying, hate, threats or sexual content.</li>
+    <li><b>Keep your personal info private.</b> Don't share your address, phone number, school or real full name.</li>
+    <li><b>Report and block</b> anyone who makes you uncomfortable. Every chat has Report and Block buttons. For now a report is saved on your phone, so use Block right away. Reports will reach the host once chat works across phones, and the host can remove people.</li>
+    <li><b>Invite only.</b> Nobody can find you or be matched with you. Only people with an invite link can join.</li>
+    <li><b>The host is in charge.</b> The person who starts a chat can remove people or close the chat.</li>
+    <li><b>A parent can join.</b> You can invite a parent or guardian to any chat.</li>
+    <li>Translations can be wrong. Don't use them for medical, legal or emergency needs.</li></ul>
+    <p class="small">Read the <a href="#terms">Terms of Use</a>, <a href="#terms/disclaimer">Disclaimer</a> and <a href="#terms/privacy">Privacy Notice</a>.</p>
+    <button class="big" id="rulesOk">${I('check')} I agree</button></div>`;
+  $('#rulesOk').onclick=()=>{ store.set('rules_ok','yes'); next(); }; return true;
+}
+async function chat(join){
+  if (ageGate(()=>chat(join)) || rulesGate(()=>chat(join))) return;
+  document.body.classList.remove('chatmode');
+  const rooms=myRooms(), codes=Object.keys(rooms);
+  if (!join && codes.length) return chatList();
+  const me = store.get('chat',{a:'en',b:'es'});
+  app.innerHTML = `<h2>${codes.length?`<button class="ghost iconbtn" onclick="location.hash='chat'" aria-label="Back">${I('back2')}</button>`:''}Talk to a real person</h2>${safetyNote}
+   <p class="muted">A private chat with real people you invite. Each person reads every message in their own language.</p>
+   <div class="card"><b>Start a new chat</b>
+    <label>Chat name (optional)<input id="cName" maxlength="40" placeholder="e.g. Spanish Club" autocomplete="off"></label>
+    <label>Your nickname<input id="cNick" maxlength="20" placeholder="e.g. Sunny" autocomplete="off"></label>
+    <label>Your language<select id="cLang">${allLangOpts(me.a)}</select></label>
+    <label>Make a passcode<input id="cPass" type="password" minlength="4" placeholder="at least 4 characters"></label>
+    <p class="muted small">${I('lock')} Invite-only: nobody can search for this chat or be matched with you. Only people you send an invite link to can join.</p>
+    <button class="big" id="cGo">Start chat</button><p class="err" id="cErr"></p></div>
+   <div class="card"><b>Join with an invite link</b><p class="muted small">Ask someone in the chat for your own invite link and the passcode.</p>
+    <label>Chat code<input id="jCode" placeholder="K7QX-29MB" value="${esc(join&&join.code||'')}" autocapitalize="characters"></label>
+    <label>Invite link<input id="jInv" placeholder="paste your whole invite link" value="${esc(join&&join.invite?location.href:'')}"></label>
+    <label>Passcode<input id="jPass" type="password"></label>
+    <label>Your nickname<input id="jNick" maxlength="20" autocomplete="off"></label>
+    <label>Your language<select id="jLang">${allLangOpts(me.b)}</select></label>
+    <button class="big" id="jGo">Join chat</button><p class="err" id="jErr"></p></div>
+   <p class="muted small">Prototype: chats are only on this device for now. Real two-phone chats come with the server. No account, email or phone number is needed: you get a random ID and the nickname you pick.</p>`;
+  const keep=(code,id,key,pair,epoch=0)=>{ const r=myRooms(); r[code]=r[code]||{ids:[]}; r[code].ids.push(id); r[code].active=id; r[code].key=r[code].key||key;
+    r[code].mk=r[code].mk||{}; r[code].mk[id]={keys:{[epoch]:key}, priv:pair.priv, pub:pair.pub}; store.set('myrooms',r); openRoom(code); };
+  if (!E2E.supported()) app.insertAdjacentHTML('afterbegin','<p class="err">This browser is too old for private (encrypted) chats.</p>');
+  $('#cGo').onclick=async()=>{ try{ const key=await E2E.newKey(), pair=await E2E.newPair(); const r=await RoomServer.createRoom({nickname:$('#cNick').value, passcode:$('#cPass').value, lang:$('#cLang').value, pub:pair.pub, name:$('#cName').value}); keep(r.code,r.memberId,key,pair); }catch(e){ $('#cErr').textContent=e.message; } };
+  $('#jGo').onclick=async()=>{ try{ const parts=$('#jInv').value.trim().split('#').pop().split('/'); const inv = parts.length>=2 ? parts[parts.length-2] : parts[0], key = parts.length>=2 ? parts[parts.length-1] : '';
+      if (!key || key.length<40) throw new Error('Please paste the whole invite link. It holds the secret key that unlocks the messages.');
+      const pair=await E2E.newPair(); const r=await RoomServer.joinRoom({code:$('#jCode').value, invite:inv, passcode:$('#jPass').value, nickname:$('#jNick').value, lang:$('#jLang').value, pub:pair.pub}); keep(r.code,r.memberId,key,pair,r.epoch); }catch(e){ $('#jErr').textContent=e.message; } };
+}
+const openRoom = code => { if (location.hash==='#chat/'+code) roomView(code); else location.hash='chat/'+code; };
+// Short preview of a message for the chat list (decrypted on this phone only).
+async function preview(m, mk){ try{ const k=mk.keys[m.epoch||0]; if(!k) throw 0; const p=await E2E.decrypt(k, m.text);
+  if (m.kind==='voice'){ const v=JSON.parse(p); return `${I('mic')} Voice note (${Voice.fmt(v.dur)})`; } return esc(p); }catch(e){ return '<i>Locked message</i>'; } }
+async function chatList(){
+  document.body.classList.add('chatmode'); setChatBox();
+  const rooms=myRooms(), rows=[];
+  for (const code of Object.keys(rooms)){ const mine=rooms[code]; let room;
+    try{ room=await RoomServer.getRoom(code, mine.active); }catch(e){ const r=myRooms(); delete r[code]; store.set('myrooms',r); continue; }
+    const mk=await roomKeys(code, mine, room), me=room.members.find(m=>m.id===mine.active), bl=blocked();
+    const msgs=room.messages.filter(m=>!bl[m.from]), last=msgs[msgs.length-1], unread=msgs.filter(m=>m.from!==me.id && m.at>(me.seenAt||0)).length;
+    const title=roomTitle(room, me);
+    rows.push({at:last?last.at:room.members[0].joinedAt, html:`<button class="wa-row" data-room="${esc(code)}"><span class="wa-av" style="background:${avColor(title)}">${esc(initials(title))}</span>
+      <span class="wa-mid"><b>${esc(title)}</b><small>${last? (last.from===me.id?'<span class="tick">✓</span> ':(room.members.length>2?esc(last.nick)+': ':'')) + await preview(last, mk) : 'No messages yet'}</small></span>
+      <span class="wa-rt"><small class="${unread?'un':''}">${last?listTime(last.at):''}</small>${unread?`<span class="wa-badge">${unread}</span>`:''}</span></button>`}); }
+  if (!rows.length) return chat({});
+  rows.sort((a,b)=>b.at-a.at);
+  app.innerHTML = `<div class="wa list"><div class="wa-top"><h1>Chats</h1></div>
+    <div class="wa-note">${I('lock')} End-to-end encrypted · invite-only · messages vanish after ${MSG_DAYS} days</div>
+    <div class="wa-rows">${rows.map(r=>r.html).join('')}</div>
+    <button class="wa-fab" id="newChat" aria-label="New chat">${I('plus')}</button></div>`;
+  app.querySelectorAll('[data-room]').forEach(b=>b.onclick=()=>openRoom(b.dataset.room));
+  $('#newChat').onclick=()=>location.hash='chat/new';
+}
+function setChatBox(){ const h=document.querySelector('header'), n=document.querySelector('nav'); document.documentElement.style.setProperty('--navh', (n?n.offsetHeight:64)+'px'); }
+// Keys this member holds, by key version (epoch). Picks up new keys wrapped for this member after a rotation.
+async function roomKeys(code, mine, room){ const all=myRooms(); const rec=all[code]; rec.mk=rec.mk||{};
+  const mk=rec.mk[mine.active]||(rec.mk[mine.active]={keys:{0:rec.key}}); // chats made before key rotation existed
+  let changed=false;
+  for (const env of room.rekeys||[]) if (!mk.keys[env.epoch] && mk.priv) { try{ mk.keys[env.epoch]=await E2E.unwrap(mk.priv, env.from, env.blob); changed=true; }catch(e){} }
+  if (changed){ all[code]=rec; store.set('myrooms',all); } return mk; }
+// Creator only: make a new room key and wrap it for each remaining member. Removed people get nothing.
+async function rotateRoomKey(code, meId){ const all=myRooms(), rec=all[code], mk=rec.mk[meId]; const room=await RoomServer.getRoom(code, meId);
+  const epoch=room.epoch+1, key=await E2E.newKey(), env=[];
+  for (const m of room.members) if (m.id!==meId && m.pub) env.push({to:m.id, blob:await E2E.wrap(mk.priv, m.pub, key)});
+  await RoomServer.rotateKey(code, meId, epoch, env, mk.pub); mk.keys[epoch]=key; store.set('myrooms',all); return epoch; }
+const trMsg = e => e && e.message==='offline-off' ? 'Not translated: the online backup translator is off.' : 'Translation is busy right now. Please try again later.';
+async function roomView(code){
+  if (ageGate(()=>roomView(code)) || rulesGate(()=>roomView(code))) return;
+  const mine=myRooms()[code]; if (!mine) { location.hash='chat'; return; }
+  let room;
+  try{ room=await RoomServer.getRoom(code, mine.active); }catch(e){ const r=myRooms(); delete r[code]; store.set('myrooms',r); toast(e.message); location.hash='chat'; return; }
+  document.body.classList.add('chatmode'); setChatBox();
+  const mk=await roomKeys(code, mine, room);
+  const me=room.members.find(m=>m.id===mine.active), bl=blocked(), cutoff=Date.now()-MSG_DAYS*864e5;
+  const others=room.members.filter(m=>m.id!==me.id), group=room.members.length>2, title=roomTitle(room, me);
+  const msgs=room.messages.filter(m=>m.at>=cutoff), hidden=msgs.filter(m=>bl[m.from]).length;
+  const otherLangs=[...new Set(others.map(m=>m.lang).filter(l=>l!==me.lang))];
+  const sub = group || !others.length ? `${room.members.length} member${room.members.length>1?'s':''} · tap for info` : `${isOnline(others[0])?'online · ':''}speaks ${esc(nativeName(others[0].lang))}`;
+  const seesWho = group ? 'Others see' : (others[0] ? esc(others[0].nick)+' sees' : 'They see');
+  const recog = Speech.canListen(), canRec = Voice.canRecord();
+  app.innerHTML = `<div class="wa conv" data-code="${esc(room.code)}">
+   <div class="wa-top"><button class="ghost iconbtn" id="backList" aria-label="Back to chats">${I('back2')}</button><span class="wa-av s" style="background:${avColor(title)}">${esc(initials(title))}</span>
+     <button class="wa-hn" id="mBar"><b>${esc(title)}</b><small>${sub}</small></button><button class="ghost iconbtn" id="mBar2" aria-label="Chat info">${I('more')}</button></div>
+   ${mine.ids.length>1?`<div class="wa-demo">Demo on one device: you are <select id="who">${mine.ids.map(id=>{const m=room.members.find(x=>x.id===id); return m?`<option value="${id}" ${id===me.id?'selected':''}>${esc(m.nick)}</option>`:''}).join('')}</select></div>`:''}
+   <div class="wa-wall" id="msgs"></div>
+   <div id="vPrev"></div>
+   <div class="wa-bar"><input id="msgIn" placeholder="Type in ${esc(nativeName(me.lang))}…" enterkeyhint="send" maxlength="500" autocomplete="off">
+     <button class="wa-mic" id="mic2" aria-label="Hold to record a voice note">${I('mic')}</button><button class="wa-send" id="send" aria-label="Send" hidden>${I('send')}</button></div>
+   <div class="wa-sheet" id="mList" hidden><div class="grab"></div><b>${room.members.length} member${room.members.length>1?'s':''}</b> <span class="muted small">· code ${esc(room.code)} · ${I('key')} passcode protected</span>
+     ${room.members.map(m=>`<div class="mem"><span class="dot ${isOnline(m)?'on':''}" title="online"></span>
+     <div class="mi"><b>${esc(m.nick)}</b>${m.id===me.id?' (you)':''}${m.creator?' · started the chat':''}<small>${m.addedByNick?`added by ${esc(m.addedByNick)} · `:''}joined ${tm(m.joinedAt)} · ${esc(nativeName(m.lang))}</small></div>
+     ${m.id!==me.id?`<div class="macts"><button class="chip" data-block="${m.id}">${bl[m.id]?'Unblock':'Block'}</button><button class="chip" data-report="${m.id}">Report</button>${me.creator?`<button class="chip warn" data-remove="${m.id}">Remove</button>`:''}</div>`:''}</div>`).join('')}
+     <div class="wa-acts"><button class="alt" id="inv">${I('plus')} Invite</button><button class="alt" id="leave">${I('logout')} Leave</button>
+     ${me.creator?`<button class="alt" id="newPass">${I('key')} Passcode</button><button class="alt warn" id="close">${I('close')} Close chat</button>`:''}</div><div id="invOut"></div>
+     <p class="muted small">${I('shield')} Invite-only: no strangers can find this chat. ${me.creator?'You are the host: you can remove anyone (they also lose the key) or close the chat.':'Only the host can remove people. Block hides someone on your phone.'}</p>
+     ${onlineToggle()}<button class="alt" id="closeSheet">Done</button></div>
+  </div>`;
+  bindOnline();
+  const box=$('#msgs'), plainOf={};
+  box.innerHTML = `<div class="wa-sys">${I('lock')} Messages are end-to-end encrypted and vanish after ${MSG_DAYS} days. ${trLine()}</div>`;
+  // timeline: messages + "X was added by Y" lines
+  const events = msgs.map(m=>({at:m.at, m})).concat(room.members.map(x=>({at:x.joinedAt, sys: x.id===me.id ? (x.creator?'You started this chat':`You were added by ${esc(x.addedByNick||'someone')}`) : x.creator?`${esc(x.nick)} started this chat`:`${esc(x.nick)} was added by ${esc(x.addedByNick||'someone')}`}))).sort((a,b)=>a.at-b.at);
+  let lastDay='';
+  for (const ev of events){ const dl=dayLabel(ev.at); if (dl!==lastDay){ lastDay=dl; box.insertAdjacentHTML('beforeend', `<div class="wa-day">${dl}</div>`); }
+    if (ev.sys){ box.insertAdjacentHTML('beforeend', `<div class="wa-sys">${ev.sys}</div>`); continue; }
+    const m=ev.m; if (bl[m.from]) continue; const mineMsg=m.from===me.id;
+    const d=document.createElement('div'); d.className='wb '+(mineMsg?'out':'in')+(m.kind==='voice'?' v':''); d.dataset.id=m.id; box.appendChild(d);
+    const nk = group && !mineMsg ? `<div class="nk" style="color:${avColor(m.nick)}">${esc(m.nick)}</div>` : '';
+    const seen = others.length && others.every(o=>(o.seenAt||0)>=m.at);
+    const foot = (extra='') => `<div class="f">${extra}<button class="spk" aria-label="Hear">${I('volume')}</button><time>${tm(m.at)}</time>${mineMsg?`<span class="tick ${seen?'rd':''}" title="${seen?'Read':'Sent'}">${seen?'✓✓':'✓'}</span>`:''}</div>`;
+    let plain, voice=null; try{ const k=mk.keys[m.epoch||0]; if(!k) throw 0; plain = await E2E.decrypt(k, m.text); if (m.kind==='voice') { voice=JSON.parse(plain); plain=voice.transcript||''; } }
+    catch(e){ d.innerHTML=`${nk}<div class="muted">${I('lock')} Can't unlock this message on this device.</div>`; continue; }
+    plainOf[m.id]={from:m.from, text:plain};
+    const vHead = voice ? `<div class="wa-vn"><button class="play" aria-label="Play voice note">${I('play')}</button>${Voice.waveHtml(voice.wave||[])}<span class="dur">${Voice.fmt(voice.dur)}</span></div>
+       <div class="sub">${I('mic')} Voice note${plain?` · “${esc(plain)}”`:''}</div>${!plain?`<div class="sub">${esc(voice.note||'No words written down for this one. Tap play to listen.')}</div>`:''}` : '';
+    const bindVoice = () => { const pb=d.querySelector('.play'); if(!pb) return; let au=null;
+      pb.onclick=async()=>{ try{ if(!au){ const blob=await Voice.openAudio(mk.keys[m.epoch||0], await RoomServer.getAudio(code, me.id, m.audioId)); au=new Audio(URL.createObjectURL(blob));
+          const bars=d.querySelectorAll('.wa-wave i'); au.ontimeupdate=()=>{ const p=au.currentTime/(au.duration&&isFinite(au.duration)?au.duration:voice.dur||1); bars.forEach((b,i)=>b.classList.toggle('on', i/bars.length<=p)); };
+          au.onended=()=>{ pb.innerHTML=I('play'); bars.forEach(b=>b.classList.remove('on')); }; }
+        if (au.paused){ await au.play(); pb.innerHTML=I('pause'); } else { au.pause(); pb.innerHTML=I('play'); } }catch(e){ toast(e.message||'Could not play this voice note.'); } }; };
+    if (mineMsg){
+      d.innerHTML = `${vHead}${voice?'':`<div class="t">${esc(plain)}</div>`}<div class="sub" id="sees-${m.id}" ${otherLangs.length&&plain?'':'hidden'}></div>${foot()}`;
+      d.querySelector('.spk').onclick=()=>Speech.say(plain||'', m.lang); bindVoice();
+      if (otherLangs.length && plain){ const to=otherLangs[0], s=d.querySelector('.sub[id]'); const pre=voice&&voice.tr&&voice.tr[to];
+        const show = t => { s.innerHTML=`${seesWho}: “${esc(t)}” <button class="spk2" aria-label="Hear their version">${I('volume')}</button>`; s.querySelector('.spk2').onclick=()=>Speech.say(t,to); };
+        if (pre) show(pre); else { s.textContent=`${seesWho}: translating…`; Translate.run(plain, m.lang, to).then(r=>show(r.text)).catch(e=>{ s.textContent=`${seesWho}: your words as typed (${trMsg(e).replace('Not translated: ','')})`; }); } }
+      continue; }
+    const draw=(tr,lang,err)=>{ const translated = plain && tr!==plain;
+      d.innerHTML=`${nk}${vHead}${plain&&(!voice||translated)?`<div class="t">${esc(tr)}</div>`:''}${err?`<div class="sub">${esc(err)}</div>`:''}
+        <div class="og" hidden><small>Original · ${esc(nativeName(m.lang))}</small>${esc(plain)} <button class="spk3">${I('volume')} Hear ${esc(langName(m.lang))}</button></div>
+        ${foot(`<a class="so" href="javascript:void 0">${translated?'Show original':'More'}</a>`)}
+        <div class="wa-more" hidden>${m.lang===PACK.learn||lang===PACK.learn?`<button class="chip save">${I('star')} Save phrase to practice</button>`:''}<button class="chip rep">${I('flag')} Report</button></div>`;
+      d.querySelector('.spk').onclick=()=>Speech.say(tr||plain, lang);
+      const so=d.querySelector('.so'); so.onclick=()=>{ const og=d.querySelector('.og'), more=d.querySelector('.wa-more'); more.hidden=!more.hidden; if (translated) og.hidden=more.hidden; d.classList.toggle('open', !more.hidden); so.textContent=translated?(more.hidden?'Show original':'Hide original'):(more.hidden?'More':'Less'); };
+      d.querySelector('.spk3').onclick=()=>Speech.say(plain, m.lang);
+      d.querySelector('.rep').onclick=()=>reportMember(code, m.from, [plain]);
+      const sv=d.querySelector('.save'); if(sv) sv.onclick=()=>{ const T=PACK.learn, tgt=m.lang===T?plain:tr, en=m.lang===T?(lang!==T?tr:''):plain; toast(addCard(tgt, en, '', 'Chat')?'Saved to practice':'Already saved'); };
+      bindVoice(); };
+    if (!plain || m.lang===me.lang) draw(plain,m.lang);
+    else { const pre=voice&&voice.tr&&voice.tr[me.lang]; if (pre) draw(pre, me.lang);
+      else { d.innerHTML=`${nk}<div class="muted">Translating…</div>`; Translate.run(plain, m.lang, me.lang).then(r=>draw(r.text, me.lang)).catch(e=>draw(plain, m.lang, trMsg(e))); } } }
+  if (!msgs.length) box.insertAdjacentHTML('beforeend','<div class="wa-sys">No messages yet. Say hi! Hold the mic to send a voice note.</div>');
+  if (hidden) box.insertAdjacentHTML('beforeend',`<div class="wa-sys">${hidden} message${hidden>1?'s':''} hidden from people you blocked.</div>`);
+  box.scrollTop=box.scrollHeight; RoomServer.markSeen(code, me.id).catch(()=>{});
+  // ----- compose: text, voice note, pronunciation check -----
+  const inp=$('#msgIn'), sendB=$('#send');
+  const upd=()=>{ sendB.hidden=!inp.value.trim(); }; inp.oninput=upd;
+  const send=async()=>{ const t=inp.value.trim(); if(!t) return; if (/\b\d{3}[\s.-]?\d{3}[\s.-]?\d{4}\b|@\w+\.\w+/.test(t) && !confirm('This looks like a phone number or email. Send it anyway?')) return;
+    await RoomServer.send(code, me.id, await E2E.encrypt(mk.keys[room.epoch], t), me.lang, room.epoch); roomView(code); };
+  sendB.onclick=send; inp.onkeydown=e=>{ if(e.key==='Enter') send(); };
+  const mic=$('#mic2'); let rec=null, t0=0, toggleMode=false;
+  const stopRec=async()=>{ if(!rec) return; const h=rec; rec=null; mic.classList.remove('rec'); $('.wa-bar').classList.remove('recording'); const note=await h.stop(); reviewVoice(note); };
+  const startRec=async()=>{ if (rec) return; try{ rec = await Voice.start(me.lang, (l,s)=>{ const c=$('#recT'); if(c) c.textContent=Voice.fmt(s); }); t0=Date.now(); mic.classList.add('rec'); $('.wa-bar').classList.add('recording');
+      inp.insertAdjacentHTML('beforebegin', `<div class="wa-rec" id="recInfo"><i class="recdot"></i> Recording <b id="recT">0:00</b> · ${inp.value.trim()?'say what you typed':'release to check'}</div>`); }
+    catch(e){ rec=null; toast('No microphone access. Allow the mic in your browser settings, or type instead.'); } };
+  if (canRec){
+    mic.onpointerdown=e=>{ e.preventDefault(); if (toggleMode) return; startRec(); };
+    mic.onpointerup=mic.onpointerleave=e=>{ if(!rec) return; if (Date.now()-t0<400 && !toggleMode){ toggleMode=true; toast('Recording. Tap the mic again to stop.'); return; } toggleMode=false; const ri=$('#recInfo'); if(ri) ri.remove(); stopRec(); };
+    mic.onclick=e=>{ if (toggleMode && rec && Date.now()-t0>=400){ toggleMode=false; const ri=$('#recInfo'); if(ri) ri.remove(); stopRec(); } };
+  } else if (recog) mic.onclick=async()=>{ try{ const a=await Speech.listen(me.lang); if(a[0]) { inp.value=a[0]; upd(); } }catch(e){ toast('Mic not available, please type.'); } };
+  else mic.onclick=()=>toast('This browser can\'t record voice notes. Please type instead.');
+  // Review before sending: hear it, see what was heard, and (if you typed a phrase first) a pronunciation check.
+  async function reviewVoice(note){ const target=inp.value.trim(); const heard=note.heard||[];
+    note.transcript = heard[0]||''; const r = target ? Pron.score(heard, target) : null; if (r && r.heard) note.transcript=r.heard;
+    if (!recog) note.note='Sent from a browser that can\'t write down speech, so there are no words or translation. Tap play to listen.';
+    const url=URL.createObjectURL(note.blob); const au=new Audio(url);
+    $('#vPrev').innerHTML=`<div class="wa-prev"><div class="wa-vn"><button class="play" id="vPlay">${I('play')}</button>${Voice.waveHtml(note.wave)}<span class="dur">${Voice.fmt(note.dur)}</span></div>
+      ${r?Pron.html(r):note.transcript?`<div class="sub">I heard: “${esc(note.transcript)}”</div>`:`<div class="sub">${recog?'I didn\'t catch any words, but the audio is ready to send.':'This browser can\'t write down speech. The audio still sends, with a note.'}</div>`}
+      ${target?'':'<p class="muted small">Tip: type the phrase first, then hold the mic to check how you say it.</p>'}
+      <div class="row"><button class="alt" id="vDel">${I('trash')} Delete</button><button class="alt" id="vRetry">${I('retry')} Try again</button><button id="vSend">${I('send')} Send</button></div></div>`;
+    $('#vPlay').onclick=()=>{ if(au.paused){ au.play(); $('#vPlay').innerHTML=I('pause'); } else { au.pause(); $('#vPlay').innerHTML=I('play'); } }; au.onended=()=>{ const p=$('#vPlay'); if(p) p.innerHTML=I('play'); };
+    if (r && r.pass) Speech.ding();
+    $('#vDel').onclick=()=>{ $('#vPrev').innerHTML=''; };
+    $('#vRetry').onclick=()=>{ $('#vPrev').innerHTML=''; startRec(); toggleMode=true; };
+    $('#vSend').onclick=async()=>{ $('#vSend').disabled=true; try{
+        note.tr={}; if (note.transcript) for (const l of otherLangs) { try{ note.tr[l]=(await Promise.race([Translate.run(note.transcript, me.lang, l), new Promise((_,j)=>setTimeout(()=>j(new Error('slow')),5000))])).text; }catch(e){} }
+        const key=mk.keys[room.epoch], sealed=await Voice.seal(key, note);
+        const meta=await E2E.encrypt(key, JSON.stringify({transcript:note.transcript||'', dur:note.dur, wave:note.wave, note:note.note||'', tr:note.tr}));
+        const aid=await RoomServer.putAudio(code, me.id, sealed.audio);
+        await RoomServer.send(code, me.id, meta, me.lang, room.epoch, 'voice', aid); inp.value=''; roomView(code); }catch(e){ toast(e.message); $('#vSend').disabled=false; } };
+  }
+  const sheet=$('#mList'), tog=()=>{ sheet.hidden=!sheet.hidden; };
+  $('#mBar').onclick=tog; $('#mBar2').onclick=tog; $('#closeSheet').onclick=tog; $('#backList').onclick=()=>location.hash='chat';
+  const who=$('#who'); if(who) who.onchange=()=>{ const r=myRooms(); r[code].active=who.value; store.set('myrooms',r); roomView(code); };
+  app.querySelectorAll('[data-block]').forEach(b=>b.onclick=()=>{ const x=blocked(); x[b.dataset.block]=!x[b.dataset.block]; store.set('blocked',x); toast(x[b.dataset.block]?'Blocked. You won\'t see their messages.':'Unblocked.'); roomView(code); });
+  app.querySelectorAll('[data-report]').forEach(b=>b.onclick=()=>reportMember(code, b.dataset.report, Object.values(plainOf).filter(p=>p.from===b.dataset.report).slice(-3).map(p=>p.text)));
+  app.querySelectorAll('[data-remove]').forEach(b=>b.onclick=async()=>{ if(!confirm('Remove this person from the chat? They lose the key and can\'t come back with their old invite.')) return; await RoomServer.removeMember(code, me.id, b.dataset.remove, true); await rotateRoomKey(code, me.id); toast('Removed. The chat now has a new secret key.'); roomView(code); });
+  $('#inv').onclick=async()=>{ const inv=await RoomServer.createInvite(code, me.id); const link=location.origin+location.pathname+'#join/'+room.code+'/'+inv.token+'/'+mk.keys[room.epoch];
+    $('#invOut').innerHTML=`<div class="invite"><b>Personal invite link</b> (for one person, works for 24 hours). It also carries the secret key, so share it only with that person:<input readonly value="${esc(link)}"><button class="chip" id="copy">Copy</button><p class="muted small">Also tell them the passcode, in person or by a different way. You'll show as the one who added them.</p></div>`;
+    $('#copy').onclick=()=>{ (navigator.clipboard?navigator.clipboard.writeText(link):Promise.reject()).then(()=>toast('Copied')).catch(()=>{ $('#invOut input').select(); toast('Select and copy the link'); }); }; };
+  const np=$('#newPass'); if(np) np.onclick=async()=>{ const p=prompt('New passcode (at least 4 characters):'); if(!p) return; try{ await RoomServer.changePasscode(code, me.id, p); await rotateRoomKey(code, me.id); toast('Passcode and secret key changed. Old invite links no longer work.'); roomView(code); }catch(e){ toast(e.message); } };
+  const cl=$('#close'); if(cl) cl.onclick=async()=>{ if(!confirm('Close this chat for everyone? All messages and voice notes will be deleted.')) return; await RoomServer.closeRoom(code, me.id); const r=myRooms(); delete r[code]; store.set('myrooms',r); location.hash='chat'; };
+  $('#leave').onclick=()=>{ if(!confirm('Leave this chat?')) return; const r=myRooms(); delete r[code]; store.set('myrooms',r); location.hash='chat'; };
+}
+// A report carries a copy of the reported messages, unlocked on the reporter's phone (the server can't read them).
+function reportMember(code, member, texts){ const why=prompt('What happened? (A short note helps.)'); if(why===null) return; const r=store.get('reports',[]); r.push({room:code, member, why, copy:texts, at:Date.now()}); store.set('reports',r); toast('Report saved on this phone. Use Block now. Reports will reach the host once chat works across phones.'); }
+function terms(part){
+  app.innerHTML=`<h2>Terms, Disclaimer and Privacy</h2>
+  <div class="card" id="t-terms"><b>Terms of Use</b><ul>
+   <li>Talk Trip is free and provided "as is", with no warranty of any kind.</li>
+   <li>Chat is for people aged 13 and older only.</li>
+   <li>You are responsible for what you send. Follow the chat safety rules: be kind, no bullying, hate or sexual content, and don't share personal info.</li>
+   <li>Report abuse with the Report button in any chat. Right now reports are saved only on your phone, so also use Block. Once chat works across phones, reports will reach the chat host (and an app moderator), and reported people can be removed.</li>
+   <li>We may change or stop the app at any time.</li></ul></div>
+  <div class="card" id="t-disclaimer"><b>Disclaimer</b><ul>
+   <li>The app owner is not liable for messages that users send, or for translation mistakes.</li>
+   <li>Translations and pronunciation checks are made by machines and may be wrong. Don't rely on them for medical, legal or emergency use.</li>
+   <li>Practice characters are made up, not real people.</li>
+   <li>Talk Trip is an independent project, with no official link to any company, brand or translation service it mentions.</li></ul></div>
+  <div class="card" id="t-privacy"><b>Privacy Notice</b><ul>
+   <li>We collect no personal info. No email, phone number, birthday or real name.</li>
+   <li>Chat uses only a random ID, the nickname you choose, and your yes/no answer to "Are you 13 or older?" (kept on your phone).</li>
+   <li>Messages and voice notes are end-to-end encrypted and deleted after ${MSG_DAYS} days, or when the host closes the chat.</li>
+   <li>Practice progress stays on your phone.</li>
+   <li>The online backup translator (MyMemory) is off for chat unless you turn it on. <a href="#privacy">More privacy details</a></li></ul></div>
+  <button class="big alt" onclick="history.back()">${I('back')} Back</button>`;
+  const el=part&&$('#t-'+part); if(el) setTimeout(()=>el.scrollIntoView(),0);
+}
+function privacy(){
+  app.innerHTML=`<h2>Your privacy</h2>
+  <div class="card"><b>Practice (scenes and cards)</b><p>Your progress, stars, streak and saved phrases stay <b>only on this device</b>. Nobody else sees them. Clearing your browser removes them.</p></div>
+  <div class="card"><b>Practice characters</b><p>Anna, Leo, Mia and the others are pretend characters. You are not talking to real people there.</p></div>
+  <div class="card"><b>Talk to a real person</b><p>We only ask for a <b>nickname</b>, never your phone number, email or real name. Messages are end-to-end encrypted: they are locked on your device, and only people in the chat (who got the secret key in their invite link) can unlock them. The server only keeps locked text. Messages are deleted after <b>${MSG_DAYS} days</b>, or straight away when the owner closes the chat. You can block, report or leave at any time, and the owner can remove anyone. When the owner removes someone or changes the passcode, the chat gets a <b>new secret key</b> that is sent only to the people still in the chat, so a removed person can't read new messages. They can still keep anything they already saw, and old invite links stop working.</p></div>
+  <div class="card"><b>Translation</b><p>Your browser's own translator is used first, on your device. For chat messages, the free online MyMemory service is <b>off by default</b>; you can turn it on below. </p>${onlineToggle()}</div>
+  <div class="card"><b>Auto-translated languages</b><p>To build lessons for a new language, the app's English lesson lines (not your messages) are sent to the translator once.</p>${packToggle()}</div>
+  <div class="card"><b>Connection</b><p>The app only runs over a secure (HTTPS) connection.</p></div>
+  <button class="big alt" onclick="history.back()">${I('back')} Back</button>`; bindOnline();
 }
 boot();
