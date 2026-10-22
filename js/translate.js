@@ -1,6 +1,6 @@
 // Free, keyless translation: Chrome built-in Translator API first, then MyMemory public API.
 const Translate = {
-  cache:{},
+  cache:{}, chromeBad:{},
   async viaChrome(text, from, to){
     if (!('Translator' in self)) return null;
     try{
@@ -16,13 +16,17 @@ const Translate = {
     const ctl = new AbortController(); setTimeout(()=>ctl.abort(), 10000);
     const r = await fetch(url,{signal:ctl.signal}); if(!r.ok) throw new Error('http '+r.status);
     const j = await r.json();
-    if (j.responseStatus != 200 || !j.responseData || !j.responseData.translatedText) throw new Error(j.responseDetails||'failed');
-    if (/MYMEMORY WARNING|QUOTA/i.test(j.responseData.translatedText)) throw new Error('quota');
-    const d = document.createElement('textarea'); d.innerHTML = j.responseData.translatedText; return d.value;
+    let txt = j.responseData && j.responseData.translatedText;
+    if (!txt && Array.isArray(j.matches)) { const m = j.matches.find(x=>x.translation); if (m) txt = m.translation; }
+    if (j.responseStatus != 200 || !txt) throw new Error(j.responseDetails||'no translation');
+    if (/MYMEMORY WARNING|QUOTA/i.test(txt)) throw new Error('quota');
+    const d = document.createElement('textarea'); d.innerHTML = txt; return d.value;
   },
   async run(text, from, to){ // returns {text, via} or throws
     if (from === to) return {text, via:'same'};
-    const c = await Promise.race([this.viaChrome(text, from, to), new Promise(r=>setTimeout(()=>r(null),4000))]); if (c) return {text:c, via:'chrome'};
+    const pair=from+'>'+to; let c=null;
+    if (!this.chromeBad[pair]) { c = await Promise.race([this.viaChrome(text, from, to), new Promise(r=>setTimeout(()=>r(null),4000))]); if (!c) this.chromeBad[pair]=true; }
+    if (c) return {text:c, via:'chrome'};
     return {text: await this.viaMyMemory(text, from, to), via:'mymemory'};
   }
 };

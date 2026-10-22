@@ -1,0 +1,435 @@
+{
+ "id": "en-de",
+ "speak": "en",
+ "learn": "de",
+ "name": "German",
+ "voice": [
+  "de-DE",
+  "de"
+ ],
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Hallo! Wie geht's?",
+      "m": "Hi! How are you?",
+      "s": "HAH-loh! vee GAYTS?"
+     },
+     "replies": [
+      {
+       "t": "Gut, danke. Und dir?",
+       "m": "Good, thanks. And you?",
+       "s": "GOOT, DAHN-keh. oont DEER?",
+       "accept": [
+        "gut danke und dir",
+        "gut und dir",
+        "sehr gut danke und dir",
+        "gut danke",
+        "mir geht es gut danke",
+        "mir geht s gut danke"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Es geht so.",
+       "m": "So-so.",
+       "s": "es gayt ZOH",
+       "accept": [
+        "es geht so",
+        "geht so",
+        "so lala"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Nicht so gut.",
+       "m": "Not so good.",
+       "s": "nisht zoh GOOT",
+       "accept": [
+        "nicht so gut",
+        "nicht gut",
+        "schlecht",
+        "mir geht es nicht gut"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Schön! Ich heiße Anna. Wie heißt du?",
+      "m": "Nice! My name is Anna. What's your name?",
+      "s": "SHURN! ish HY-seh AH-nah. vee HYST doo?"
+     },
+     "replies": [
+      {
+       "t": "Ich heiße (your name).",
+       "m": "My name is (your name).",
+       "s": "ish HY-seh …",
+       "accept": [
+        "ich heisse *",
+        "ich bin *",
+        "mein name ist *",
+        "ich heise *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Oh, das tut mir leid. Ich heiße Anna. Wie heißt du?",
+      "m": "Oh, I'm sorry. My name is Anna. What's your name?",
+      "s": "oh, dahs toot meer LIDE. ish HY-seh AH-nah. vee HYST doo?"
+     },
+     "replies": [
+      {
+       "t": "Ich heiße (your name).",
+       "m": "My name is (your name).",
+       "s": "ish HY-seh …",
+       "accept": [
+        "ich heisse *",
+        "ich bin *",
+        "mein name ist *",
+        "ich heise *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Freut mich! Woher kommst du?",
+      "m": "Nice to meet you! Where are you from?",
+      "s": "FROYT mish! voh-HAIR KOMST doo?"
+     },
+     "replies": [
+      {
+       "t": "Freut mich auch. Ich komme aus (your city).",
+       "m": "Nice to meet you too. I'm from (your city).",
+       "s": "FROYT mish OWKH. ish KOM-meh OWS …",
+       "accept": [
+        "freut mich auch ich komme aus *",
+        "ich komme aus *",
+        "ich bin aus *",
+        "freut mich ich komme aus *"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Freut mich. Ich komme aus den USA.",
+       "m": "Nice to meet you. I'm from the USA.",
+       "s": "FROYT mish. ish KOM-meh ows dayn oo-es-AH",
+       "accept": [
+        "freut mich ich komme aus den usa",
+        "ich komme aus den usa",
+        "ich komme aus amerika",
+        "ich bin amerikaner",
+        "ich bin amerikanerin"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Cool! Also, bis später.",
+      "m": "Cool! Well, see you later.",
+      "s": "KOOL! AHL-zoh, bis SHPAY-ter"
+     },
+     "replies": [
+      {
+       "t": "Bis später!",
+       "m": "See you later!",
+       "s": "bis SHPAY-ter!",
+       "accept": [
+        "bis spater",
+        "bis dann",
+        "tschuss",
+        "ciao",
+        "auf wiedersehen",
+        "danke"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Guten Morgen! Was darf's sein?",
+      "m": "Good morning! What can I get you?",
+      "s": "GOO-ten MOR-gen! vahs DARFS zine?"
+     },
+     "replies": [
+      {
+       "t": "Einen Kaffee, bitte.",
+       "m": "A coffee, please.",
+       "s": "EYE-nen kah-FAY, BIT-teh",
+       "accept": [
+        "einen kaffee bitte",
+        "einen kaffee",
+        "ein kaffee bitte",
+        "ich hatte gern einen kaffee",
+        "ich mochte einen kaffee"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Einen Orangensaft, bitte.",
+       "m": "An orange juice, please.",
+       "s": "EYE-nen oh-RAHN-zhen-zahft, BIT-teh",
+       "accept": [
+        "einen orangensaft bitte",
+        "einen orangensaft",
+        "orangensaft bitte",
+        "ein orangensaft"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Mit Milch oder ohne?",
+      "m": "With milk or without?",
+      "s": "mit MILSH OH-der OH-neh?"
+     },
+     "replies": [
+      {
+       "t": "Mit Milch, bitte.",
+       "m": "With milk, please.",
+       "s": "mit MILSH, BIT-teh",
+       "accept": [
+        "mit milch",
+        "mit milch bitte"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Ohne Milch, danke.",
+       "m": "Without milk, thanks.",
+       "s": "OH-neh MILSH, DAHN-keh",
+       "accept": [
+        "ohne milch",
+        "ohne milch danke",
+        "ohne",
+        "schwarz"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Gern. Sonst noch etwas?",
+      "m": "Sure. Anything else?",
+      "s": "GAIRN. zonst nokh ET-vahs?"
+     },
+     "replies": [
+      {
+       "t": "Nein, danke. Was macht das?",
+       "m": "No, thanks. How much is that?",
+       "s": "NINE, DAHN-keh. vahs MAHKT dahs?",
+       "accept": [
+        "nein danke was macht das",
+        "was macht das",
+        "was kostet das",
+        "nein danke",
+        "das ist alles danke"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Ja, eine Brezel, bitte.",
+       "m": "Yes, a pretzel, please.",
+       "s": "YAH, EYE-neh BRAY-tsel, BIT-teh",
+       "accept": [
+        "ja eine brezel bitte",
+        "eine brezel",
+        "eine brezel bitte",
+        "eine breze"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Das macht vier Euro, bitte.",
+      "m": "That's four euros, please.",
+      "s": "dahs mahkt FEER OY-roh, BIT-teh"
+     },
+     "replies": [
+      {
+       "t": "Bitte schön. Danke!",
+       "m": "Here you go. Thanks!",
+       "s": "BIT-teh SHURN. DAHN-keh!",
+       "accept": [
+        "bitte schon danke",
+        "bitte schon",
+        "bitte",
+        "danke",
+        "danke schon",
+        "hier bitte"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Hallo, kann ich Ihnen helfen?",
+      "m": "Hello, can I help you?",
+      "s": "HAH-loh, kahn ish EE-nen HEL-fen?"
+     },
+     "replies": [
+      {
+       "t": "Ja, bitte. Wo ist die Toilette?",
+       "m": "Yes, please. Where is the bathroom?",
+       "s": "YAH, BIT-teh. VOH ist dee toy-LET-teh?",
+       "accept": [
+        "ja bitte wo ist die toilette",
+        "wo ist die toilette",
+        "wo sind die toiletten",
+        "die toilette"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "Ja. Wo ist der Busbahnhof?",
+       "m": "Yes. Where is the bus station?",
+       "s": "YAH. VOH ist dair BOOS-bahn-hohf?",
+       "accept": [
+        "ja wo ist der busbahnhof",
+        "wo ist der busbahnhof",
+        "der busbahnhof",
+        "busbahnhof"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2a": {
+     "they": {
+      "t": "Hinten rechts.",
+      "m": "At the back, on the right.",
+      "s": "HIN-ten RESHTS"
+     },
+     "replies": [
+      {
+       "t": "Vielen Dank.",
+       "m": "Thank you very much.",
+       "s": "FEE-len DAHNK",
+       "accept": [
+        "vielen dank",
+        "danke",
+        "danke schon"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Gehen Sie zwei Straßen geradeaus und dann links.",
+      "m": "Go straight for two blocks and then left.",
+      "s": "GAY-en zee TSVY SHTRAH-sen geh-RAH-deh-OWS oont dahn LINKS"
+     },
+     "replies": [
+      {
+       "t": "Ist es weit?",
+       "m": "Is it far?",
+       "s": "ist es VITE?",
+       "accept": [
+        "ist es weit",
+        "weit",
+        "ist das weit"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Können Sie das wiederholen, bitte?",
+       "m": "Can you repeat that, please?",
+       "s": "KURN-en zee dahs vee-der-HOH-len, BIT-teh?",
+       "accept": [
+        "konnen sie das wiederholen bitte",
+        "konnen sie das wiederholen",
+        "noch einmal bitte",
+        "wie bitte"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Nein, es ist ganz nah. Nur fünf Minuten zu Fuß.",
+      "m": "No, it's very close. Only five minutes on foot.",
+      "s": "NINE, es ist gahnts NAH. noor FEWNF mee-NOO-ten tsoo FOOS"
+     },
+     "replies": [
+      {
+       "t": "Perfekt. Vielen Dank.",
+       "m": "Perfect. Thank you very much.",
+       "s": "pair-FEKT. FEE-len DAHNK",
+       "accept": [
+        "perfekt vielen dank",
+        "perfekt danke",
+        "vielen dank",
+        "danke"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Gern geschehen. Einen schönen Tag noch!",
+      "m": "You're welcome. Have a nice day!",
+      "s": "GAIRN geh-SHAY-en. EYE-nen SHUR-nen TAHK nokh!"
+     },
+     "replies": [
+      {
+       "t": "Danke, gleichfalls. Tschüss!",
+       "m": "Thanks, you too. Bye!",
+       "s": "DAHN-keh, GLIKE-fahls. CHUESS!",
+       "accept": [
+        "danke gleichfalls tschuss",
+        "gleichfalls",
+        "tschuss",
+        "auf wiedersehen",
+        "danke tschuss",
+        "danke gleichfalls"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

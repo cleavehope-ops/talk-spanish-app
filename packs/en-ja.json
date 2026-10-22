@@ -1,0 +1,512 @@
+{
+ "id": "en-ja",
+ "speak": "en",
+ "learn": "ja",
+ "name": "Japanese",
+ "voice": [
+  "ja-JP",
+  "ja"
+ ],
+ "compact": true,
+ "soundsLike": "romaji",
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "こんにちは！元気？",
+      "m": "Hi! How are you?",
+      "s": "Konnichiwa! Genki?"
+     },
+     "replies": [
+      {
+       "t": "うん、元気だよ。ありがとう。そっちは？",
+       "m": "Yeah, I'm good, thanks. And you?",
+       "s": "Un, genki da yo. Arigatō. Sotchi wa?",
+       "accept": [
+        "うん元気だよありがとうそっちは",
+        "元気だよそっちは",
+        "元気ですあなたは",
+        "元気です",
+        "元気だよ",
+        "元気",
+        "げんき",
+        "un genki da yo arigato sotchi wa",
+        "genki da yo",
+        "genki desu",
+        "genki"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "まあまあかな。",
+       "m": "So-so, I guess.",
+       "s": "Māmā kana.",
+       "accept": [
+        "まあまあかな",
+        "まあまあ",
+        "maamaa kana",
+        "mama kana",
+        "maamaa"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "あんまり元気じゃない。",
+       "m": "Not so good.",
+       "s": "Anmari genki ja nai.",
+       "accept": [
+        "あんまり元気じゃない",
+        "あまり元気じゃない",
+        "元気じゃない",
+        "よくない",
+        "anmari genki ja nai",
+        "amari genki ja nai",
+        "genki ja nai",
+        "yokunai"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "よかった。私はアンナ。名前は何ていうの？",
+      "m": "Good. I'm Anna. What's your name?",
+      "s": "Yokatta. Watashi wa Anna. Namae wa nan te iu no?"
+     },
+     "replies": [
+      {
+       "t": "私は(your name)です。",
+       "m": "I'm (your name).",
+       "s": "Watashi wa … desu.",
+       "accept": [
+        "私は*です",
+        "*です",
+        "私の名前は*です",
+        "*といいます",
+        "僕は*です",
+        "watashi wa * desu",
+        "* desu",
+        "boku wa * desu",
+        "* to iimasu"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "そっか、大丈夫？私はアンナ。名前は何ていうの？",
+      "m": "Oh, are you okay? I'm Anna. What's your name?",
+      "s": "Sokka, daijōbu? Watashi wa Anna. Namae wa nan te iu no?"
+     },
+     "replies": [
+      {
+       "t": "私は(your name)です。",
+       "m": "I'm (your name).",
+       "s": "Watashi wa … desu.",
+       "accept": [
+        "私は*です",
+        "*です",
+        "私の名前は*です",
+        "*といいます",
+        "僕は*です",
+        "watashi wa * desu",
+        "* desu",
+        "boku wa * desu",
+        "* to iimasu"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "よろしくね。出身はどこ？",
+      "m": "Nice to meet you. Where are you from?",
+      "s": "Yoroshiku ne. Shusshin wa doko?"
+     },
+     "replies": [
+      {
+       "t": "よろしく。(your city)出身だよ。",
+       "m": "Nice to meet you. I'm from (your city).",
+       "s": "Yoroshiku. … shusshin da yo.",
+       "accept": [
+        "*出身だよ",
+        "*出身です",
+        "*から来ました",
+        "*出身",
+        "* shusshin da yo",
+        "* shusshin desu",
+        "* kara kimashita",
+        "* shusshin"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "アメリカから来たよ。",
+       "m": "I came from America.",
+       "s": "Amerika kara kita yo.",
+       "accept": [
+        "アメリカから来たよ",
+        "アメリカから来ました",
+        "アメリカ出身です",
+        "アメリカ人です",
+        "amerika kara kita yo",
+        "amerika kara kimashita",
+        "amerikajin desu"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "いいね！じゃあ、またあとでね。",
+      "m": "Nice! Well, see you later.",
+      "s": "Ii ne! Jā, mata ato de ne."
+     },
+     "replies": [
+      {
+       "t": "またね！",
+       "m": "See you!",
+       "s": "Mata ne!",
+       "accept": [
+        "またね",
+        "じゃあね",
+        "またあとで",
+        "バイバイ",
+        "ありがとう",
+        "mata ne",
+        "jaa ne",
+        "ja ne",
+        "mata ato de",
+        "baibai"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "いらっしゃいませ！ご注文はお決まりですか？",
+      "m": "Welcome! Are you ready to order?",
+      "s": "Irasshaimase! Go-chūmon wa okimari desu ka?"
+     },
+     "replies": [
+      {
+       "t": "コーヒーをお願いします。",
+       "m": "A coffee, please.",
+       "s": "Kōhī o onegai shimasu.",
+       "accept": [
+        "コーヒーをお願いします",
+        "コーヒーお願いします",
+        "コーヒーください",
+        "コーヒーをください",
+        "コーヒー",
+        "kohi o onegai shimasu",
+        "kohi onegai shimasu",
+        "kohi kudasai",
+        "kohi"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "オレンジジュースをお願いします。",
+       "m": "An orange juice, please.",
+       "s": "Orenji jūsu o onegai shimasu.",
+       "accept": [
+        "オレンジジュースをお願いします",
+        "オレンジジュースください",
+        "オレンジジュース",
+        "orenji jusu o onegai shimasu",
+        "orenji jusu kudasai",
+        "orenji jusu"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "ミルクはお入れしますか？",
+      "m": "Shall I add milk?",
+      "s": "Miruku wa o-ire shimasu ka?"
+     },
+     "replies": [
+      {
+       "t": "はい、お願いします。",
+       "m": "Yes, please.",
+       "s": "Hai, onegai shimasu.",
+       "accept": [
+        "はいお願いします",
+        "はい",
+        "お願いします",
+        "ミルクお願いします",
+        "hai onegai shimasu",
+        "hai",
+        "onegai shimasu"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "いいえ、大丈夫です。",
+       "m": "No, I'm fine.",
+       "s": "Iie, daijōbu desu.",
+       "accept": [
+        "いいえ大丈夫です",
+        "大丈夫です",
+        "いいえ",
+        "ミルクなしで",
+        "結構です",
+        "iie daijobu desu",
+        "daijobu desu",
+        "iie",
+        "kekko desu"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "かしこまりました。ご一緒に何かいかがですか？",
+      "m": "Certainly. Would you like anything with that?",
+      "s": "Kashikomarimashita. Go-issho ni nanika ikaga desu ka?"
+     },
+     "replies": [
+      {
+       "t": "いいえ、以上です。いくらですか？",
+       "m": "No, that's all. How much is it?",
+       "s": "Iie, ijō desu. Ikura desu ka?",
+       "accept": [
+        "いいえ以上ですいくらですか",
+        "以上ですいくらですか",
+        "いくらですか",
+        "以上です",
+        "いくら",
+        "iie ijo desu ikura desu ka",
+        "ijo desu",
+        "ikura desu ka",
+        "ikura"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "はい、クロワッサンもお願いします。",
+       "m": "Yes, a croissant too, please.",
+       "s": "Hai, kurowassan mo onegai shimasu.",
+       "accept": [
+        "はいクロワッサンもお願いします",
+        "クロワッサンもお願いします",
+        "クロワッサンをお願いします",
+        "クロワッサン",
+        "kurowassan mo onegai shimasu",
+        "kurowassan"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "四百円です。",
+      "m": "That's four hundred yen.",
+      "s": "Yonhyaku-en desu."
+     },
+     "replies": [
+      {
+       "t": "これでお願いします。",
+       "m": "Here you go (paying with this).",
+       "s": "Kore de onegai shimasu.",
+       "accept": [
+        "これでお願いします",
+        "お願いします",
+        "はいどうぞ",
+        "ありがとうございます",
+        "ありがとう",
+        "kore de onegai shimasu",
+        "onegai shimasu",
+        "arigato gozaimasu",
+        "arigato"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "どうかしましたか？",
+      "m": "Is everything okay? (Can I help?)",
+      "s": "Dō ka shimashita ka?"
+     },
+     "replies": [
+      {
+       "t": "はい、すみません。トイレはどこですか？",
+       "m": "Yes, excuse me. Where is the restroom?",
+       "s": "Hai, sumimasen. Toire wa doko desu ka?",
+       "accept": [
+        "はいすみませんトイレはどこですか",
+        "すみませんトイレはどこですか",
+        "トイレはどこですか",
+        "トイレどこ",
+        "トイレ",
+        "sumimasen toire wa doko desu ka",
+        "toire wa doko desu ka",
+        "toire"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "はい。バスターミナルはどこですか？",
+       "m": "Yes. Where is the bus terminal?",
+       "s": "Hai. Basu tāminaru wa doko desu ka?",
+       "accept": [
+        "はいバスターミナルはどこですか",
+        "バスターミナルはどこですか",
+        "バス乗り場はどこですか",
+        "バスターミナル",
+        "basu taminaru wa doko desu ka",
+        "basu taminaru",
+        "basu noriba wa doko desu ka"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2a": {
+     "they": {
+      "t": "奥の右側にありますよ。",
+      "m": "It's at the back, on the right.",
+      "s": "Oku no migi-gawa ni arimasu yo."
+     },
+     "replies": [
+      {
+       "t": "ありがとうございます。",
+       "m": "Thank you very much.",
+       "s": "Arigatō gozaimasu.",
+       "accept": [
+        "ありがとうございます",
+        "ありがとう",
+        "どうもありがとう",
+        "arigato gozaimasu",
+        "arigato",
+        "domo arigato"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "この道をまっすぐ行って、二つ目の角を左に曲がってください。",
+      "m": "Go straight down this street and turn left at the second corner.",
+      "s": "Kono michi o massugu itte, futatsu-me no kado o hidari ni magatte kudasai."
+     },
+     "replies": [
+      {
+       "t": "遠いですか？",
+       "m": "Is it far?",
+       "s": "Tōi desu ka?",
+       "accept": [
+        "遠いですか",
+        "遠い",
+        "遠いの",
+        "toi desu ka",
+        "toi"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "もう一度言ってもらえますか？",
+       "m": "Could you say that again?",
+       "s": "Mō ichido itte moraemasu ka?",
+       "accept": [
+        "もう一度言ってもらえますか",
+        "もう一度お願いします",
+        "もう一度",
+        "すみませんもう一度",
+        "mo ichido itte moraemasu ka",
+        "mo ichido onegai shimasu",
+        "mo ichido"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "いいえ、近いですよ。歩いて五分です。",
+      "m": "No, it's close. It's five minutes on foot.",
+      "s": "Iie, chikai desu yo. Aruite go-fun desu."
+     },
+     "replies": [
+      {
+       "t": "よかった。ありがとうございます。",
+       "m": "Great. Thank you very much.",
+       "s": "Yokatta. Arigatō gozaimasu.",
+       "accept": [
+        "よかったありがとうございます",
+        "ありがとうございます",
+        "ありがとう",
+        "yokatta arigato gozaimasu",
+        "arigato gozaimasu",
+        "arigato"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "いいえ、どういたしまして。気をつけて！",
+      "m": "You're welcome. Take care!",
+      "s": "Iie, dō itashimashite. Ki o tsukete!"
+     },
+     "replies": [
+      {
+       "t": "ありがとうございます。さようなら！",
+       "m": "Thank you. Goodbye!",
+       "s": "Arigatō gozaimasu. Sayōnara!",
+       "accept": [
+        "ありがとうございますさようなら",
+        "さようなら",
+        "ありがとうございます",
+        "じゃあね",
+        "バイバイ",
+        "sayonara",
+        "arigato gozaimasu",
+        "baibai"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

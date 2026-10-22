@@ -1,0 +1,446 @@
+{
+ "id": "en-pt",
+ "speak": "en",
+ "learn": "pt",
+ "name": "Portuguese (Brazil)",
+ "voice": [
+  "pt-BR",
+  "pt"
+ ],
+ "note": "Say obrigado if you are a man, obrigada if you are a woman. Both are accepted.",
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Oi! Tudo bem?",
+      "m": "Hi! How's it going?",
+      "s": "oy! TOO-doo BAYN?"
+     },
+     "replies": [
+      {
+       "t": "Tudo bem, obrigado. E você?",
+       "m": "All good, thanks. And you?",
+       "s": "TOO-doo BAYN, oh-bree-GAH-doo. ee voh-SAY?",
+       "accept": [
+        "tudo bem obrigado e voce",
+        "tudo bem obrigada e voce",
+        "tudo bem e voce",
+        "tudo bem obrigado",
+        "tudo bem obrigada",
+        "tudo otimo",
+        "bem e voce",
+        "tudo bem"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Mais ou menos.",
+       "m": "So-so.",
+       "s": "MY-zoh MAY-noos",
+       "accept": [
+        "mais ou menos",
+        "mais o menos"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Não muito bem.",
+       "m": "Not very well.",
+       "s": "nown MOON-too BAYN",
+       "accept": [
+        "nao muito bem",
+        "nao estou bem",
+        "mal",
+        "muito mal"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Que bom! Eu me chamo Ana. Como você se chama?",
+      "m": "Great! My name is Ana. What's your name?",
+      "s": "kee BOHN! EH-oo mee SHAH-moo AH-nah. KOH-moo voh-SAY see SHAH-mah?"
+     },
+     "replies": [
+      {
+       "t": "Eu me chamo (your name).",
+       "m": "My name is (your name).",
+       "s": "EH-oo mee SHAH-moo …",
+       "accept": [
+        "eu me chamo *",
+        "me chamo *",
+        "meu nome e *",
+        "eu sou *",
+        "sou *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Ah, sinto muito. Eu me chamo Ana. Como você se chama?",
+      "m": "Oh, I'm sorry. My name is Ana. What's your name?",
+      "s": "ah, SEEN-too MOON-too. EH-oo mee SHAH-moo AH-nah. KOH-moo voh-SAY see SHAH-mah?"
+     },
+     "replies": [
+      {
+       "t": "Eu me chamo (your name).",
+       "m": "My name is (your name).",
+       "s": "EH-oo mee SHAH-moo …",
+       "accept": [
+        "eu me chamo *",
+        "me chamo *",
+        "meu nome e *",
+        "eu sou *",
+        "sou *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Prazer! De onde você é?",
+      "m": "Nice to meet you! Where are you from?",
+      "s": "prah-ZEHR! jee OHN-jee voh-SAY EH?"
+     },
+     "replies": [
+      {
+       "t": "O prazer é meu. Eu sou de (your city).",
+       "m": "The pleasure is mine. I'm from (your city).",
+       "s": "oo prah-ZEHR eh MEH-oo. EH-oo soh jee …",
+       "accept": [
+        "o prazer e meu eu sou de *",
+        "eu sou de *",
+        "sou de *",
+        "prazer eu sou de *",
+        "eu sou do *",
+        "eu sou da *"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Prazer. Eu sou dos Estados Unidos.",
+       "m": "Nice to meet you. I'm from the United States.",
+       "s": "prah-ZEHR. EH-oo soh doos is-TAH-doos oo-NEE-doos",
+       "accept": [
+        "prazer eu sou dos estados unidos",
+        "eu sou dos estados unidos",
+        "sou dos estados unidos",
+        "sou americano",
+        "sou americana"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Legal! Bom, até mais.",
+      "m": "Cool! Well, see you later.",
+      "s": "leh-GOW! bohn, ah-TEH MICE"
+     },
+     "replies": [
+      {
+       "t": "Até logo!",
+       "m": "See you soon!",
+       "s": "ah-TEH LOH-goo!",
+       "accept": [
+        "ate logo",
+        "ate mais",
+        "tchau",
+        "valeu tchau",
+        "obrigado",
+        "obrigada"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Bom dia! O que vai ser?",
+      "m": "Good morning! What will it be?",
+      "s": "bohn JEE-ah! oo kee vy SEHR?"
+     },
+     "replies": [
+      {
+       "t": "Um café, por favor.",
+       "m": "A coffee, please.",
+       "s": "oong kah-FEH, poor fah-VOR",
+       "accept": [
+        "um cafe por favor",
+        "um cafe",
+        "eu quero um cafe",
+        "me ve um cafe por favor",
+        "queria um cafe"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Um suco de laranja, por favor.",
+       "m": "An orange juice, please.",
+       "s": "oong SOO-koo jee lah-RAHN-zhah, poor fah-VOR",
+       "accept": [
+        "um suco de laranja por favor",
+        "um suco de laranja",
+        "suco de laranja"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Com leite ou sem leite?",
+      "m": "With milk or without milk?",
+      "s": "kohng LAY-chee oh sayng LAY-chee?"
+     },
+     "replies": [
+      {
+       "t": "Com leite, por favor.",
+       "m": "With milk, please.",
+       "s": "kohng LAY-chee, poor fah-VOR",
+       "accept": [
+        "com leite",
+        "com leite por favor"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Sem leite, obrigado.",
+       "m": "Without milk, thanks.",
+       "s": "sayng LAY-chee, oh-bree-GAH-doo",
+       "accept": [
+        "sem leite",
+        "sem leite obrigado",
+        "sem leite obrigada",
+        "puro"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Certo. Mais alguma coisa?",
+      "m": "Sure. Anything else?",
+      "s": "SEHR-too. MICE ow-GOO-mah KOY-zah?"
+     },
+     "replies": [
+      {
+       "t": "Não, obrigado. Quanto é?",
+       "m": "No, thanks. How much is it?",
+       "s": "nown, oh-bree-GAH-doo. KWAHN-too EH?",
+       "accept": [
+        "nao obrigado quanto e",
+        "nao obrigada quanto e",
+        "quanto e",
+        "quanto custa",
+        "nao obrigado",
+        "nao obrigada",
+        "so isso obrigado",
+        "so isso obrigada"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Sim, um pão de queijo, por favor.",
+       "m": "Yes, a cheese bread, please.",
+       "s": "seeng, oong pown jee KAY-zhoo, poor fah-VOR",
+       "accept": [
+        "sim um pao de queijo por favor",
+        "um pao de queijo",
+        "pao de queijo por favor"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "São doze reais, por favor.",
+      "m": "That's twelve reais, please.",
+      "s": "sown DOH-zee hay-ICE, poor fah-VOR"
+     },
+     "replies": [
+      {
+       "t": "Aqui está. Obrigado!",
+       "m": "Here you go. Thank you!",
+       "s": "ah-KEE is-TAH. oh-bree-GAH-doo!",
+       "accept": [
+        "aqui esta obrigado",
+        "aqui esta obrigada",
+        "aqui esta",
+        "obrigado",
+        "obrigada",
+        "valeu"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Oi, posso ajudar?",
+      "m": "Hi, can I help you?",
+      "s": "oy, POH-soo ah-zhoo-DAR?"
+     },
+     "replies": [
+      {
+       "t": "Sim, por favor. Onde fica o banheiro?",
+       "m": "Yes, please. Where is the bathroom?",
+       "s": "seeng, poor fah-VOR. OHN-jee FEE-kah oo bah-NYAY-roo?",
+       "accept": [
+        "sim por favor onde fica o banheiro",
+        "onde fica o banheiro",
+        "onde e o banheiro",
+        "o banheiro"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "Sim. Onde fica a rodoviária?",
+       "m": "Yes. Where is the bus station?",
+       "s": "seeng. OHN-jee FEE-kah ah hoh-doh-vee-AH-ree-ah?",
+       "accept": [
+        "sim onde fica a rodoviaria",
+        "onde fica a rodoviaria",
+        "onde e a rodoviaria",
+        "a rodoviaria"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2a": {
+     "they": {
+      "t": "Fica lá no fundo, à direita.",
+      "m": "It's at the back, on the right.",
+      "s": "FEE-kah LAH noo FOON-doo, ah jee-RAY-tah"
+     },
+     "replies": [
+      {
+       "t": "Muito obrigado.",
+       "m": "Thank you very much.",
+       "s": "MOON-too oh-bree-GAH-doo",
+       "accept": [
+        "muito obrigado",
+        "muito obrigada",
+        "obrigado",
+        "obrigada",
+        "valeu"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Siga reto por dois quarteirões e depois vire à esquerda.",
+      "m": "Go straight for two blocks and then turn left.",
+      "s": "SEE-gah HEH-too poor DOYS kwar-tay-ROYNS ee deh-POYS VEE-ree ah is-KEHR-dah"
+     },
+     "replies": [
+      {
+       "t": "É longe?",
+       "m": "Is it far?",
+       "s": "eh LOHN-zhee?",
+       "accept": [
+        "e longe",
+        "fica longe",
+        "longe"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Pode repetir, por favor?",
+       "m": "Can you repeat that, please?",
+       "s": "POH-jee heh-peh-CHEER, poor fah-VOR?",
+       "accept": [
+        "pode repetir por favor",
+        "pode repetir",
+        "repete por favor",
+        "como"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Não, é pertinho. São cinco minutos a pé.",
+      "m": "No, it's very close. It's five minutes on foot.",
+      "s": "nown, eh pehr-CHEE-nyoo. sown SEEN-koo mee-NOO-toos ah PEH"
+     },
+     "replies": [
+      {
+       "t": "Perfeito. Muito obrigado.",
+       "m": "Perfect. Thank you very much.",
+       "s": "pehr-FAY-too. MOON-too oh-bree-GAH-doo",
+       "accept": [
+        "perfeito muito obrigado",
+        "perfeito muito obrigada",
+        "muito obrigado",
+        "muito obrigada",
+        "obrigado",
+        "obrigada"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "De nada. Tenha um bom dia!",
+      "m": "You're welcome. Have a good day!",
+      "s": "jee NAH-dah. TEN-yah oong bohn JEE-ah!"
+     },
+     "replies": [
+      {
+       "t": "Igualmente. Tchau!",
+       "m": "You too. Bye!",
+       "s": "ee-gwow-MEN-chee. CHOW!",
+       "accept": [
+        "igualmente tchau",
+        "igualmente",
+        "tchau",
+        "obrigado tchau",
+        "obrigada tchau",
+        "valeu"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

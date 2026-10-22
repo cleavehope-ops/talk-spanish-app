@@ -1,0 +1,436 @@
+{
+ "id": "en-it",
+ "speak": "en",
+ "learn": "it",
+ "name": "Italian",
+ "voice": [
+  "it-IT",
+  "it"
+ ],
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Ciao! Come stai?",
+      "m": "Hi! How are you?",
+      "s": "CHOW! KOH-meh STY?"
+     },
+     "replies": [
+      {
+       "t": "Bene, grazie. E tu?",
+       "m": "Good, thanks. And you?",
+       "s": "BEH-neh, GRAHT-see-eh. eh TOO?",
+       "accept": [
+        "bene grazie e tu",
+        "bene e tu",
+        "benissimo grazie e tu",
+        "molto bene grazie",
+        "bene grazie",
+        "sto bene grazie"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Così così.",
+       "m": "So-so.",
+       "s": "koh-ZEE koh-ZEE",
+       "accept": [
+        "cosi cosi",
+        "insomma"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Non molto bene.",
+       "m": "Not very well.",
+       "s": "nohn MOHL-toh BEH-neh",
+       "accept": [
+        "non molto bene",
+        "non bene",
+        "male",
+        "sto male"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Bene! Mi chiamo Anna. Tu come ti chiami?",
+      "m": "Good! My name is Anna. What's your name?",
+      "s": "BEH-neh! mee kee-AH-moh AHN-nah. too KOH-meh tee kee-AH-mee?"
+     },
+     "replies": [
+      {
+       "t": "Mi chiamo (your name).",
+       "m": "My name is (your name).",
+       "s": "mee kee-AH-moh …",
+       "accept": [
+        "mi chiamo *",
+        "io mi chiamo *",
+        "sono *",
+        "io sono *",
+        "il mio nome e *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Oh, mi dispiace. Mi chiamo Anna. Come ti chiami?",
+      "m": "Oh, I'm sorry. My name is Anna. What's your name?",
+      "s": "oh, mee dee-SPYAH-cheh. mee kee-AH-moh AHN-nah. KOH-meh tee kee-AH-mee?"
+     },
+     "replies": [
+      {
+       "t": "Mi chiamo (your name).",
+       "m": "My name is (your name).",
+       "s": "mee kee-AH-moh …",
+       "accept": [
+        "mi chiamo *",
+        "io mi chiamo *",
+        "sono *",
+        "io sono *",
+        "il mio nome e *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Piacere! Di dove sei?",
+      "m": "Nice to meet you! Where are you from?",
+      "s": "pyah-CHEH-reh! dee DOH-veh SAY?"
+     },
+     "replies": [
+      {
+       "t": "Piacere mio. Sono di (your city).",
+       "m": "Nice to meet you too. I'm from (your city).",
+       "s": "pyah-CHEH-reh MEE-oh. SOH-noh dee …",
+       "accept": [
+        "piacere mio sono di *",
+        "sono di *",
+        "io sono di *",
+        "piacere sono di *",
+        "vengo da *"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Piacere. Vengo dagli Stati Uniti.",
+       "m": "Nice to meet you. I come from the United States.",
+       "s": "pyah-CHEH-reh. VEN-goh DAH-lyee STAH-tee oo-NEE-tee",
+       "accept": [
+        "piacere vengo dagli stati uniti",
+        "vengo dagli stati uniti",
+        "sono americano",
+        "sono americana"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Che bello! Allora, ci vediamo dopo.",
+      "m": "How nice! Well, see you later.",
+      "s": "keh BEL-loh! ahl-LOH-rah, chee veh-DYAH-moh DOH-poh"
+     },
+     "replies": [
+      {
+       "t": "A dopo!",
+       "m": "See you later!",
+       "s": "ah DOH-poh!",
+       "accept": [
+        "a dopo",
+        "ciao",
+        "ci vediamo",
+        "arrivederci",
+        "grazie"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Buongiorno! Cosa prende?",
+      "m": "Good morning! What will you have?",
+      "s": "bwohn-JOR-noh! KOH-zah PREN-deh?"
+     },
+     "replies": [
+      {
+       "t": "Un caffè, per favore.",
+       "m": "A coffee, please.",
+       "s": "oon kahf-FEH, pehr fah-VOH-reh",
+       "accept": [
+        "un caffe per favore",
+        "un caffe",
+        "vorrei un caffe",
+        "prendo un caffe"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Una spremuta d'arancia, per favore.",
+       "m": "A fresh orange juice, please.",
+       "s": "OO-nah spreh-MOO-tah dah-RAHN-chah, pehr fah-VOH-reh",
+       "accept": [
+        "una spremuta d arancia per favore",
+        "una spremuta d arancia",
+        "una spremuta",
+        "un succo d arancia"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Con un po' di latte o senza?",
+      "m": "With a little milk or without?",
+      "s": "kohn oon POH dee LAHT-teh oh SEN-tsah?"
+     },
+     "replies": [
+      {
+       "t": "Con un po' di latte, grazie.",
+       "m": "With a little milk, thanks.",
+       "s": "kohn oon POH dee LAHT-teh, GRAHT-see-eh",
+       "accept": [
+        "con un po di latte grazie",
+        "con un po di latte",
+        "con latte",
+        "macchiato",
+        "macchiato per favore"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Senza latte, grazie.",
+       "m": "Without milk, thanks.",
+       "s": "SEN-tsah LAHT-teh, GRAHT-see-eh",
+       "accept": [
+        "senza latte grazie",
+        "senza latte",
+        "senza",
+        "normale"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Va bene. Altro?",
+      "m": "All right. Anything else?",
+      "s": "vah BEH-neh. AHL-troh?"
+     },
+     "replies": [
+      {
+       "t": "No, grazie. Quanto le devo?",
+       "m": "No, thanks. How much do I owe you?",
+       "s": "noh, GRAHT-see-eh. KWAHN-toh leh DEH-voh?",
+       "accept": [
+        "no grazie quanto le devo",
+        "quanto le devo",
+        "quanto costa",
+        "quant e",
+        "no grazie",
+        "basta cosi grazie"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Sì, un cornetto, per favore.",
+       "m": "Yes, a croissant, please.",
+       "s": "SEE, oon kor-NET-toh, pehr fah-VOH-reh",
+       "accept": [
+        "si un cornetto per favore",
+        "un cornetto",
+        "un cornetto per favore"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Sono due euro e cinquanta.",
+      "m": "That's two euros fifty.",
+      "s": "SOH-noh DOO-eh EH-oo-roh eh cheen-KWAHN-tah"
+     },
+     "replies": [
+      {
+       "t": "Ecco a lei. Grazie!",
+       "m": "Here you go. Thank you!",
+       "s": "EK-koh ah LAY. GRAHT-see-eh!",
+       "accept": [
+        "ecco a lei grazie",
+        "ecco a lei",
+        "ecco",
+        "grazie",
+        "grazie mille"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Buongiorno, posso aiutarla?",
+      "m": "Hello, can I help you?",
+      "s": "bwohn-JOR-noh, POHS-soh ah-yoo-TAR-lah?"
+     },
+     "replies": [
+      {
+       "t": "Sì, grazie. Dov'è il bagno?",
+       "m": "Yes, thanks. Where is the bathroom?",
+       "s": "SEE, GRAHT-see-eh. doh-VEH eel BAH-nyoh?",
+       "accept": [
+        "si grazie dov e il bagno",
+        "dov e il bagno",
+        "dove il bagno",
+        "dove e il bagno",
+        "il bagno"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "Sì. Dov'è la stazione degli autobus?",
+       "m": "Yes. Where is the bus station?",
+       "s": "SEE. doh-VEH lah stah-TSYOH-neh DEH-lyee OW-toh-boos?",
+       "accept": [
+        "si dov e la stazione degli autobus",
+        "dov e la stazione degli autobus",
+        "dove la stazione degli autobus",
+        "la stazione degli autobus",
+        "dov e la stazione"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2a": {
+     "they": {
+      "t": "È in fondo, a destra.",
+      "m": "It's at the back, on the right.",
+      "s": "EH een FOHN-doh, ah DES-trah"
+     },
+     "replies": [
+      {
+       "t": "Grazie mille.",
+       "m": "Thanks a lot.",
+       "s": "GRAHT-see-eh MEEL-leh",
+       "accept": [
+        "grazie mille",
+        "grazie",
+        "molte grazie"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Vada dritto per due isolati e poi giri a sinistra.",
+      "m": "Go straight for two blocks and then turn left.",
+      "s": "VAH-dah DREET-toh pehr DOO-eh ee-zoh-LAH-tee eh POY JEE-ree ah see-NEES-trah"
+     },
+     "replies": [
+      {
+       "t": "È lontano?",
+       "m": "Is it far?",
+       "s": "EH lohn-TAH-noh?",
+       "accept": [
+        "e lontano",
+        "lontano"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Può ripetere, per favore?",
+       "m": "Can you repeat that, please?",
+       "s": "PWOH ree-PEH-teh-reh, pehr fah-VOH-reh?",
+       "accept": [
+        "puo ripetere per favore",
+        "puo ripetere",
+        "ripeta per favore",
+        "come"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "No, è vicino. Sono cinque minuti a piedi.",
+      "m": "No, it's close. It's five minutes on foot.",
+      "s": "noh, eh vee-CHEE-noh. SOH-noh CHEEN-kweh mee-NOO-tee ah PYEH-dee"
+     },
+     "replies": [
+      {
+       "t": "Perfetto. Grazie mille.",
+       "m": "Perfect. Thanks a lot.",
+       "s": "pehr-FET-toh. GRAHT-see-eh MEEL-leh",
+       "accept": [
+        "perfetto grazie mille",
+        "perfetto grazie",
+        "grazie mille",
+        "grazie"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Prego. Buona giornata!",
+      "m": "You're welcome. Have a good day!",
+      "s": "PREH-goh. BWOH-nah jor-NAH-tah!"
+     },
+     "replies": [
+      {
+       "t": "Altrettanto. Arrivederci!",
+       "m": "You too. Goodbye!",
+       "s": "ahl-tret-TAHN-toh. ar-ree-veh-DEHR-chee!",
+       "accept": [
+        "altrettanto arrivederci",
+        "altrettanto",
+        "arrivederci",
+        "grazie arrivederci",
+        "ciao"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

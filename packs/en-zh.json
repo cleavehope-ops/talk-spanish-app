@@ -1,0 +1,501 @@
+{
+ "id": "en-zh",
+ "speak": "en",
+ "learn": "zh",
+ "name": "Mandarin Chinese",
+ "voice": [
+  "zh-CN",
+  "zh"
+ ],
+ "compact": true,
+ "soundsLike": "pinyin",
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "你好！最近怎么样？",
+      "m": "Hi! How have you been?",
+      "s": "Nǐ hǎo! Zuìjìn zěnmeyàng?"
+     },
+     "replies": [
+      {
+       "t": "挺好的，谢谢。你呢？",
+       "m": "Pretty good, thanks. And you?",
+       "s": "Tǐng hǎo de, xièxie. Nǐ ne?",
+       "accept": [
+        "挺好的谢谢你呢",
+        "很好谢谢你呢",
+        "我很好你呢",
+        "挺好的你呢",
+        "挺好的",
+        "很好",
+        "ting hao de xiexie ni ne",
+        "hen hao xiexie ni ne",
+        "wo hen hao ni ne",
+        "hen hao"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "还行吧。",
+       "m": "It's okay, I guess.",
+       "s": "Hái xíng ba.",
+       "accept": [
+        "还行吧",
+        "还行",
+        "马马虎虎",
+        "一般",
+        "hai xing ba",
+        "hai xing",
+        "mamahuhu"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "不太好。",
+       "m": "Not so good.",
+       "s": "Bú tài hǎo.",
+       "accept": [
+        "不太好",
+        "不好",
+        "不怎么样",
+        "bu tai hao",
+        "bu hao"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "那就好。我叫安娜。你叫什么名字？",
+      "m": "That's good. My name is Anna. What's your name?",
+      "s": "Nà jiù hǎo. Wǒ jiào Ānnà. Nǐ jiào shénme míngzi?"
+     },
+     "replies": [
+      {
+       "t": "我叫(your name)。",
+       "m": "My name is (your name).",
+       "s": "Wǒ jiào …",
+       "accept": [
+        "我叫*",
+        "我的名字是*",
+        "我是*",
+        "wo jiao *",
+        "wo de mingzi shi *",
+        "wo shi *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "哎呀，怎么了？我叫安娜。你叫什么名字？",
+      "m": "Oh no, what's wrong? My name is Anna. What's your name?",
+      "s": "Āiyā, zěnme le? Wǒ jiào Ānnà. Nǐ jiào shénme míngzi?"
+     },
+     "replies": [
+      {
+       "t": "我叫(your name)。",
+       "m": "My name is (your name).",
+       "s": "Wǒ jiào …",
+       "accept": [
+        "我叫*",
+        "我的名字是*",
+        "我是*",
+        "wo jiao *",
+        "wo de mingzi shi *",
+        "wo shi *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "很高兴认识你。你是哪里人？",
+      "m": "Nice to meet you. Where are you from?",
+      "s": "Hěn gāoxìng rènshi nǐ. Nǐ shì nǎlǐ rén?"
+     },
+     "replies": [
+      {
+       "t": "我来自(your city)。",
+       "m": "I come from (your city).",
+       "s": "Wǒ láizì …",
+       "accept": [
+        "我来自*",
+        "我是*人",
+        "我从*来",
+        "wo laizi *",
+        "wo shi * ren",
+        "wo cong * lai"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "我是美国人。",
+       "m": "I'm American.",
+       "s": "Wǒ shì Měiguó rén.",
+       "accept": [
+        "我是美国人",
+        "美国人",
+        "我来自美国",
+        "wo shi meiguo ren",
+        "meiguo ren",
+        "wo laizi meiguo"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "太好了！那我们回头见。",
+      "m": "Great! Well, see you later.",
+      "s": "Tài hǎo le! Nà wǒmen huítóu jiàn."
+     },
+     "replies": [
+      {
+       "t": "回头见！",
+       "m": "See you later!",
+       "s": "Huítóu jiàn!",
+       "accept": [
+        "回头见",
+        "再见",
+        "拜拜",
+        "下次见",
+        "谢谢",
+        "huitou jian",
+        "zaijian",
+        "baibai",
+        "xiexie"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "你好！请问喝点什么？",
+      "m": "Hello! What would you like to drink?",
+      "s": "Nǐ hǎo! Qǐngwèn hē diǎn shénme?"
+     },
+     "replies": [
+      {
+       "t": "一杯咖啡，谢谢。",
+       "m": "A cup of coffee, thanks.",
+       "s": "Yì bēi kāfēi, xièxie.",
+       "accept": [
+        "一杯咖啡谢谢",
+        "一杯咖啡",
+        "我要一杯咖啡",
+        "咖啡",
+        "yi bei kafei xiexie",
+        "yi bei kafei",
+        "wo yao yi bei kafei",
+        "kafei"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "一杯橙汁，谢谢。",
+       "m": "A glass of orange juice, thanks.",
+       "s": "Yì bēi chéngzhī, xièxie.",
+       "accept": [
+        "一杯橙汁谢谢",
+        "一杯橙汁",
+        "我要一杯橙汁",
+        "橙汁",
+        "yi bei chengzhi xiexie",
+        "yi bei chengzhi",
+        "chengzhi"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "要加牛奶吗？",
+      "m": "Would you like milk in it?",
+      "s": "Yào jiā niúnǎi ma?"
+     },
+     "replies": [
+      {
+       "t": "要，谢谢。",
+       "m": "Yes, please.",
+       "s": "Yào, xièxie.",
+       "accept": [
+        "要谢谢",
+        "要",
+        "加牛奶",
+        "要加牛奶",
+        "yao xiexie",
+        "yao",
+        "jia niunai"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "不要，谢谢。",
+       "m": "No, thanks.",
+       "s": "Bú yào, xièxie.",
+       "accept": [
+        "不要谢谢",
+        "不要",
+        "不加",
+        "不用了谢谢",
+        "bu yao xiexie",
+        "bu yao",
+        "bu jia",
+        "bu yong le"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "好的。还要别的吗？",
+      "m": "Okay. Anything else?",
+      "s": "Hǎo de. Hái yào bié de ma?"
+     },
+     "replies": [
+      {
+       "t": "不用了，谢谢。多少钱？",
+       "m": "No, thanks. How much is it?",
+       "s": "Bú yòng le, xièxie. Duōshao qián?",
+       "accept": [
+        "不用了谢谢多少钱",
+        "多少钱",
+        "不用了谢谢",
+        "一共多少钱",
+        "bu yong le xiexie duoshao qian",
+        "duoshao qian",
+        "yigong duoshao qian",
+        "bu yong le xiexie"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "要，再来一块蛋糕。",
+       "m": "Yes, a piece of cake too.",
+       "s": "Yào, zài lái yí kuài dàngāo.",
+       "accept": [
+        "要再来一块蛋糕",
+        "再来一块蛋糕",
+        "一块蛋糕",
+        "蛋糕",
+        "zai lai yi kuai dangao",
+        "yi kuai dangao",
+        "dangao"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "一共三十块。",
+      "m": "That's thirty yuan in total.",
+      "s": "Yígòng sānshí kuài."
+     },
+     "replies": [
+      {
+       "t": "给你。谢谢！",
+       "m": "Here you go. Thank you!",
+       "s": "Gěi nǐ. Xièxie!",
+       "accept": [
+        "给你谢谢",
+        "给你",
+        "谢谢",
+        "谢谢你",
+        "gei ni xiexie",
+        "gei ni",
+        "xiexie"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "你好，需要帮忙吗？",
+      "m": "Hi, do you need help?",
+      "s": "Nǐ hǎo, xūyào bāngmáng ma?"
+     },
+     "replies": [
+      {
+       "t": "是的，谢谢。洗手间在哪儿？",
+       "m": "Yes, thanks. Where is the restroom?",
+       "s": "Shì de, xièxie. Xǐshǒujiān zài nǎr?",
+       "accept": [
+        "是的谢谢洗手间在哪儿",
+        "洗手间在哪儿",
+        "洗手间在哪里",
+        "厕所在哪儿",
+        "厕所在哪里",
+        "xishoujian zai nar",
+        "xishoujian zai nali",
+        "cesuo zai nar",
+        "cesuo zai nali"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "是的。汽车站在哪儿？",
+       "m": "Yes. Where is the bus station?",
+       "s": "Shì de. Qìchēzhàn zài nǎr?",
+       "accept": [
+        "是的汽车站在哪儿",
+        "汽车站在哪儿",
+        "汽车站在哪里",
+        "汽车站",
+        "qichezhan zai nar",
+        "qichezhan zai nali",
+        "qichezhan"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2a": {
+     "they": {
+      "t": "在里面，右手边。",
+      "m": "It's inside, on the right-hand side.",
+      "s": "Zài lǐmiàn, yòushǒu biān."
+     },
+     "replies": [
+      {
+       "t": "非常感谢。",
+       "m": "Thank you very much.",
+       "s": "Fēicháng gǎnxiè.",
+       "accept": [
+        "非常感谢",
+        "谢谢",
+        "太谢谢了",
+        "谢谢你",
+        "feichang ganxie",
+        "xiexie",
+        "tai xiexie le"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "一直往前走两个路口，然后左转。",
+      "m": "Go straight for two blocks, then turn left.",
+      "s": "Yìzhí wǎng qián zǒu liǎng ge lùkǒu, ránhòu zuǒ zhuǎn."
+     },
+     "replies": [
+      {
+       "t": "远吗？",
+       "m": "Is it far?",
+       "s": "Yuǎn ma?",
+       "accept": [
+        "远吗",
+        "远不远",
+        "离这儿远吗",
+        "yuan ma",
+        "yuan bu yuan"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "能再说一遍吗？",
+       "m": "Can you say that again?",
+       "s": "Néng zài shuō yí biàn ma?",
+       "accept": [
+        "能再说一遍吗",
+        "再说一遍",
+        "请再说一遍",
+        "什么",
+        "neng zai shuo yi bian ma",
+        "zai shuo yi bian",
+        "qing zai shuo yi bian"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "不远，很近。走路五分钟。",
+      "m": "Not far, it's very close. Five minutes on foot.",
+      "s": "Bù yuǎn, hěn jìn. Zǒulù wǔ fēnzhōng."
+     },
+     "replies": [
+      {
+       "t": "太好了，非常感谢。",
+       "m": "Great, thank you very much.",
+       "s": "Tài hǎo le, fēicháng gǎnxiè.",
+       "accept": [
+        "太好了非常感谢",
+        "太好了谢谢",
+        "非常感谢",
+        "谢谢",
+        "tai hao le feichang ganxie",
+        "feichang ganxie",
+        "xiexie"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "不客气。祝你今天愉快！",
+      "m": "You're welcome. Have a nice day!",
+      "s": "Bú kèqi. Zhù nǐ jīntiān yúkuài!"
+     },
+     "replies": [
+      {
+       "t": "你也是。再见！",
+       "m": "You too. Goodbye!",
+       "s": "Nǐ yě shì. Zàijiàn!",
+       "accept": [
+        "你也是再见",
+        "你也是",
+        "再见",
+        "拜拜",
+        "谢谢再见",
+        "ni ye shi zaijian",
+        "ni ye shi",
+        "zaijian",
+        "baibai"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

@@ -1,2 +1,64 @@
-{"packs":[{"id":"en-es","speak":"en","learn":"es","label":"English → Spanish","file":"packs/en-es.json"}],
- "languages":{"en":"English","es":"Spanish (Español)"}}
+{
+ "packs": [
+  {
+   "id": "en-es",
+   "speak": "en",
+   "learn": "es",
+   "label": "English → Spanish",
+   "file": "packs/en-es.json"
+  },
+  {
+   "id": "en-fr",
+   "speak": "en",
+   "learn": "fr",
+   "label": "English → French",
+   "file": "packs/en-fr.json"
+  },
+  {
+   "id": "en-ht",
+   "speak": "en",
+   "learn": "ht",
+   "label": "English → Haitian Creole",
+   "file": "packs/en-ht.json"
+  },
+  {
+   "id": "en-pt",
+   "speak": "en",
+   "learn": "pt",
+   "label": "English → Portuguese (Brazil)",
+   "file": "packs/en-pt.json"
+  },
+  {
+   "id": "en-it",
+   "speak": "en",
+   "learn": "it",
+   "label": "English → Italian",
+   "file": "packs/en-it.json"
+  },
+  {
+   "id": "en-de",
+   "speak": "en",
+   "learn": "de",
+   "label": "English → German",
+   "file": "packs/en-de.json"
+  },
+  {
+   "id": "en-zh",
+   "speak": "en",
+   "learn": "zh",
+   "label": "English → Mandarin Chinese",
+   "file": "packs/en-zh.json"
+  },
+  {
+   "id": "en-ja",
+   "speak": "en",
+   "learn": "ja",
+   "label": "English → Japanese",
+   "file": "packs/en-ja.json"
+  }
+ ],
+ "languages": {
+  "en": "English",
+  "es": "Spanish (Español)"
+ }
+}

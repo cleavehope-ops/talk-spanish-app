@@ -1,16 +1,17 @@
 // Free, built-in browser voice: speechSynthesis (speak) + SpeechRecognition (listen).
 const Speech = {
-  LOCALES:{es:["es-MX","es-US","es-419","es-ES","es"],en:["en-US","en-GB","en"]},
+  override:{}, // code -> locale list from the loaded pack
+  locs(lang){ return this.override[lang] || (LANGS[lang]||[0,[lang]])[1]; },
   voiceFor(lang){
     const vs = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
-    for (const l of this.LOCALES[lang]||[lang]) { const v = vs.find(v=>v.lang.replace('_','-').toLowerCase().startsWith(l.toLowerCase())); if (v) return v; }
+    for (const l of this.locs(lang)) { const v = vs.find(v=>v.lang.replace('_','-').toLowerCase().startsWith(l.toLowerCase())); if (v) return v; }
     return null;
   },
   say(text, lang='es', slow=false){
     if (!('speechSynthesis' in window)) return;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = (this.LOCALES[lang]||[lang])[0]; const v = this.voiceFor(lang); if (v) u.voice = v;
+    const v = this.voiceFor(lang); u.lang = v ? v.lang : this.locs(lang)[0]; if (v) u.voice = v;
     u.rate = slow ? 0.6 : 0.95; speechSynthesis.speak(u);
   },
   canListen(){ return !!(window.SpeechRecognition || window.webkitSpeechRecognition); },
@@ -18,7 +19,7 @@ const Speech = {
     return new Promise((res, rej)=>{
       const R = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!R) return rej(new Error('unsupported'));
-      const r = new R(); r.lang = (this.LOCALES[lang]||[lang])[0]; r.interimResults=false; r.maxAlternatives=5;
+      const r = new R(); r.lang = this.locs(lang)[0]; r.interimResults=false; r.maxAlternatives=5;
       let done=false;
       r.onresult = e => { done=true; res(Array.from(e.results[0]).map(a=>a.transcript)); };
       r.onerror = e => { if(!done){done=true; rej(new Error(e.error||'error'));} };

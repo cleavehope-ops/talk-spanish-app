@@ -1,0 +1,432 @@
+{
+ "id": "en-fr",
+ "speak": "en",
+ "learn": "fr",
+ "name": "French",
+ "voice": [
+  "fr-FR",
+  "fr-CA",
+  "fr"
+ ],
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Salut ! Ça va ?",
+      "m": "Hi! How are you?",
+      "s": "sah-LOO! sah VAH?"
+     },
+     "replies": [
+      {
+       "t": "Ça va bien, merci. Et toi ?",
+       "m": "I'm good, thanks. And you?",
+       "s": "sah vah bee-AN, mehr-SEE. ay TWAH?",
+       "accept": [
+        "ca va bien merci et toi",
+        "bien merci et toi",
+        "ca va et toi",
+        "tres bien merci",
+        "ca va bien merci",
+        "bien merci",
+        "ca va bien"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Comme ci, comme ça.",
+       "m": "So-so.",
+       "s": "kum SEE, kum SAH",
+       "accept": [
+        "comme ci comme ca",
+        "bof"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Pas très bien.",
+       "m": "Not very well.",
+       "s": "pah treh bee-AN",
+       "accept": [
+        "pas tres bien",
+        "pas bien",
+        "ca va pas",
+        "mal",
+        "ca va mal"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Très bien. Je m'appelle Anne. Et toi, comment tu t'appelles ?",
+      "m": "Very good. My name is Anne. And you, what's your name?",
+      "s": "treh bee-AN. zhuh mah-PELL AHN. ay TWAH, koh-MAHN tew tah-PELL?"
+     },
+     "replies": [
+      {
+       "t": "Je m'appelle (your name).",
+       "m": "My name is (your name).",
+       "s": "zhuh mah-PELL …",
+       "accept": [
+        "je m appelle *",
+        "moi c est *",
+        "je suis *",
+        "mon nom est *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Oh, désolée. Je m'appelle Anne. Comment tu t'appelles ?",
+      "m": "Oh, I'm sorry. My name is Anne. What's your name?",
+      "s": "oh, day-zoh-LAY. zhuh mah-PELL AHN. koh-MAHN tew tah-PELL?"
+     },
+     "replies": [
+      {
+       "t": "Je m'appelle (your name).",
+       "m": "My name is (your name).",
+       "s": "zhuh mah-PELL …",
+       "accept": [
+        "je m appelle *",
+        "moi c est *",
+        "je suis *",
+        "mon nom est *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Enchantée. Tu viens d'où ?",
+      "m": "Nice to meet you. Where are you from?",
+      "s": "ahn-shahn-TAY. tew vee-AN DOO?"
+     },
+     "replies": [
+      {
+       "t": "Enchanté. Je viens de (your city).",
+       "m": "Nice to meet you. I'm from (your city).",
+       "s": "ahn-shahn-TAY. zhuh vee-AN duh …",
+       "accept": [
+        "enchante je viens de *",
+        "je viens de *",
+        "je suis de *",
+        "moi je viens de *",
+        "je viens d *"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Enchanté. Je viens des États-Unis.",
+       "m": "Nice to meet you. I'm from the United States.",
+       "s": "ahn-shahn-TAY. zhuh vee-AN dayz ay-tah-zew-NEE",
+       "accept": [
+        "enchante je viens des etats unis",
+        "je viens des etats unis",
+        "je suis americain",
+        "je suis americaine"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Super ! Bon, à plus tard.",
+      "m": "Great! Well, see you later.",
+      "s": "sew-PEHR! bohn, ah plew TAR"
+     },
+     "replies": [
+      {
+       "t": "À plus !",
+       "m": "See you!",
+       "s": "ah PLOOSS!",
+       "accept": [
+        "a plus",
+        "a plus tard",
+        "salut",
+        "au revoir",
+        "a bientot",
+        "merci"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Bonjour ! Qu'est-ce que je vous sers ?",
+      "m": "Hello! What can I get you?",
+      "s": "bohn-ZHOOR! kess kuh zhuh voo SEHR?"
+     },
+     "replies": [
+      {
+       "t": "Un café, s'il vous plaît.",
+       "m": "A coffee, please.",
+       "s": "uhn kah-FAY, seel voo PLEH",
+       "accept": [
+        "un cafe s il vous plait",
+        "un cafe",
+        "je voudrais un cafe",
+        "un cafe s il te plait"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Un jus d'orange, s'il vous plaît.",
+       "m": "An orange juice, please.",
+       "s": "uhn zhew doh-RAHNZH, seel voo PLEH",
+       "accept": [
+        "un jus d orange s il vous plait",
+        "un jus d orange",
+        "je voudrais un jus d orange"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Avec du lait ou sans lait ?",
+      "m": "With milk or without milk?",
+      "s": "ah-VEK dew LEH oo sahn LEH?"
+     },
+     "replies": [
+      {
+       "t": "Avec du lait, s'il vous plaît.",
+       "m": "With milk, please.",
+       "s": "ah-VEK dew LEH, seel voo PLEH",
+       "accept": [
+        "avec du lait",
+        "avec lait",
+        "avec du lait s il vous plait"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Sans lait, merci.",
+       "m": "Without milk, thanks.",
+       "s": "sahn LEH, mehr-SEE",
+       "accept": [
+        "sans lait",
+        "sans lait merci",
+        "noir"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Très bien. Et avec ceci ?",
+      "m": "Very good. Anything else?",
+      "s": "treh bee-AN. ay ah-VEK suh-SEE?"
+     },
+     "replies": [
+      {
+       "t": "C'est tout, merci. Ça fait combien ?",
+       "m": "That's all, thanks. How much is it?",
+       "s": "seh TOO, mehr-SEE. sah feh kohm-bee-AN?",
+       "accept": [
+        "c est tout merci ca fait combien",
+        "ca fait combien",
+        "c est combien",
+        "c est tout merci",
+        "non merci",
+        "rien d autre merci"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Oui, un croissant, s'il vous plaît.",
+       "m": "Yes, a croissant, please.",
+       "s": "wee, uhn krwah-SAHN, seel voo PLEH",
+       "accept": [
+        "oui un croissant s il vous plait",
+        "un croissant",
+        "un croissant s il vous plait"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Ça fait quatre euros, s'il vous plaît.",
+      "m": "That's four euros, please.",
+      "s": "sah feh KAT-ruh uh-ROH, seel voo PLEH"
+     },
+     "replies": [
+      {
+       "t": "Voilà. Merci !",
+       "m": "Here you go. Thank you!",
+       "s": "vwah-LAH. mehr-SEE!",
+       "accept": [
+        "voila merci",
+        "voila",
+        "merci",
+        "merci beaucoup",
+        "tenez"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Bonjour, je peux vous aider ?",
+      "m": "Hello, can I help you?",
+      "s": "bohn-ZHOOR, zhuh puh vooz eh-DAY?"
+     },
+     "replies": [
+      {
+       "t": "Oui, s'il vous plaît. Où sont les toilettes ?",
+       "m": "Yes, please. Where is the bathroom?",
+       "s": "wee, seel voo PLEH. oo sohn lay twah-LET?",
+       "accept": [
+        "oui s il vous plait ou sont les toilettes",
+        "ou sont les toilettes",
+        "les toilettes"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "Oui. Où est la gare routière ?",
+       "m": "Yes. Where is the bus station?",
+       "s": "wee. oo eh lah gar roo-tee-EHR?",
+       "accept": [
+        "oui ou est la gare routiere",
+        "ou est la gare routiere",
+        "la gare routiere"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2a": {
+     "they": {
+      "t": "C'est au fond, à droite.",
+      "m": "It's at the back, on the right.",
+      "s": "seh toh FOHN, ah DRWAHT"
+     },
+     "replies": [
+      {
+       "t": "Merci beaucoup.",
+       "m": "Thank you very much.",
+       "s": "mehr-SEE boh-KOO",
+       "accept": [
+        "merci beaucoup",
+        "merci",
+        "merci bien"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Allez tout droit pendant deux rues, puis tournez à gauche.",
+      "m": "Go straight for two blocks, then turn left.",
+      "s": "ah-LAY too DRWAH pahn-DAHN duh REW, pwee toor-NAY ah GOHSH"
+     },
+     "replies": [
+      {
+       "t": "C'est loin ?",
+       "m": "Is it far?",
+       "s": "seh LWAN?",
+       "accept": [
+        "c est loin",
+        "c est loin d ici",
+        "loin"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Vous pouvez répéter, s'il vous plaît ?",
+       "m": "Can you repeat that, please?",
+       "s": "voo poo-VAY ray-pay-TAY, seel voo PLEH?",
+       "accept": [
+        "vous pouvez repeter s il vous plait",
+        "vous pouvez repeter",
+        "pouvez vous repeter",
+        "repetez s il vous plait",
+        "pardon"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Non, c'est tout près. C'est à cinq minutes à pied.",
+      "m": "No, it's very close. It's five minutes on foot.",
+      "s": "nohn, seh too PREH. seh tah sank mee-NEWT ah PYAY"
+     },
+     "replies": [
+      {
+       "t": "Parfait. Merci beaucoup.",
+       "m": "Perfect. Thank you very much.",
+       "s": "par-FEH. mehr-SEE boh-KOO",
+       "accept": [
+        "parfait merci beaucoup",
+        "parfait merci",
+        "merci beaucoup",
+        "merci"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "De rien. Bonne journée !",
+      "m": "You're welcome. Have a good day!",
+      "s": "duh ree-AN. bun zhoor-NAY!"
+     },
+     "replies": [
+      {
+       "t": "Vous aussi. Au revoir !",
+       "m": "You too. Goodbye!",
+       "s": "voo zoh-SEE. oh ruh-VWAR!",
+       "accept": [
+        "vous aussi au revoir",
+        "vous aussi",
+        "au revoir",
+        "merci au revoir",
+        "salut"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

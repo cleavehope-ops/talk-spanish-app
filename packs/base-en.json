@@ -1,0 +1,195 @@
+{
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": "Hi! How are you?",
+     "replies": [
+      {
+       "en": "Good, thanks. And you?",
+       "next": "t2"
+      },
+      {
+       "en": "So-so.",
+       "next": "t2"
+      },
+      {
+       "en": "Not very well.",
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2": {
+     "they": "Very good. My name is Anna. What's your name?",
+     "replies": [
+      {
+       "en": "My name is Anna.",
+       "token": "Anna",
+       "wild": "(your name)",
+       "next": "t3"
+      }
+     ]
+    },
+    "t2b": {
+     "they": "Oh, I'm sorry. My name is Anna. What's your name?",
+     "replies": [
+      {
+       "en": "My name is Anna.",
+       "token": "Anna",
+       "wild": "(your name)",
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": "Nice to meet you. Where are you from?",
+     "replies": [
+      {
+       "en": "I am from Miami.",
+       "token": "Miami",
+       "wild": "(your city)",
+       "next": "t4"
+      },
+      {
+       "en": "I'm from the United States.",
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": "Great! Well, see you later.",
+     "replies": [
+      {
+       "en": "See you later!",
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": "Good morning! What can I get you?",
+     "replies": [
+      {
+       "en": "A coffee, please.",
+       "next": "t2"
+      },
+      {
+       "en": "An orange juice, please.",
+       "next": "t3"
+      }
+     ]
+    },
+    "t2": {
+     "they": "With milk or without milk?",
+     "replies": [
+      {
+       "en": "With milk, please.",
+       "next": "t3"
+      },
+      {
+       "en": "Without milk, thanks.",
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": "Very good. Anything else?",
+     "replies": [
+      {
+       "en": "No, thanks. How much is it?",
+       "next": "t4"
+      },
+      {
+       "en": "Yes, a cookie, please.",
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": "That's four dollars, please.",
+     "replies": [
+      {
+       "en": "Here you go. Thank you!",
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": "Hello, can I help you?",
+     "replies": [
+      {
+       "en": "Yes, please. Where is the bathroom?",
+       "next": "t2a"
+      },
+      {
+       "en": "Yes. Where is the bus station?",
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2a": {
+     "they": "It's at the back, on the right.",
+     "replies": [
+      {
+       "en": "Thank you very much.",
+       "next": "t4"
+      }
+     ]
+    },
+    "t2b": {
+     "they": "Go straight for two blocks and then turn left.",
+     "replies": [
+      {
+       "en": "Is it far?",
+       "next": "t3"
+      },
+      {
+       "en": "Can you repeat that, please?",
+       "next": "t2b"
+      }
+     ]
+    },
+    "t3": {
+     "they": "No, it's close. It's five minutes on foot.",
+     "replies": [
+      {
+       "en": "Perfect. Thank you very much.",
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": "You're welcome. Have a good day!",
+     "replies": [
+      {
+       "en": "You too. Goodbye!",
+       "next": "end"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

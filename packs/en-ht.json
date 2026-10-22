@@ -1,0 +1,425 @@
+{
+ "id": "en-ht",
+ "speak": "en",
+ "learn": "ht",
+ "name": "Haitian Creole",
+ "voice": [
+  "ht-HT",
+  "fr-FR",
+  "fr"
+ ],
+ "voiceNote": "Most devices have no Haitian Creole voice, so a French voice reads the lines. Speaking answers may not work; tap an answer instead.",
+ "scenes": [
+  {
+   "id": "meet",
+   "title": "Meeting someone",
+   "stop": "The Park",
+   "icon": "👋",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Bonjou! Kijan ou ye?",
+      "m": "Hello! How are you?",
+      "s": "bohn-ZHOO! kee-ZHAHN oo YEH?"
+     },
+     "replies": [
+      {
+       "t": "Mwen byen, mèsi. E ou menm?",
+       "m": "I'm good, thanks. And you?",
+       "s": "mwen bee-EN, meh-SEE. ay oo MEN?",
+       "accept": [
+        "mwen byen mesi e ou menm",
+        "mwen byen mesi",
+        "byen mesi e ou",
+        "mwen la",
+        "n ap boule"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Pa pi mal.",
+       "m": "Not too bad.",
+       "s": "pah pee MAHL",
+       "accept": [
+        "pa pi mal",
+        "konsa konsa",
+        "pa two mal"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Mwen pa twò byen.",
+       "m": "I'm not too well.",
+       "s": "mwen pah TWOH bee-EN",
+       "accept": [
+        "mwen pa two byen",
+        "mwen pa byen",
+        "pa byen",
+        "mal"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Bon bagay. Mwen rele Ana. Kòman ou rele?",
+      "m": "Good. My name is Ana. What's your name?",
+      "s": "bohn bah-GUY. mwen reh-LAY AH-nah. koh-MAHN oo reh-LAY?"
+     },
+     "replies": [
+      {
+       "t": "Mwen rele (your name).",
+       "m": "My name is (your name).",
+       "s": "mwen reh-LAY …",
+       "accept": [
+        "mwen rele *",
+        "m rele *",
+        "non mwen se *",
+        "mwen se *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Ay, mwen regrèt sa. Mwen rele Ana. Kòman ou rele?",
+      "m": "Oh, I'm sorry to hear that. My name is Ana. What's your name?",
+      "s": "eye, mwen reh-GRET sah. mwen reh-LAY AH-nah. koh-MAHN oo reh-LAY?"
+     },
+     "replies": [
+      {
+       "t": "Mwen rele (your name).",
+       "m": "My name is (your name).",
+       "s": "mwen reh-LAY …",
+       "accept": [
+        "mwen rele *",
+        "m rele *",
+        "non mwen se *",
+        "mwen se *"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Mwen kontan fè konesans ou. Ki kote ou soti?",
+      "m": "Nice to meet you. Where are you from?",
+      "s": "mwen kohn-TAHN feh koh-neh-SAHNS oo. kee KOH-teh oo soh-TEE?"
+     },
+     "replies": [
+      {
+       "t": "Mwen soti (your city).",
+       "m": "I'm from (your city).",
+       "s": "mwen soh-TEE …",
+       "accept": [
+        "mwen soti *",
+        "mwen soti nan *",
+        "m soti *",
+        "mwen kontan fe konesans ou mwen soti *"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Mwen soti Etazini.",
+       "m": "I'm from the United States.",
+       "s": "mwen soh-TEE eh-tah-zee-NEE",
+       "accept": [
+        "mwen soti etazini",
+        "m soti etazini",
+        "mwen se ameriken"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Bon! Na wè pita.",
+      "m": "Good! See you later.",
+      "s": "bohn! nah weh pee-TAH"
+     },
+     "replies": [
+      {
+       "t": "Na wè pita!",
+       "m": "See you later!",
+       "s": "nah weh pee-TAH!",
+       "accept": [
+        "na we pita",
+        "n a we pita",
+        "orevwa",
+        "babay",
+        "mesi"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cafe",
+   "title": "Ordering at a café",
+   "stop": "The Café",
+   "icon": "☕",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Bonjou! Kisa ou vle?",
+      "m": "Hello! What would you like?",
+      "s": "bohn-ZHOO! kee-SAH oo VLAY?"
+     },
+     "replies": [
+      {
+       "t": "Yon kafe, souple.",
+       "m": "A coffee, please.",
+       "s": "yohn kah-FAY, soo-PLAY",
+       "accept": [
+        "yon kafe souple",
+        "yon kafe",
+        "mwen vle yon kafe",
+        "ban m yon kafe souple"
+       ],
+       "next": "t2"
+      },
+      {
+       "t": "Yon ji zoranj, souple.",
+       "m": "An orange juice, please.",
+       "s": "yohn zhee zoh-RAHNZH, soo-PLAY",
+       "accept": [
+        "yon ji zoranj souple",
+        "yon ji zoranj",
+        "ji zoranj"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t2": {
+     "they": {
+      "t": "Ak lèt oswa san lèt?",
+      "m": "With milk or without milk?",
+      "s": "ahk LET oh-SWAH sahn LET?"
+     },
+     "replies": [
+      {
+       "t": "Ak lèt, souple.",
+       "m": "With milk, please.",
+       "s": "ahk LET, soo-PLAY",
+       "accept": [
+        "ak let",
+        "ak let souple"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "San lèt, mèsi.",
+       "m": "Without milk, thanks.",
+       "s": "sahn LET, meh-SEE",
+       "accept": [
+        "san let",
+        "san let mesi",
+        "kafe nwa"
+       ],
+       "next": "t3"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Dakò. Ou bezwen lòt bagay?",
+      "m": "Okay. Do you need anything else?",
+      "s": "dah-KOH. oo bez-WEN loht bah-GUY?"
+     },
+     "replies": [
+      {
+       "t": "Non, mèsi. Konbyen li ye?",
+       "m": "No, thanks. How much is it?",
+       "s": "nohn, meh-SEE. kohm-bee-EN lee YEH?",
+       "accept": [
+        "non mesi konbyen li ye",
+        "konbyen li ye",
+        "konbyen",
+        "non mesi",
+        "se tout mesi"
+       ],
+       "next": "t4"
+      },
+      {
+       "t": "Wi, yon pate, souple.",
+       "m": "Yes, a pâté (savory pastry), please.",
+       "s": "wee, yohn pah-TAY, soo-PLAY",
+       "accept": [
+        "wi yon pate souple",
+        "yon pate",
+        "yon pate souple"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Se kat dola, souple.",
+      "m": "That's four dollars, please.",
+      "s": "seh kaht doh-LAH, soo-PLAY"
+     },
+     "replies": [
+      {
+       "t": "Men li. Mèsi!",
+       "m": "Here you go. Thank you!",
+       "s": "men LEE. meh-SEE!",
+       "accept": [
+        "men li mesi",
+        "men li",
+        "mesi",
+        "mesi anpil"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "directions",
+   "title": "Asking for directions",
+   "stop": "The Street",
+   "icon": "🧭",
+   "start": "t1",
+   "turns": {
+    "t1": {
+     "they": {
+      "t": "Bonjou, mwen ka ede ou?",
+      "m": "Hello, can I help you?",
+      "s": "bohn-ZHOO, mwen kah eh-DAY oo?"
+     },
+     "replies": [
+      {
+       "t": "Wi, souple. Ki kote twalèt la ye?",
+       "m": "Yes, please. Where is the bathroom?",
+       "s": "wee, soo-PLAY. kee KOH-teh twah-LET lah YEH?",
+       "accept": [
+        "wi souple ki kote twalet la ye",
+        "ki kote twalet la ye",
+        "ki kote twalet la",
+        "twalet la"
+       ],
+       "next": "t2a"
+      },
+      {
+       "t": "Wi. Ki kote estasyon bis la ye?",
+       "m": "Yes. Where is the bus station?",
+       "s": "wee. kee KOH-teh es-tah-SYOHN BEES lah YEH?",
+       "accept": [
+        "wi ki kote estasyon bis la ye",
+        "ki kote estasyon bis la ye",
+        "ki kote estasyon bis la",
+        "estasyon bis la"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t2a": {
+     "they": {
+      "t": "Li nan fon an, sou bò dwat.",
+      "m": "It's at the back, on the right side.",
+      "s": "lee nahn FOHN ahn, soo boh DWAHT"
+     },
+     "replies": [
+      {
+       "t": "Mèsi anpil.",
+       "m": "Thank you very much.",
+       "s": "meh-SEE ahn-PEEL",
+       "accept": [
+        "mesi anpil",
+        "mesi"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t2b": {
+     "they": {
+      "t": "Ale tou dwat pandan de blòk, epi vire agoch.",
+      "m": "Go straight for two blocks, then turn left.",
+      "s": "ah-LAY too DWAHT pahn-DAHN deh BLOHK, eh-PEE vee-RAY ah-GOHSH"
+     },
+     "replies": [
+      {
+       "t": "Èske li lwen?",
+       "m": "Is it far?",
+       "s": "ESS-keh lee LWEN?",
+       "accept": [
+        "eske li lwen",
+        "li lwen",
+        "lwen"
+       ],
+       "next": "t3"
+      },
+      {
+       "t": "Ou ka repete, souple?",
+       "m": "Can you repeat that, please?",
+       "s": "oo kah reh-peh-TAY, soo-PLAY?",
+       "accept": [
+        "ou ka repete souple",
+        "ou ka repete",
+        "repete souple",
+        "kisa"
+       ],
+       "next": "t2b"
+      }
+     ]
+    },
+    "t3": {
+     "they": {
+      "t": "Non, li tou pre. Se senk minit a pye.",
+      "m": "No, it's very close. It's five minutes on foot.",
+      "s": "nohn, lee too PRAY. seh senk mee-NEET ah PYEH"
+     },
+     "replies": [
+      {
+       "t": "Pafè. Mèsi anpil.",
+       "m": "Perfect. Thank you very much.",
+       "s": "pah-FEH. meh-SEE ahn-PEEL",
+       "accept": [
+        "pafe mesi anpil",
+        "mesi anpil",
+        "mesi",
+        "pafe"
+       ],
+       "next": "t4"
+      }
+     ]
+    },
+    "t4": {
+     "they": {
+      "t": "Pa gen pwoblèm. Pase yon bon jounen!",
+      "m": "No problem. Have a good day!",
+      "s": "pah gen pwoh-BLEM. pah-SAY yohn bohn zhoo-NEN!"
+     },
+     "replies": [
+      {
+       "t": "Ou menm tou. Orevwa!",
+       "m": "You too. Goodbye!",
+       "s": "oo MEN too. oh-reh-VWAH!",
+       "accept": [
+        "ou menm tou orevwa",
+        "ou menm tou",
+        "orevwa",
+        "babay",
+        "mesi"
+       ],
+       "next": "end"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}
