@@ -9,10 +9,13 @@ const Speech = {
   },
   say(text, lang='es', slow=false){
     if (!('speechSynthesis' in window)) return;
-    speechSynthesis.cancel();
+    const ss = speechSynthesis;
     const u = new SpeechSynthesisUtterance(text);
     const v = this.voiceFor(lang); u.lang = v ? v.lang : this.locs(lang)[0]; if (v) u.voice = v;
-    u.rate = slow ? 0.6 : 0.95; speechSynthesis.speak(u);
+    u.rate = slow ? 0.6 : 0.95; u.volume = 1;
+    if (ss.speaking || ss.pending){ ss.cancel(); setTimeout(()=>ss.speak(u), 120); } // iPhone drops speak() right after cancel()
+    else ss.speak(u); // called straight from the tap so iPhone allows it
+    if (ss.paused) ss.resume();
   },
   canListen(){ return !!(window.SpeechRecognition || window.webkitSpeechRecognition); },
   listen(lang='es'){ // resolves with array of alternative transcripts
@@ -35,4 +38,4 @@ const Speech = {
         o.connect(g).connect(c.destination); o.start(t); o.stop(t+0.3); }); }catch(e){}
   }
 };
-if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = ()=>{};
+if ('speechSynthesis' in window){ try{ speechSynthesis.getVoices(); }catch(e){} speechSynthesis.onvoiceschanged = ()=>{ try{ speechSynthesis.getVoices(); }catch(e){} }; } // iPhone loads voices late

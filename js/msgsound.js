@@ -6,9 +6,9 @@ const MsgSound = (() => {
   const set = (k,v) => localStorage.setItem('tt_'+k, JSON.stringify(v));
   const cache = {}; const el = k => cache[k] || (cache[k] = Object.assign(new Audio(FILES[k]), {preload:'auto'}));
   // iOS only allows sound after a tap: on the first tap, play each sound silently once.
-  let unlocked=false; const unlock = () => { if (unlocked) return; unlocked=true;
+  let unlocked=false; const unlock = (e) => { if (unlocked) return; if (e && e.target && e.target.closest && e.target.closest('#splash')) return; unlocked=true;
     for (const k of Object.keys(FILES)) { const a=el(k); a.muted=true; a.play().then(()=>{ a.pause(); a.currentTime=0; a.muted=false; }).catch(()=>{ a.muted=false; }); } };
-  document.addEventListener('touchend', unlock, {once:true, capture:true}); document.addEventListener('pointerdown', unlock, {once:true, capture:true});
+  document.addEventListener('touchend', unlock, true); document.addEventListener('pointerdown', unlock, true); // skips taps on the splash so the welcome voice plays alone
   const choice = () => { const c=get('msgsound','pop'); return LABELS[c]?c:'pop'; };
   const playKey = k => { if (!FILES[k]) return; const a=el(k); try{ a.currentTime=0; a.volume=0.8; a.play().catch(()=>{}); }catch(e){} };
   return { LABELS, choice, setChoice:c=>set('msgsound',c), muted:()=>!!get('msgmute',false), setMuted:m=>set('msgmute',!!m),

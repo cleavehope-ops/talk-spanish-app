@@ -9,15 +9,15 @@
   const firstTime = !localStorage.getItem('tt_welcome_seen');
   let audio=null; if(!muted){ audio=new Audio('sounds/welcome_talvoya.mp3'); audio.preload='auto'; }
   const play=()=>{ if(!audio) return; try{ const r=audio.play(); if(r&&r.catch) r.catch(()=>{}); }catch(e){} };
-  const say=document.getElementById('spSay'); const hear=()=>{ const a=new Audio('sounds/welcome_talvoya.mp3'); const r=a.play(); if(r&&r.catch) r.catch(()=>{}); };
+  const say=document.getElementById('spSay'); const hear=()=>{ const a=audio||new Audio('sounds/welcome_talvoya.mp3'); try{ a.pause(); a.currentTime=0; }catch(e){} const r=a.play(); if(r&&r.catch) r.catch(()=>{}); };
   let done=false, winked=false; const wink=(then)=>{ if(calm||winked){ then(); return; } winked=true; s.classList.add('wink'); setTimeout(then, 700); };
   const finish=()=>wink(end);
-  const end=()=>{ if(done) return; done=true; s.classList.add('out'); setTimeout(()=>s.remove(), calm?150:450); document.removeEventListener('pointerdown', end, true); };
-  if (say) say.addEventListener('pointerdown', e=>{ e.stopPropagation(); hear(); localStorage.setItem('tt_welcome_seen','1'); setTimeout(finish,2550); }, true);
+  const end=(e)=>{ if(e && e.target && e.target.closest && e.target.closest('#spSay')) return; if(done) return; done=true; s.classList.add('out'); setTimeout(()=>s.remove(), calm?150:450); document.removeEventListener('pointerdown', end, true); };
+  let heard=false; if (say){ say.addEventListener('pointerdown', e=>{ e.stopPropagation(); }, true); say.addEventListener('click', e=>{ e.stopPropagation(); if(heard) return; heard=true; hear(); localStorage.setItem('tt_welcome_seen','1'); setTimeout(finish,2550); }); }
   if (firstTime && audio && !(navigator.webdriver && !window.TT_TEST_WELCOME)){
     s.style.pointerEvents='auto';
     const b=document.createElement('button'); b.id='spStart'; b.className='sp-start'; b.textContent=T('Tap to start'); s.appendChild(b);
-    s.addEventListener('pointerdown', ()=>{ b.style.transition='opacity .25s'; b.style.opacity='0'; b.style.pointerEvents='none'; play(); localStorage.setItem('tt_welcome_seen','1'); setTimeout(finish, 2550); }, {once:true});
+    s.addEventListener('click', ()=>{ if(heard) return; heard=true; b.style.transition='opacity .25s'; b.style.opacity='0'; b.style.pointerEvents='none'; play(); localStorage.setItem('tt_welcome_seen','1'); setTimeout(finish, 2550); }, {once:true});
     return;
   }
   localStorage.setItem('tt_welcome_seen','1');
