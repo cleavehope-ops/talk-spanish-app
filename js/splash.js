@@ -1,5 +1,5 @@
 // Startup splash (sun winks with a golden glow just before Home; skipped for reduced motion): ~1.8s, tap to skip. Says "Welcome to Talvoya" (pre-recorded) unless muted or turned off.
-// First open: shows "Tap to start" and plays on that tap (iPhone blocks sound before a tap). Later opens: tries autoplay, skips quietly if blocked.
+// First open: shows "Tap to start" and plays on that tap. Every later open: tries autoplay; if blocked (iPhone), shows "Tap to start" again. Muted: short silent splash.
 (function(){ const s=document.getElementById('splash'); if(!s) return;
   if (/[?&]nosplash\b/.test(location.search) || window.TT_NOSPLASH){ s.remove(); return; }
   const T=(t)=>typeof tx==='function'?tx(t):t;
@@ -14,12 +14,21 @@
   const finish=()=>wink(end);
   const end=(e)=>{ if(e && e.target && e.target.closest && e.target.closest('#spSay')) return; if(done) return; done=true; s.classList.add('out'); setTimeout(()=>s.remove(), calm?150:450); document.removeEventListener('pointerdown', end, true); };
   let heard=false; if (say){ say.addEventListener('pointerdown', e=>{ e.stopPropagation(); }, true); say.addEventListener('click', e=>{ e.stopPropagation(); if(heard) return; heard=true; hear(); localStorage.setItem('tt_welcome_seen','1'); setTimeout(finish,2550); }); }
-  if (firstTime && audio && !(navigator.webdriver && !window.TT_TEST_WELCOME)){
-    s.style.pointerEvents='auto';
+  const hooked = audio && !(navigator.webdriver && !window.TT_TEST_WELCOME);
+  // "Tap to start": the tap plays the welcome, then the wink, then Home. While it shows, taps don't skip the splash.
+  const showButton=()=>{ if(done||heard) return; document.removeEventListener('pointerdown', end, true); s.style.pointerEvents='auto';
     const b=document.createElement('button'); b.id='spStart'; b.className='sp-start'; b.textContent=T('Tap to start'); s.appendChild(b);
-    s.addEventListener('click', ()=>{ if(heard) return; heard=true; b.style.transition='opacity .25s'; b.style.opacity='0'; b.style.pointerEvents='none'; play(); localStorage.setItem('tt_welcome_seen','1'); setTimeout(finish, 2550); }, {once:true});
+    s.addEventListener('click', ()=>{ if(heard) return; heard=true; b.style.transition='opacity .25s'; b.style.opacity='0'; b.style.pointerEvents='none'; hear(); localStorage.setItem('tt_welcome_seen','1'); setTimeout(finish, 2550); }, {once:true}); };
+  if (firstTime && hooked){ showButton(); return; }
+  localStorage.setItem('tt_welcome_seen','1');
+  if (hooked){
+    // Every later open: try to play by itself. If the phone blocks it (iPhone NotAllowedError) or it stalls, show "Tap to start".
+    let settled=false; const blocked=()=>{ if(settled) return; settled=true; try{ audio.pause(); audio.currentTime=0; }catch(e){} showButton(); };
+    const stall=setTimeout(blocked, 1500);
+    try{ const r=audio.play(); if(!r||!r.then){ settled=true; clearTimeout(stall); heard=true; setTimeout(finish, 2550); }
+      else r.then(()=>{ if(settled) return; settled=true; clearTimeout(stall); heard=true; document.addEventListener('pointerdown', end, true); setTimeout(finish, 2550); }).catch(()=>{ clearTimeout(stall); blocked(); }); }
+    catch(e){ clearTimeout(stall); blocked(); }
     return;
   }
-  localStorage.setItem('tt_welcome_seen','1');
   play();
   document.addEventListener('pointerdown', end, true); document.addEventListener('keydown', end, {once:true, capture:true}); setTimeout(finish, 2650); })();

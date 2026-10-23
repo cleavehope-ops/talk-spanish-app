@@ -343,3 +343,5 @@ body.chatmode main{padding:0;max-width:none}
 @keyframes spGlow{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}45%{opacity:1;transform:translate(-50%,-50%) scale(1.25)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.45)}}
 @keyframes spLid{0%{transform:translate(-50%,-50%) scaleY(0)}35%,70%{transform:translate(-50%,-50%) scaleY(1.15)}100%{transform:translate(-50%,-50%) scaleY(0)}}
 @keyframes spLash{0%,20%{opacity:0}35%,70%{opacity:1}90%,100%{opacity:0}}
+
+.mm-ask{background:#FFF1D6;border:1px solid #F2B233;border-radius:12px;padding:8px 10px;margin:6px 8px;font-size:14px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}.mm-ask small{flex-basis:100%;font-size:12px}

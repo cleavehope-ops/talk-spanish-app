@@ -5,7 +5,7 @@ Object.assign((I18N.es = I18N.es || {}), {
  'Games':'Juegos','Trip games':'Juegos de viaje','points':'puntos','Points':'Puntos','Best':'Mejor','Level':'Nivel','Locked':'Bloqueado','Play game':'Jugar',
  'Order Before Time Runs Out':'Pide antes de que se acabe el tiempo','Lost in the City':'Perdido en la ciudad','Say It Right':'Dilo bien','Fix the Message':'Arregla el mensaje','Passport Stamps':'Sellos del pasaporte','Quick Ear':'Oído rápido','Two-Player Challenge':'Reto de dos jugadores',
  'Tap the words in order, or say it.':'Toca las palabras en orden, o dilo.','Pick what they said to find the way.':'Elige lo que dijeron para encontrar el camino.','Say the phrase out loud, like karaoke.':'Di la frase en voz alta, como karaoke.','Put the text back in order before it sends.':'Ordena el mensaje antes de que se envíe.','A stamp for every city you finish.':'Un sello por cada ciudad que terminas.','Hear it, tap what it means.':'Escúchalo y toca lo que significa.','Race a friend on the same phrases.':'Compite con un amigo con las mismas frases.',
- 'Order:':'Pide:','Say it':'Dilo','Hint':'Pista','Undo':'Borrar','Hear':'Escuchar','Slow':'Lento','Next':'Siguiente','Done':'Listo','Back to games':'Volver a los juegos','Play again':'Jugar otra vez','Next level':'Siguiente nivel',
+ 'Order:':'Pide:','Hear it':'Escúchalo','Hear the question':'Escuchar la pregunta','Hear it slowly':'Escúchalo despacio','Say it':'Dilo','Hint':'Pista','Undo':'Borrar','Hear':'Escuchar','Slow':'Lento','Next':'Siguiente','Done':'Listo','Back to games':'Volver a los juegos','Play again':'Jugar otra vez','Next level':'Siguiente nivel',
  'Level complete!':'¡Nivel completado!','Nice try!':'¡Buen intento!','right':'bien','Accuracy':'Precisión','Speed':'Rapidez','No hints':'Sin pistas','Base':'Base','Total points':'Puntos totales','New city unlocked:':'Nueva ciudad desbloqueada:','Get most of them right to unlock the next city. Your points are kept.':'Acierta la mayoría para desbloquear la siguiente ciudad. Tus puntos se guardan.',
  'Great!':'¡Genial!','Oops, try the next one':'Uy, prueba la siguiente','Time is up':'Se acabó el tiempo','Wrong street! Back you go.':'¡Calle equivocada! Vuelve.','You found the hotel!':'¡Encontraste el hotel!',
  'is a practice character, not a real person.':'es un personaje de práctica, no una persona real.','Your friend (practice character)':'Tu amigo (personaje de práctica)','Sending in':'Se envía en',
@@ -45,29 +45,42 @@ function phrases(sceneId){ const out=[], seen=new Set();
     for (const tu of Object.values(sc.turns)) for (const x of [tu.they, ...tu.replies]) { if (!x||!x.t||/[()*]/.test(x.t)||seen.has(x.t)) continue; seen.add(x.t); out.push({t:x.t, m:x.m||'', s:x.s||''}); } }
   return out; }
 // Levels get harder: later cities use longer phrases and less time.
-function pick(sceneId, lvl, n){ n = n || (lvl>=2 ? 6 : 5); let p=phrases(sceneId); if (p.length<n+4) p=[...p, ...shuffle(phrases().filter(x=>!p.includes(x)&&!p.some(y=>y.t===x.t)))].slice(0, Math.max(p.length, n+6));
+// Seen/correct/wrong per learn language (this phone only): correct items don't come back until the pool runs out; wrong ones come first next time.
+const SEEN = { key:()=>'seen_'+(PACK?PACK.learn:'x'), get(){ const v=store.get(this.key(),{}); v.ok=v.ok||{}; v.bad=v.bad||{}; return v; }, set(v){ store.set(this.key(),v); },
+  mark(t, ok){ const v=this.get(), now=Date.now(); if(ok){ v.ok[t]=now; delete v.bad[t]; } else { v.bad[t]=now; delete v.ok[t]; } this.set(v); } };
+function rankFresh(list, n){ const v=SEEN.get(), seen=new Set(), uniq=list.filter(x=>!seen.has(x.t)&&seen.add(x.t));
+  const bad=uniq.filter(x=>v.bad[x.t]).sort((a,b)=>v.bad[a.t]-v.bad[b.t]), fresh=uniq.filter(x=>!v.bad[x.t]&&!v.ok[x.t]), ok=uniq.filter(x=>v.ok[x.t]&&!v.bad[x.t]).sort((a,b)=>v.ok[a.t]-v.ok[b.t]);
+  return [...bad, ...fresh, ...ok].slice(0,n); }
+function pick(sceneId, lvl, n, fixed){ n = n || (lvl>=2 ? 6 : 5); if (!fixed) { const lv=pickLevel(sceneId, lvl, n, 99), all=phrases(sceneId), rest=phrases(); return shuffle(rankFresh([...lv, ...all, ...rest], n)); } return pickLevel(sceneId, lvl, n); }
+function pickLevel(sceneId, lvl, n, keep){ let p=phrases(sceneId); if (p.length<n+4) p=[...p, ...shuffle(phrases().filter(x=>!p.includes(x)&&!p.some(y=>y.t===x.t)))].slice(0, Math.max(p.length, n+6));
   p.sort((a,b)=>a.t.length-b.t.length); const span=Math.max(n, Math.ceil(p.length*0.6)), start=Math.min(p.length-span, Math.floor((p.length-span)*Math.min(1,lvl/4)));
-  return shuffle(p.slice(Math.max(0,start), Math.max(0,start)+span)).slice(0,n); }
+  return shuffle(p.slice(Math.max(0,start), Math.max(0,start)+span)).slice(0, keep||n); }
 function words(t){ const lang=PACK.learn;
   if ((PACK.compact || CJK_RE.test(t)) && window.Intl && Intl.Segmenter) return [...new Intl.Segmenter(lang,{granularity:'word'}).segment(t)].map(s=>s.segment).filter(s=>s.trim() && norm(s));
   return t.split(/\s+/).filter(Boolean); }
+const uniqM = a => { const s=new Set(); return a.filter(x=>{ const k=norm(x.m); if(s.has(k)) return false; s.add(k); return true; }); };
 const joinW = ws => (PACK.compact ? ws.join('') : ws.join(' '));
 const say = (t, slow) => Speech.say(t, PACK.learn, slow);
-const hear = t => `<button class="g-hear" data-say="${esc(t)}" aria-label="${T('Hear')}">🔊</button>`;
-function bindHear(root=document){ root.querySelectorAll('[data-say]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); say(b.dataset.say, b.dataset.slow==='1'); }); }
+const hear = t => `<button class="g-hear g-qhear" data-say="${esc(t)}" aria-label="${esc(T('Hear it'))}">${I('volume')}</button>`;
+// Speaker for a prompt in the user's own language (the meaning line).
+const myLang = () => (PACK && PACK.speak) || (settings().speak) || 'en';
+const hearMine = t => `<button class="g-hear g-qhear" data-say="${esc(t)}" data-lang="${esc(myLang())}" aria-label="${esc(T('Hear the question'))}">${I('volume')}</button>`;
+// Called straight inside the tap, so iPhone allows the speech.
+function bindHear(root=document){ root.querySelectorAll('[data-say]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); if (b.dataset.lang) Speech.say(b.dataset.say, b.dataset.lang, b.dataset.slow==='1'); else say(b.dataset.say, b.dataset.slow==='1'); }); }
 let timers=[], runId=0; const clearT=()=>{ timers.forEach(clearInterval); timers=[]; };
 function countdown(sec, el, onEnd){ const t0=Date.now(); const iv=setInterval(()=>{ const left=Math.max(0, sec-(Date.now()-t0)/1000);
     if (!document.body.contains(el)) return clearInterval(iv); el.style.width=(100*left/sec)+'%'; el.classList.toggle('low', left<sec*0.3); if (left<=0){ clearInterval(iv); onEnd(); } }, 100); timers.push(iv); return ()=>clearInterval(iv); }
 const head = (g, c, lvl) => `<div class="g-top"><button class="g-back" onclick="location.hash='games'" aria-label="Back">‹</button><div><b>${g.icon} ${T(g.name)}</b><small>${c.f} ${esc(cname(c))} · ${T('Level')} ${lvl+1}</small></div><span class="g-pts">⭐ ${S.total()}</span></div>`;
 // ---------- level runner (5 rounds, then the level-complete screen) ----------
 function run(gid, lvl, roundFn, opts={}){
-  const g=GAMES.find(x=>x.id===gid), c=cities()[lvl]; const N=opts.n||5; const my=++runId; const st={i:0, ok:0, hint:false, t0:Date.now(), items:opts.items||pick(opts.scene, lvl, N)};
-  const next = (ok) => { if (my!==runId) return; timers.forEach(clearInterval); timers=[]; if (ok) { st.ok++; Speech.ding(); } st.i++; setTimeout(()=>{ if (my!==runId) return; if (st.i>=st.items.length) return (opts.onEnd||finish)(gid, lvl, st); step(); }, ok?650:1100); };
+  const g=GAMES.find(x=>x.id===gid), c=cities()[lvl]; const N=opts.n||5; const my=++runId; const st={i:0, ok:0, hint:false, rq:new Set(), t0:Date.now(), items:opts.items||pick(opts.scene, lvl, N)};
+  const next = (ok) => { if (my!==runId) return; timers.forEach(clearInterval); timers=[]; const it=st.items[st.i]; if (it && gid!=='duel') SEEN.mark(it.t, !!ok);
+    if (ok) { st.ok++; Speech.ding(); } else if (it && gid!=='duel' && !st.rq.has(it.t)) { st.rq.add(it.t); st.items.push(it); } /* wrong: comes back later this round (once) */ st.i++; setTimeout(()=>{ if (my!==runId) return; if (st.i>=st.items.length) return (opts.onEnd||finish)(gid, lvl, st); step(); }, ok?650:1100); };
   const step = () => { app.innerHTML = head(g,c,lvl)+`<div class="g-prog">${st.items.map((_,k)=>`<i class="${k<st.i?'d':''}${k===st.i?' n':''}"></i>`).join('')}</div><div id="gbody"></div>`;
     roundFn($('#gbody'), st.items[st.i], {lvl, c, st, next, hint(){ st.hint=true; }}); bindHear(); };
-  window.__game = st; step();
+  st.n0=st.items.length; window.__game = st; step();
 }
-function scoreOf(st){ const n=st.items.length, secs=(Date.now()-st.t0)/1000, per=secs/n;
+function scoreOf(st){ const n=st.n0||st.items.length; st={...st, ok:Math.min(st.ok, n)}; const secs=(Date.now()-st.t0)/1000, per=secs/n;
   const base=100, acc=Math.round(50*st.ok/n), speed=st.ok? Math.round(30*Math.max(0, Math.min(1,(14-per)/10))) : 0, nohint= st.hint?0:20;
   return {base, acc, speed, nohint, total: base+acc+speed+nohint, pass: st.ok>=Math.ceil(n*0.6)}; }
 function finish(gid, lvl, st, extra){
@@ -103,7 +116,7 @@ function feedback(el, ok, item, msg){ el.insertAdjacentHTML('beforeend', `<div c
 function order(lvl){ const c=cities()[lvl], b=lvl%BUDDIES.length, sec=Math.max(12, 26-3*lvl), all=phrases();
   run('order', lvl, (el, item, x) => {
     el.innerHTML = `<div class="g-stand" style="--city:${c.col}"><div class="g-awning"></div><div class="g-standname">${c.food.e} ${esc(T(c.food.stand))} · ${c.f}</div><div class="g-buddy" id="bud">${BUDDIES[b]}</div><small>${BUDDY_NAMES[b]} ${T('is a practice character, not a real person.')}</small></div>
-     <div class="g-timer"><i id="tbar"></i></div><div class="card g-q"><div class="muted">${T('Order:')}</div><div class="g-big">${esc(item.m)}</div></div>
+     <div class="g-timer"><i id="tbar"></i></div><div class="card g-q"><div class="muted">${T('Order:')}</div><div class="g-big">${esc(item.m)} ${hearMine(item.m)}</div></div>
      <div class="g-ans"></div><div class="g-tiles"></div>
      <div class="row g-tools"><button class="alt g-undo">↩ ${T('Undo')}</button><button class="alt" id="ghint">💡 ${T('Hint')}</button>${Speech.canListen()?`<button id="gmic">🎤 ${T('Say it')}</button>`:''}</div>`;
     let over=false; const end=(ok,msg)=>{ if(over) return; over=true; clearT(); $('#bud').textContent= ok?'😄':'🤔'; $('#bud').classList.add(ok?'happy':'huh'); el.querySelectorAll('button').forEach(z=>z.disabled=true); feedback(el, ok, item, msg); x.next(ok); };
@@ -116,7 +129,7 @@ function order(lvl){ const c=cities()[lvl], b=lvl%BUDDIES.length, sec=Math.max(1
 // 2. Lost in the City: a little map, 5 corners to the hotel
 function lost(lvl){ const c=cities()[lvl], all=phrases(), nOpt=Math.min(4, 3+(lvl>1));
   run('lost', lvl, (el, item, x) => { const i=x.st.i;
-    const opts=shuffle([item, ...shuffle(all.filter(p=>p.m&&p.m!==item.m)).slice(0,nOpt-1)]);
+    const opts=shuffle([item, ...uniqM(shuffle(all.filter(p=>p.m&&p.m!==item.m))).slice(0,nOpt-1)]);
     const pts=[[30,170],[90,170],[90,110],[160,110],[160,50],[230,50]];
     el.innerHTML = `<div class="g-map" style="--city:${c.col}"><svg viewBox="0 0 260 200"><rect width="260" height="200" rx="14" fill="#F6D6C2"/>
       ${[0,1,2].map(k=>`<rect x="${10+k*85}" y="10" width="60" height="28" rx="4" fill="#EBC3A8"/><rect x="${10+k*85}" y="130" width="40" height="26" rx="4" fill="#EBC3A8"/>`).join('')}
@@ -126,7 +139,7 @@ function lost(lvl){ const c=cities()[lvl], all=phrases(), nOpt=Math.min(4, 3+(lv
       <text x="${pts[5][0]-14}" y="${pts[5][1]-12}" font-size="26">🏨</text><text id="me" x="${pts[i][0]-11}" y="${pts[i][1]+9}" font-size="22">🚶</text></svg>
       <div class="g-hotel">🏨 ${esc(c.hotel)} · ${c.f} ${esc(cname(c))}</div></div>
      <div class="card g-q"><div class="g-who">${BUDDIES[(lvl+2)%6]} <small>${BUDDY_NAMES[(lvl+2)%6]} ${T('is a practice character, not a real person.')}</small></div>
-      <div class="es">${esc(item.t)} ${hear(item.t)} <button class="g-hear" data-say="${esc(item.t)}" data-slow="1">🐢</button></div><div class="muted">${T('What did they say?')}</div></div>
+      <div class="es">${esc(item.t)} ${hear(item.t)} <button class="g-hear" data-say="${esc(item.t)}" data-slow="1" aria-label="${esc(T('Hear it slowly'))}">🐢</button></div><div class="muted">${T('What did they say?')}</div></div>
      <div class="g-opts">${opts.map((o,k)=>`<button class="g-opt" data-k="${k}">${esc(o.m)}</button>`).join('')}</div>`;
     say(item.t);
     el.querySelectorAll('.g-opt').forEach(bt=>bt.onclick=()=>{ const ok=opts[+bt.dataset.k]===item; el.querySelectorAll('.g-opt').forEach(z=>{ z.disabled=true; if(opts[+z.dataset.k]===item) z.classList.add('right'); }); bt.classList.add(ok?'right':'wrong');
@@ -137,7 +150,7 @@ function lost(lvl){ const c=cities()[lvl], all=phrases(), nOpt=Math.min(4, 3+(lv
 function sayIt(lvl){ const s=S.get();
   run('say', lvl, (el, item, x) => { const key='say:'+norm(item.t), best=s.best[key]||0, ws=words(item.t);
     el.innerHTML = `<div class="g-stage"><div class="g-lights">✨🎤✨</div><div class="muted">${T('Tap the mic and say:')}</div>
-      <div class="g-kara" id="kara">${ws.map((w,k)=>`<span data-k="${k}">${esc(w)}</span>`).join(PACK.compact?'':' ')}</div><small>${esc(item.m)}</small>
+      <div class="g-kara" id="kara">${ws.map((w,k)=>`<span data-k="${k}">${esc(w)}</span>`).join(PACK.compact?'':' ')}</div><small>${esc(item.m)} ${hearMine(item.m)}</small>
       ${item.s?`<div class="say" id="sound" hidden>${esc(item.s)}</div>`:''}<div class="g-best">${T('best')}: ${best}%</div></div>
      <div class="row g-tools"><button class="alt" id="play">🔊 ${T('Hear')}</button><button class="alt" id="ghint">💡 ${T('Hint')}</button></div>
      ${Speech.canListen()?`<button class="g-mic" id="gmic">🎤</button>`:`<p class="muted">${T('Speaking check is not on this browser. Listen, say it, then tap I said it.')}</p><button class="big g-main" id="said">${T('I said it')}</button>`}`;
@@ -153,15 +166,15 @@ function sayIt(lvl){ const s=S.get();
 function fix(lvl){ const sec=Math.max(15, 32-3*lvl);
   run('fix', lvl, (el, item, x) => {
     el.innerHTML = `<div class="g-phone"><div class="g-phead">${BUDDIES[(lvl+4)%6]} ${BUDDY_NAMES[(lvl+4)%6]} <small>${T('Your friend (practice character)')}</small></div>
-      <div class="g-bub them">${esc(item.m)}</div><div class="g-bub me g-ans"></div><div class="g-send">${T('Sending in')} <span id="secs">${sec}</span>s</div><div class="g-timer"><i id="tbar"></i></div></div>
+      <div class="g-bub them">${esc(item.m)} ${hearMine(item.m)}</div><div class="g-bub me g-ans"></div><div class="g-send">${T('Sending in')} <span id="secs">${sec}</span>s</div><div class="g-timer"><i id="tbar"></i></div></div>
      <div class="g-tiles"></div><div class="row g-tools"><button class="alt g-undo">↩ ${T('Undo')}</button><button class="alt" id="ghint">💡 ${T('Hint')}</button></div>`;
     let over=false; const end=ok=>{ if(over) return; over=true; clearT(); el.querySelectorAll('button').forEach(z=>z.disabled=true); feedback(el, ok, item, ok?'':'Time is up'); x.next(ok); };
     tiles(el, item, end); const t0=Date.now(); timers.push(setInterval(()=>{ const s=$('#secs'); if(s) s.textContent=Math.max(0,Math.ceil(sec-(Date.now()-t0)/1000)); },250));
     countdown(sec, $('#tbar'), ()=>end(false)); $('#ghint').onclick=()=>{ x.hint(); say(item.t,true); };
   }); }
 // 6. Quick Ear (also used by the two-player race)
-function earRound(el, item, x, nOpt=4){ const all=phrases(); const opts=shuffle([item, ...shuffle(all.filter(p=>p.m&&p.m!==item.m)).slice(0,nOpt-1)]);
-  el.innerHTML = `<div class="g-ear"><button class="g-bigplay" data-say="${esc(item.t)}">🔊</button><button class="alt g-slow" id="slow">🐢 ${T('Slow')}</button><div class="muted">${T('What did they say?')}</div></div>
+function earRound(el, item, x, nOpt=4){ const all=phrases(); const opts=shuffle([item, ...uniqM(shuffle(all.filter(p=>p.m&&p.m!==item.m))).slice(0,nOpt-1)]);
+  el.innerHTML = `<div class="g-ear"><button class="g-bigplay g-qhear" data-say="${esc(item.t)}" aria-label="${esc(T('Hear it'))}">🔊</button><button class="alt g-slow" id="slow">🐢 ${T('Slow')}</button><div class="muted">${T('What did they say?')}</div></div>
    <div class="g-opts">${opts.map((o,k)=>`<button class="g-opt" data-k="${k}">${esc(o.m)}</button>`).join('')}</div>`;
   setTimeout(()=>say(item.t),200); el.querySelector('#slow').onclick=()=>{ x.hint(); say(item.t,true); };
   el.querySelectorAll('.g-opt').forEach(bt=>bt.onclick=()=>{ const ok=opts[+bt.dataset.k]===item; el.querySelectorAll('.g-opt').forEach(z=>{ z.disabled=true; if(opts[+z.dataset.k]===item) z.classList.add('right'); }); bt.classList.add(ok?'right':'wrong'); feedback(el, ok, item); x.next(ok); }); }
@@ -177,7 +190,7 @@ function duel(){ runId++; const cs=cities();
    <p class="muted small">🌐 ${T('Live online race is coming soon.')}</p>`;
   let ci=0; app.querySelectorAll('.g-city').forEach(b=>b.onclick=()=>{ ci=+b.dataset.i; app.querySelectorAll('.g-city').forEach(z=>z.classList.toggle('sel',z===b)); });
   $('#mk').onclick=()=>{ $('#dcode').value=Array.from({length:5},()=>'ABCDEFGHJKMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*31)]).join(''); };
-  const items=seed=>{ R=rng(seed+':'+PACK.learn+':'+ci); const it=pick(null, ci, 5); R=Math.random; return it; };
+  const items=seed=>{ R=rng(seed+':'+PACK.learn+':'+ci); const it=pick(null, ci, 5, true); R=Math.random; return it; };
   $('#dgo').onclick=()=>{ const code=($('#dcode').value||'').toUpperCase().trim(); if(code.length<4) return toast(T('Code')+'?'); R=rng(code+ci); const it=items(code); run('duel', ci, (el,item,x)=>{ R=rng(code+item.t); earRound(el,item,x); R=Math.random; }, {items:it}); };
   $('#pp').onclick=()=>{ const seed=String(Date.now()), it=items(seed), res=[];
     const turn=p=>{ app.innerHTML=`<div class="lc"><div class="lc-badge">${p?'🟠':'🟤'}</div><h2>${p?T('Pass the phone to')+' '+T('Player')+' 2':T('Player')+' 1: '+T('Your turn')}</h2><button class="big g-main" id="go">${T('Start')}</button></div>`;
@@ -212,6 +225,6 @@ window.Games = {
   // Small Games card at the top of the Practice screen
   card(){ if (!PACK || !app) return; const s=S.get(), n=cities().filter(c=>s.stamps[c.n]).length;
     app.insertAdjacentHTML('afterbegin', `<button class="g-entry" onclick="location.hash='games'"><span class="g-eic">🎮</span><span><b>${T('Trip games')}</b><small>${cities().slice(0,3).map(c=>c.f+' '+esc(cname(c))).join(' · ')}</small></span><span class="g-epts">⭐ ${S.total()}<small>${n} 🛂</small></span></button>`); },
-  _state:S, cities,
+  _state:S, cities, _seen:SEEN, _pick:pick,
 };
 })();

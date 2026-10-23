@@ -20,7 +20,7 @@ const Translate = {
   async viaMyMemory(text, from, to){
     const url = 'https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+from+'|'+to;
     const ctl = new AbortController(); setTimeout(()=>ctl.abort(), 10000);
-    const r = await fetch(url,{signal:ctl.signal}); if(!r.ok) throw new Error('http '+r.status);
+    const r = await fetch(url,{signal:ctl.signal}); if (r.status===429) throw new Error('quota'); if(!r.ok) throw new Error('http '+r.status);
     const j = await r.json();
     let txt = j.responseData && j.responseData.translatedText;
     // MyMemory's top hit is sometimes a crowd memory with extra words ("Hey, Tony, how are you?").
@@ -30,14 +30,24 @@ const Translate = {
       const best = j.matches.filter(m=>m.translation && (+m.match||0)>=0.5).sort((a,b)=>score(b)-score(a))[0];
       if (best && (!txt || score(best) > score({translation:txt, match:j.responseData.match}))) txt = best.translation;
     }
+    if (j.responseStatus == 429 || /QUOTA|LIMIT/i.test(j.responseDetails||'')) throw new Error('quota');
     if (j.responseStatus != 200 || !txt) throw new Error(j.responseDetails||'no translation');
     if (/MYMEMORY WARNING|QUOTA/i.test(txt)) throw new Error('quota');
     const d = document.createElement('textarea'); d.innerHTML = txt; return d.value;
   },
+  // Saved translations (text + language pair), kept on this phone so reopening a chat doesn't translate again. LRU, ~2000 entries.
+  CACHE_MAX: 2000, _cache: null,
+  _cc(){ if (!this._cache) { try{ this._cache=new Map(JSON.parse(localStorage.getItem('tt_trcache')||'[]')); }catch(e){ this._cache=new Map(); } } return this._cache; },
+  cacheGet(text, from, to){ const m=this._cc(), k=from+'>'+to+'\u0001'+text; if (!m.has(k)) return null; const v=m.get(k); m.delete(k); m.set(k,v); this._save(); return v; },
+  cachePut(text, from, to, out){ const m=this._cc(), k=from+'>'+to+'\u0001'+text; m.delete(k); m.set(k,out); while (m.size>this.CACHE_MAX) m.delete(m.keys().next().value); this._save(); },
+  _save(){ clearTimeout(this._st); this._st=setTimeout(()=>{ try{ localStorage.setItem('tt_trcache', JSON.stringify([...this._cc()])); }catch(e){ const m=this._cc(); [...m.keys()].slice(0, Math.ceil(m.size/2)).forEach(k=>m.delete(k)); try{ localStorage.setItem('tt_trcache', JSON.stringify([...m])); }catch(x){} } }, 300); },
   async run(text, from, to, opts={}){ // returns {text, via} or throws
     if (from === to) return {text, via:'same'};
+    const hit=this.cacheGet(text, from, to); if (hit!=null) return {text:hit, via:'cache'};
+    const r=await this._run(text, from, to, opts); if (r && r.text) this.cachePut(text, from, to, r.text); return r; },
+  async _run(text, from, to, opts={}){
     const pair=from+'>'+to; let c=null;
-    if (!this.chromeBad[pair]) { c = await Promise.race([this.viaChrome(text, from, to), new Promise(r=>setTimeout(()=>r(null),4000))]); if (!c) this.chromeBad[pair]=true; }
+    if (!this.chromeBad[pair]) { const slow=this.viaChrome(text, from, to); c = await Promise.race([slow, new Promise(r=>setTimeout(()=>r(null),1500))]); if (!c) { this.chromeBad[pair]=true; slow.then(v=>{ if (v) delete this.chromeBad[pair]; }).catch(()=>{}); } }
     if (c) return {text:c, via:'chrome'};
     if (opts.scope!=='write' && !(opts.scope==='packs' ? this.allowPackOnline() : this.allowOnline())) throw new Error('offline-off');
     return {text: await this.viaMyMemory(text, from, to), via:'mymemory'};

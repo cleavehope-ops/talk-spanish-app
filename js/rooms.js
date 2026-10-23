@@ -12,6 +12,7 @@ async function hashPass(pass, salt){ const d=new TextEncoder().encode(salt+':'+p
 function nickProblem(n){ n=(n||'').trim(); if (n.length<2||n.length>20) return 'Use a nickname of 2 to 20 letters.';
   if (/@|https?:|www\./i.test(n) || /\d[\d\s().-]{5,}\d/.test(n)) return 'Nickname only, please. No email or phone number.'; return null; }
 const INVITE_HOURS = 24;
+const ROOM_CAP = 15; // people per group, host included (server enforces too)
 const MockRoomServer = {
   _db(){ try{ return JSON.parse(localStorage.getItem('tt_mockrooms'))||{rooms:{}}; }catch(e){ return {rooms:{}}; } },
   _save(db){ localStorage.setItem('tt_mockrooms', JSON.stringify(db)); },
@@ -29,7 +30,7 @@ const MockRoomServer = {
     const db=this._db(), r=this._room(db,code);
     if (await hashPass(passcode||'', r.salt) !== r.passHash) throw new Error('Wrong passcode.');
     const inv=r.invites.find(i=>i.token===invite); if(!inv) throw new Error('You need an invite link from someone in the chat.');
-    if (inv.usedBy) throw new Error('This invite link was already used. Ask for a new one.'); if (inv.expires<Date.now()) throw new Error('This invite link has expired (24 hours). Ask for a new one.');
+    if (inv.usedBy) throw new Error('This invite link was already used. Ask for a new one.'); if (r.members.length>=ROOM_CAP) throw new Error('This chat is full (15 people).'); if (inv.expires<Date.now()) throw new Error('This invite link has expired (24 hours). Ask for a new one.');
     const me={id:newToken(), nick:nickname.trim(), lang, addedBy:inv.by, joinedAt:Date.now(), creator:false, pub:pub||null}; r.members.push(me); inv.usedBy=me.id; this._save(db); return {code:r.code, memberId:me.id, epoch:r.epoch||0}; },
   async getRoom(code, memberId){ const db=this._db(), r=this._room(db,code); this._me(r,memberId);
     this._purge(db, r); this._save(db);
@@ -104,11 +105,11 @@ const RoomServer = (() => {
   const remember = (code, s) => { const w=where(); w[String(code).toUpperCase()]=s; localStorage.setItem('tt_roomsrv', JSON.stringify(w)); };
   let online = null; // null = not tried yet
   const sbOK = async () => { if (online===false) return false; if (!window.supabase || window.TT_FORCE_MOCK) { online=false; return false; }
-    try { await SupabaseRoomServer.ready(); online=true; } catch(e){ online=false; } return online; };
+    try { await SupabaseRoomServer.ready(); online=true; } catch(e){ online=null; throw new Error('Server busy, try again in a minute.'); } return online; };
   const pick = async code => { const s=where()[String(code||'').toUpperCase().trim()]; if (s==='mock') return MockRoomServer; if (s==='sb') return SupabaseRoomServer;
     if (MockRoomServer._db().rooms[String(code||'').toUpperCase().trim()]) return MockRoomServer; return (await sbOK()) ? SupabaseRoomServer : MockRoomServer; };
   const api = { get mode(){ return online ? 'server' : 'this phone only'; },
-    async createRoom(o){ if (await sbOK()) { try { const r=await SupabaseRoomServer.createRoom(o); remember(r.code,'sb'); return r; } catch(e){ if (!TT_NET_MSG.test(e.message)) throw e; online=false; } }
+    async createRoom(o){ if (await sbOK()) { try { const r=await SupabaseRoomServer.createRoom(o); remember(r.code,'sb'); return r; } catch(e){ if (TT_NET_MSG.test(e.message)) throw new Error('Server busy, try again in a minute.'); throw e; } }
       const r=await MockRoomServer.createRoom(o); remember(r.code,'mock'); return r; },
     async joinRoom(o){ const srv=await pick(o.code); const r=await srv.joinRoom(o); remember(r.code, srv===MockRoomServer?'mock':'sb'); return r; },
     async subscribe(code, cb){ const srv=await pick(code); return srv.subscribe ? srv.subscribe(code, cb) : ()=>{}; },

@@ -17,6 +17,8 @@ const Speech = {
     else ss.speak(u); // called straight from the tap so iPhone allows it
     if (ss.paused) ss.resume();
   },
+  // iPhone: call inside a tap before an await, so a later say() (after a translation) is still allowed.
+  unlock(){ try{ if (!('speechSynthesis' in window) || this._unlocked) return; const u=new SpeechSynthesisUtterance(''); u.volume=0; speechSynthesis.speak(u); this._unlocked=true; }catch(e){} },
   canListen(){ return !!(window.SpeechRecognition || window.webkitSpeechRecognition); },
   listen(lang='es'){ // resolves with array of alternative transcripts
     return new Promise((res, rej)=>{

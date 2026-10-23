@@ -59,3 +59,5 @@
 .lc-total{background:#E0A526;color:#3b1d10;border-radius:14px;padding:10px;font-weight:700;margin-bottom:12px}
 .lc-unlock{background:#F6D6C2;color:#5E2A1A;border-radius:14px;padding:10px;margin-bottom:12px}
 .lc .row{gap:8px}.lc .row button{flex:1}
+
+.g-qhear{min-width:44px!important;min-height:44px!important;padding:0 6px!important;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-radius:22px}.g-qhear .ico{width:22px;height:22px}
